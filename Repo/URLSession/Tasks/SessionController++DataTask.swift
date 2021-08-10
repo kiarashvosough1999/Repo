@@ -11,10 +11,10 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startDataTask<T,U>(with route: EndPoint,
-                                   requestBuilder: T,
-                                   options: OperationConfig = OperationConfig(),
-                                   completionHandler: @escaping SessionDataTaskDecodedResponse<U>)
+    public func dataTask<T,U>(with route: EndPoint,
+                              requestBuilder: T,
+                              options: OperationConfig = OperationConfig(),
+                              completionHandler: @escaping SessionDataTaskDecodedResponse<U>)
     throws -> some DataTaskOperationControllerProtocol where T: URLRequestBuilderProtocol,
                                                              EndPoint:EndPointHTTPType,
                                                              T.EndPoint == EndPoint,
@@ -51,10 +51,10 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startDataTask<T>(with route: EndPoint,
-                                 requestBuilder: T,
-                                 options: OperationConfig = OperationConfig(),
-                                 completionHandler: @escaping SessionDataTaskResponse)
+    public func dataTask<T>(with route: EndPoint,
+                            requestBuilder: T,
+                            options: OperationConfig = OperationConfig(),
+                            completionHandler: @escaping SessionDataTaskResponse)
     throws -> some DataTaskOperationControllerProtocol where T: URLRequestBuilderProtocol,
                                                              EndPoint:EndPointHTTPType,
                                                              T.EndPoint == EndPoint {
@@ -73,9 +73,9 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startDataTask(with route: EndPoint,
-                              and options: OperationConfig = OperationConfig(),
-                              completionHandler: @escaping SessionDataTaskResponse)
+    public func dataTask(with route: EndPoint,
+                         and options: OperationConfig = OperationConfig(),
+                         completionHandler: @escaping SessionDataTaskResponse)
     throws -> some DataTaskOperationControllerProtocol where EndPoint:EndPointHTTPType {
         try createTask { session, completed -> DataTaskOperationController in
             let wrapper = session.dataTask(with:  route.url, completionHandler: { data, resp, error in
@@ -90,9 +90,9 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startDataTask(with request: URLRequest,
-                              and options: OperationConfig = OperationConfig(),
-                              completionHandler: @escaping SessionDataTaskResponse)
+    public func dataTask(with request: URLRequest,
+                         and options: OperationConfig = OperationConfig(),
+                         completionHandler: @escaping SessionDataTaskResponse)
     throws -> some TaskOperationControllerProtocol {
         try createTask { session, completed -> DataTaskOperationController in
             let wrapper = self.urlSession.dataTask(with:  request, completionHandler: { data, resp, error in
