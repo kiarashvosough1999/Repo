@@ -91,8 +91,9 @@ public class AsynchronousOperation: Operation, AsynchronousOperationProtocol, Op
         return self
     }
     
-    public func setOperationCompletedSignal(_ sig: OperationCompletedSignal?) {
+    public func setOperationCompletedSignal(_ sig: OperationCompletedSignal?) -> Self {
         completionBlock = sig
+        return self
     }
     
     //MARK: - Operation Control
