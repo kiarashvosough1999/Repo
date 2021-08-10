@@ -8,9 +8,12 @@
 import Foundation
 
 class OperationReadyState: OperationState {
+    
     weak var context: AsynchronousOperation?
+    
     var isFinished: Bool { false }
     var isExecuting: Bool { false }
+    
     private var enqueued = false
     
     init(context: AsynchronousOperation?) {
@@ -58,7 +61,7 @@ class OperationReadyState: OperationState {
         }
     }
     
-    func await() throws {
+    func await(after:TimeInterval = 0) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -72,8 +75,25 @@ class OperationReadyState: OperationState {
             )
         }
         try context.operationQueue.on { operationQueue in
-            operationQueue.addOperation(context)
-            enqueued = true
+            try operationQueue.underlyingQueue.on { queue in
+                queue.asyncAfter(deadline: .now() + after) {
+                    [weak self] in
+                        guard let self = self else {
+                            fatalError(
+                                "State \(String(describing: self)) was dealocated"
+                            )
+                        }
+                        operationQueue.addOperation(context)
+                        self.enqueued = true
+                }
+            } none: {
+                throw OperationControllerError.operationQueueIsNil(
+                    """
+                        underlyingQueue associated with operationQueue on Operation
+                        with identifier: \(context.identifier)
+                        was found nil,can not add this operation to execute
+                    """)
+            }
 //            context.changeState(new: OperationExecutingState())
         } none: {
             throw OperationControllerError.operationQueueIsNil(

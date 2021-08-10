@@ -127,8 +127,8 @@ public class AsynchronousOperation: Operation, AsynchronousOperationProtocol, Op
     /// - Throws: Error of kind `OperationControllerError`
     /// - Returns: Self
     @discardableResult
-    public func await() throws -> Self {
-        try state.await()
+    public func await(after: TimeInterval = 0) throws -> Self {
+        try state.await(after: after)
         return self
     }
 
