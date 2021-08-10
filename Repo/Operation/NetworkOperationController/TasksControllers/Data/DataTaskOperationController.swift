@@ -119,6 +119,8 @@ extension DataTaskOperationController {
     
     public var response: URLResponse? { sessionTask?.response }
     
+    public var HTTPURLResponse: HTTPURLResponse? { sessionTask?.response as? HTTPURLResponse}
+    
     @available(iOS 11.0, *)
     public private(set) var earliestBeginDate: Date? {
         get {
