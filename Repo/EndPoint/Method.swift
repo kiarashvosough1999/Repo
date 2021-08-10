@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// HTTP Method
 public enum Method : String, RawFunctionCallable {
     case get     = "GET"
     case post    = "POST"

@@ -21,7 +21,7 @@ public protocol AsynchronousOperationProtocol: AnyObject {
     func changeOperationConfig(_ config:ConfigurationCallBack<OperationConfig>) throws -> Self
     func completeOperation() throws -> Self
     func cancelOperation() throws -> Self
-    func await() throws -> Self
+    func await(after: TimeInterval) throws -> Self
     func dependsOnOperation(with identifier: OperationIdentifier) throws -> Self
     func removeDependency(with identifier: OperationIdentifier) throws -> Self
     func removeDependency(with name: String) throws -> Self

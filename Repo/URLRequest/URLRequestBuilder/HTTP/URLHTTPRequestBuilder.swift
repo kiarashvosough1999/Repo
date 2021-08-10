@@ -41,7 +41,9 @@ final public class URLHTTPRequestBuilder<EndPoint>: URLHTTPRequestBuilderProtoco
     
     
     public func buildRequest(from route: EndPoint) throws -> URLRequest {
-        var request = URLRequest(url: route.baseURL.appendingPathComponent(route.path),
+        var request = URLRequest(url: route.baseURL
+                                    .appendingPathComponent(route.apiVersion())
+                                    .appendingPathComponent(route.path),
                                  method: route.httpMethod(),
                                  cachePolicy: config.cachePolicy,
                                  timeoutInterval: config.timeoutInterval)

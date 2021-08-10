@@ -81,6 +81,7 @@
 		DE8361F126B1BA60009C27BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE8361EF26B1BA60009C27BE /* LaunchScreen.storyboard */; };
 		DE8361FD26B1BC6E009C27BE /* ParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8361FC26B1BC6E009C27BE /* ParameterEncoder.swift */; };
 		DE83620026B1C51A009C27BE /* Dictionary++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8361FF26B1C51A009C27BE /* Dictionary++Extensions.swift */; };
+		DEA4763326C2973500057ADB /* APIVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA4763226C2973500057ADB /* APIVersion.swift */; };
 		DEA9DC8E26B48608002F30AF /* SessionController++Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA9DC8D26B48608002F30AF /* SessionController++Delegates.swift */; };
 		DEC1C9FB26BD1EFD00B31B41 /* OperationIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1C9FA26BD1EFD00B31B41 /* OperationIdentifier.swift */; };
 		DECC7D1F26C1518A0065ADA1 /* WebSocketTaskOperationController++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECC7D1E26C1518A0065ADA1 /* WebSocketTaskOperationController++Protocol.swift */; };
@@ -170,6 +171,7 @@
 		DE8361F226B1BA60009C27BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE8361FC26B1BC6E009C27BE /* ParameterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncoder.swift; sourceTree = "<group>"; };
 		DE8361FF26B1C51A009C27BE /* Dictionary++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary++Extensions.swift"; sourceTree = "<group>"; };
+		DEA4763226C2973500057ADB /* APIVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIVersion.swift; sourceTree = "<group>"; };
 		DEA9DC8D26B48608002F30AF /* SessionController++Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionController++Delegates.swift"; sourceTree = "<group>"; };
 		DEC1C9FA26BD1EFD00B31B41 /* OperationIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationIdentifier.swift; sourceTree = "<group>"; };
 		DECC7D1E26C1518A0065ADA1 /* WebSocketTaskOperationController++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebSocketTaskOperationController++Protocol.swift"; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 				DE17651026BED62400226BA0 /* Tasks */,
 				DE17650D26BED5E100226BA0 /* EndPointTypes */,
 				DE17651326BED65900226BA0 /* Method.swift */,
+				DEA4763226C2973500057ADB /* APIVersion.swift */,
 			);
 			path = EndPoint;
 			sourceTree = "<group>";
@@ -751,6 +754,7 @@
 				DE4B070226C169FC00CCEAD8 /* UploadTaskOperationController++Protocol.swift in Sources */,
 				DE35CD1226B2AEC000447070 /* NetworkOperationController++NetworkOperationBase.swift in Sources */,
 				DE4B070426C16A2200CCEAD8 /* UploadTaskConfig.swift in Sources */,
+				DEA4763326C2973500057ADB /* APIVersion.swift in Sources */,
 				DE17650F26BED5F100226BA0 /* EndPointType++Protocols.swift in Sources */,
 				DE17651226BED62D00226BA0 /* HTTPTask.swift in Sources */,
 				DEC1C9FB26BD1EFD00B31B41 /* OperationIdentifier.swift in Sources */,

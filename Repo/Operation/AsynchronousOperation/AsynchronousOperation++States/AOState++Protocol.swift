@@ -14,7 +14,7 @@ public protocol OperationState {
     var canModifyOperationConfig: Bool { get }
     func completeOperation() throws
     func start() throws
-    func await() throws
+    func await(after:TimeInterval) throws
     func cancelOperation() throws
 }
 
@@ -67,7 +67,7 @@ public extension OperationState {
         )
     }
     
-    func await() throws {
+    func await(after:TimeInterval) throws {
         guard !context.isNil else {
             throw OperationControllerError.dealocatedOperation(
                 """
