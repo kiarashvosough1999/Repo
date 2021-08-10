@@ -26,10 +26,10 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
                 tasksOperationQueue: OperationQueue = OperationQueue()) {
         self.delegateOperationQueue = delegateOperationQueue
         self.tasksOperationQueue = tasksOperationQueue
-        self.tasksOperationQueue.underlyingQueue = underlyingQueue
         self.config = config
         self.network = NWPathMonitor()
         super.init()
+        self.tasksOperationQueue.underlyingQueue = underlyingQueue.isNil ? DispatchQueue(label: "Session\(ObjectIdentifier(self))") : underlyingQueue
         startmonitoring()
     }
     
