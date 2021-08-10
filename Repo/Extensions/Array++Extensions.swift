@@ -15,8 +15,23 @@ extension Array {
         lhs.append(rhs)
     }
     
+    static func <- (lhs: inout Self, rhs:Element?) {
+        guard let rhs = rhs else {
+            return
+        }
+        lhs.append(rhs)
+    }
+    
     static func <- <T>(lhs: inout Self, rhs:T) -> T {
         lhs.append(rhs as! Element)
+        return rhs
+    }
+    
+    static func <- <T>(lhs: inout Self, rhs:T?) -> T? {
+        guard let element = rhs as? Element else {
+            return nil
+        }
+        lhs.append(element)
         return rhs
     }
 }
