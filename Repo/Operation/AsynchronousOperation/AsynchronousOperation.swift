@@ -9,7 +9,7 @@ import Foundation
 
 public class AsynchronousOperation: Operation, AsynchronousOperationProtocol, OperationContextStateObject {
     
-    lazy public var state: OperationState = OperationReadyState(context: self)
+    lazy internal var state: OperationState = OperationReadyState(context: self)
     
     /// `Unique` identifier for this operation
     public var identifier: OperationIdentifier {
@@ -22,7 +22,6 @@ public class AsynchronousOperation: Operation, AsynchronousOperationProtocol, Op
     
     public var operationCompletedSignal: OperationCompletedSignal? {
         get { completionBlock }
-        set { completionBlock = newValue }
     }
     
     /// Custome configuration which user can modify to change th operation behavior
@@ -67,7 +66,7 @@ public class AsynchronousOperation: Operation, AsynchronousOperationProtocol, Op
     
     //MARK: - Init
     
-    init(operationQueue: OperationQueue? = nil,
+    internal init(operationQueue: OperationQueue? = nil,
          operationConfiguration: OperationConfig) {
         self.lock = NSLock()
         self.operationQueue = operationQueue
@@ -92,11 +91,15 @@ public class AsynchronousOperation: Operation, AsynchronousOperationProtocol, Op
         return self
     }
     
+    public func setOperationCompletedSignal(_ sig: OperationCompletedSignal?) {
+        completionBlock = sig
+    }
+    
     //MARK: - Operation Control
     
     /// Change the state of opertaion
     /// - Parameter state: Next State
-    final func changeState(new state: OperationState) {
+    internal func changeState(new state: OperationState) {
         self.state = state
         self.state.context = self
         _executing = state.isExecuting

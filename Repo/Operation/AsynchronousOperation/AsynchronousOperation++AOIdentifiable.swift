@@ -12,12 +12,12 @@ public protocol AsynchronousOperationProtocol: AnyObject {
     typealias ConfigurationCallBack<T> = (inout T) -> ()
     typealias OperationCompletedSignal = () -> Void
     
-    var operationCompletedSignal:OperationCompletedSignal? { get set }
+    var operationCompletedSignal:OperationCompletedSignal? { get }
     var identifier: OperationIdentifier { get }
     var _executing: Bool { get }
     var _finished: Bool { get }
-    var state: OperationState { get }
     
+    func setOperationCompletedSignal(_ sig: OperationCompletedSignal?)
     func changeOperationConfig(_ config:ConfigurationCallBack<OperationConfig>) throws -> Self
     func completeOperation() throws -> Self
     func cancelOperation() throws -> Self
