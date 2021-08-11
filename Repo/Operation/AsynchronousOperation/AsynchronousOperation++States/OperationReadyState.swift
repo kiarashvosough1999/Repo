@@ -68,7 +68,7 @@ internal class OperationReadyState: OperationStateProtocol {
         )
     }
     
-    func suspend(after: TimeInterval, execute: OperationCompletedSignal?) throws {
+    func suspend(after deadline: TimeInterval, execute: OperationCompletedSignal?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -91,7 +91,7 @@ internal class OperationReadyState: OperationStateProtocol {
     /// `start` method will be called ofter the deadline
     /// - Parameter after: amount of time to tolerate until the operation will be added
     /// - Throws: Throws OperationControllerError.dealocatedOperation if the context is nil
-    internal func await(after:TimeInterval = 0) throws {
+    internal func await(after deadline:TimeInterval = 0) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -99,46 +99,41 @@ internal class OperationReadyState: OperationStateProtocol {
                 """
             )
         }
-        guard !queueState.enqueued  else {
-            throw OperationControllerError.misUseError(
-                "operation with identifier \(context.identifier) is already enqueued on a queue"
-            )
+        guard let queue = context.operationQueue?.underlyingQueue else {
+            throw OperationControllerError.operationQueueIsNil(
+                """
+                    underlyingQueue associated with operationQueue on Operation
+                    with identifier: \(context.identifier)
+                    was found nil,can not suspend this operation
+                """)
         }
-        
+
         if queueState.enqueued {
-            context
-                .changeState(new: OperationExecutingState(context: context,
-                                                          queueState: queueState))
+            queue.asyncAfter(deadline: .now() + deadline) { [weak self] in
+                guard let self = self else {
+                    fatalError(
+                        "State \(String(describing: self)) was dealocated"
+                    )
+                }
+                do {
+                    try self.start()
+                } catch  {
+                    print(error)
+                }
+            }
             return
         }
         
-        try context.operationQueue.on { operationQueue in
-            try operationQueue.underlyingQueue.on { queue in
-                self.queueState.enqueuedAfter = after
-                queue.asyncAfter(deadline: .now() + after) { [weak self] in
-                    guard let self = self else {
-                        fatalError(
-                            "State \(String(describing: self)) was dealocated"
-                        )
-                    }
-                    operationQueue.addOperation(context)
-                    self.queueState.enqueued = true
-                }
-            } none: {
-                throw OperationControllerError.operationQueueIsNil(
-                    """
-                        underlyingQueue associated with operationQueue on Operation
-                        with identifier: \(context.identifier)
-                        was found nil,can not add this operation to execute
-                    """)
+        
+        self.queueState.enqueuedAfter = deadline
+        queue.asyncAfter(deadline: .now() + deadline) { [weak self] in
+            guard let self = self else {
+                fatalError(
+                    "State \(String(describing: self)) was dealocated"
+                )
             }
-            //            context.changeState(new: OperationExecutingState())
-        } none: {
-            throw OperationControllerError.operationQueueIsNil(
-                """
-                operationQueue on operation with identifier: \(context.identifier)
-                    was found nil,can not add this operation to execute
-                """)
+            context.operationQueue?.addOperation(context)
+            self.queueState.enqueued = true
         }
         // block the current thread until all operation finish
         // new operation cant be added to queue during this block time
