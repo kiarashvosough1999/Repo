@@ -33,7 +33,7 @@
 		DE35CD1426B2AEDE00447070 /* NetworkOperationController++NetworkOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD1326B2AEDE00447070 /* NetworkOperationController++NetworkOperation.swift */; };
 		DE35CD1726B2AF0900447070 /* OperationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD1626B2AF0900447070 /* OperationConfig.swift */; };
 		DE35CD1926B2AF2300447070 /* OperationConfig++OperationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD1826B2AF2300447070 /* OperationConfig++OperationConfiguration.swift */; };
-		DE35CD1E26B2AF6100447070 /* AsynchronousOperation++AOIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD1D26B2AF6100447070 /* AsynchronousOperation++AOIdentifiable.swift */; };
+		DE35CD1E26B2AF6100447070 /* AsynchronousOperation++Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD1D26B2AF6100447070 /* AsynchronousOperation++Protocols.swift */; };
 		DE35CD2226B2AFE700447070 /* URLRequestConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD2126B2AFE700447070 /* URLRequestConfiguration.swift */; };
 		DE35CD2426B2B02B00447070 /* URLRequestBuilder++URLRequestBuilderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD2326B2B02B00447070 /* URLRequestBuilder++URLRequestBuilderProtocol.swift */; };
 		DE35CD2626B2B1E300447070 /* SessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD2526B2B1E300447070 /* SessionController.swift */; };
@@ -81,6 +81,11 @@
 		DE8361F126B1BA60009C27BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE8361EF26B1BA60009C27BE /* LaunchScreen.storyboard */; };
 		DE8361FD26B1BC6E009C27BE /* ParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8361FC26B1BC6E009C27BE /* ParameterEncoder.swift */; };
 		DE83620026B1C51A009C27BE /* Dictionary++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8361FF26B1C51A009C27BE /* Dictionary++Extensions.swift */; };
+		DE83CA3426C3B525003A0A1E /* AsynchronousOperation++Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83CA3326C3B525003A0A1E /* AsynchronousOperation++Property.swift */; };
+		DE83CA3626C3B65B003A0A1E /* AsynchronousOperation++State.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83CA3526C3B65B003A0A1E /* AsynchronousOperation++State.swift */; };
+		DE83CA3826C3B73E003A0A1E /* AsynchronousOperation++Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83CA3726C3B73E003A0A1E /* AsynchronousOperation++Dependency.swift */; };
+		DE83CA3A26C3B768003A0A1E /* NSLocking++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83CA3926C3B768003A0A1E /* NSLocking++Extensions.swift */; };
+		DE83CA3D26C3D4CD003A0A1E /* QueueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83CA3C26C3D4CD003A0A1E /* QueueState.swift */; };
 		DEA4763326C2973500057ADB /* APIVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA4763226C2973500057ADB /* APIVersion.swift */; };
 		DEA9DC8E26B48608002F30AF /* SessionController++Delegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA9DC8D26B48608002F30AF /* SessionController++Delegates.swift */; };
 		DEC1C9FB26BD1EFD00B31B41 /* OperationIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC1C9FA26BD1EFD00B31B41 /* OperationIdentifier.swift */; };
@@ -88,6 +93,7 @@
 		DECC7D2126C151BF0065ADA1 /* WebSocketTaskConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECC7D2026C151BF0065ADA1 /* WebSocketTaskConfig.swift */; };
 		DECC7D2426C152620065ADA1 /* DataTaskOperationControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECC7D2326C152620065ADA1 /* DataTaskOperationControllerProtocol.swift */; };
 		DECC7D2826C152AA0065ADA1 /* DataTaskConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECC7D2726C152AA0065ADA1 /* DataTaskConfig.swift */; };
+		DEF323C526C306690075D801 /* OperationSuspendState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF323C426C306690075D801 /* OperationSuspendState.swift */; };
 		DEF833D726B726D700D94D2E /* URLSessionTask++DelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF833D626B726D700D94D2E /* URLSessionTask++DelegateProxy.swift */; };
 		DEF833D926B7282000D94D2E /* URLSessionTaskDelegate++SubjectProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF833D826B7282000D94D2E /* URLSessionTaskDelegate++SubjectProxy.swift */; };
 /* End PBXBuildFile section */
@@ -121,7 +127,7 @@
 		DE35CD1326B2AEDE00447070 /* NetworkOperationController++NetworkOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkOperationController++NetworkOperation.swift"; sourceTree = "<group>"; };
 		DE35CD1626B2AF0900447070 /* OperationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationConfig.swift; sourceTree = "<group>"; };
 		DE35CD1826B2AF2300447070 /* OperationConfig++OperationConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OperationConfig++OperationConfiguration.swift"; sourceTree = "<group>"; };
-		DE35CD1D26B2AF6100447070 /* AsynchronousOperation++AOIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsynchronousOperation++AOIdentifiable.swift"; sourceTree = "<group>"; };
+		DE35CD1D26B2AF6100447070 /* AsynchronousOperation++Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsynchronousOperation++Protocols.swift"; sourceTree = "<group>"; };
 		DE35CD2126B2AFE700447070 /* URLRequestConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestConfiguration.swift; sourceTree = "<group>"; };
 		DE35CD2326B2B02B00447070 /* URLRequestBuilder++URLRequestBuilderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequestBuilder++URLRequestBuilderProtocol.swift"; sourceTree = "<group>"; };
 		DE35CD2526B2B1E300447070 /* SessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionController.swift; sourceTree = "<group>"; };
@@ -171,6 +177,11 @@
 		DE8361F226B1BA60009C27BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE8361FC26B1BC6E009C27BE /* ParameterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncoder.swift; sourceTree = "<group>"; };
 		DE8361FF26B1C51A009C27BE /* Dictionary++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary++Extensions.swift"; sourceTree = "<group>"; };
+		DE83CA3326C3B525003A0A1E /* AsynchronousOperation++Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsynchronousOperation++Property.swift"; sourceTree = "<group>"; };
+		DE83CA3526C3B65B003A0A1E /* AsynchronousOperation++State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsynchronousOperation++State.swift"; sourceTree = "<group>"; };
+		DE83CA3726C3B73E003A0A1E /* AsynchronousOperation++Dependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsynchronousOperation++Dependency.swift"; sourceTree = "<group>"; };
+		DE83CA3926C3B768003A0A1E /* NSLocking++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLocking++Extensions.swift"; sourceTree = "<group>"; };
+		DE83CA3C26C3D4CD003A0A1E /* QueueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueState.swift; sourceTree = "<group>"; };
 		DEA4763226C2973500057ADB /* APIVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIVersion.swift; sourceTree = "<group>"; };
 		DEA9DC8D26B48608002F30AF /* SessionController++Delegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionController++Delegates.swift"; sourceTree = "<group>"; };
 		DEC1C9FA26BD1EFD00B31B41 /* OperationIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationIdentifier.swift; sourceTree = "<group>"; };
@@ -178,6 +189,7 @@
 		DECC7D2026C151BF0065ADA1 /* WebSocketTaskConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTaskConfig.swift; sourceTree = "<group>"; };
 		DECC7D2326C152620065ADA1 /* DataTaskOperationControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskOperationControllerProtocol.swift; sourceTree = "<group>"; };
 		DECC7D2726C152AA0065ADA1 /* DataTaskConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskConfig.swift; sourceTree = "<group>"; };
+		DEF323C426C306690075D801 /* OperationSuspendState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationSuspendState.swift; sourceTree = "<group>"; };
 		DEF833D626B726D700D94D2E /* URLSessionTask++DelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionTask++DelegateProxy.swift"; sourceTree = "<group>"; };
 		DEF833D826B7282000D94D2E /* URLSessionTaskDelegate++SubjectProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionTaskDelegate++SubjectProxy.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -313,10 +325,13 @@
 		DE35CD1A26B2AF4100447070 /* AsynchronousOperation */ = {
 			isa = PBXGroup;
 			children = (
+				DE83CA3B26C3B7B2003A0A1E /* Protocols */,
 				DE35CD1526B2AEFE00447070 /* Configuration */,
 				DE7253C726BE60030075A52A /* AsynchronousOperation++States */,
 				DE27F3B826B26F2F00D79F37 /* AsynchronousOperation.swift */,
-				DE35CD1D26B2AF6100447070 /* AsynchronousOperation++AOIdentifiable.swift */,
+				DE83CA3326C3B525003A0A1E /* AsynchronousOperation++Property.swift */,
+				DE83CA3526C3B65B003A0A1E /* AsynchronousOperation++State.swift */,
+				DE83CA3726C3B73E003A0A1E /* AsynchronousOperation++Dependency.swift */,
 			);
 			path = AsynchronousOperation;
 			sourceTree = "<group>";
@@ -433,6 +448,7 @@
 				DE7253CC26BE60430075A52A /* OperationExecutingState.swift */,
 				DE7253CE26BE60570075A52A /* OperationFinishState.swift */,
 				DE7253D026BE60680075A52A /* OperationCancelState.swift */,
+				DEF323C426C306690075D801 /* OperationSuspendState.swift */,
 			);
 			path = "AsynchronousOperation++States";
 			sourceTree = "<group>";
@@ -522,6 +538,7 @@
 				DE42ADD126BC3E65000C9D8E /* Array++Extensions.swift */,
 				DE1E9EF526BD5DC600D37768 /* Optional++Extensions.swift */,
 				DE1E9F0226BD924600D37768 /* Bool++Extensions.swift */,
+				DE83CA3926C3B768003A0A1E /* NSLocking++Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -545,6 +562,15 @@
 				DEA9DC8D26B48608002F30AF /* SessionController++Delegates.swift */,
 			);
 			path = URLSession;
+			sourceTree = "<group>";
+		};
+		DE83CA3B26C3B7B2003A0A1E /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				DE35CD1D26B2AF6100447070 /* AsynchronousOperation++Protocols.swift */,
+				DE83CA3C26C3D4CD003A0A1E /* QueueState.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		DECC7D1D26C151600065ADA1 /* WebSocket */ = {
@@ -682,6 +708,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE4B070F26C1788500CCEAD8 /* URLSessionAnyTaskConfig.swift in Sources */,
+				DE83CA3626C3B65B003A0A1E /* AsynchronousOperation++State.swift in Sources */,
 				DEF833D926B7282000D94D2E /* URLSessionTaskDelegate++SubjectProxy.swift in Sources */,
 				DE42ADDA26BC483C000C9D8E /* UploadTaskOperationController.swift in Sources */,
 				DE5B474C26BC2CB5008CEC29 /* Memento.swift in Sources */,
@@ -708,9 +735,10 @@
 				DE1E9EFF26BD893000D37768 /* TaskWrapper.swift in Sources */,
 				DE17652126BED71200226BA0 /* NetworkRouter.swift in Sources */,
 				DE1E9EF826BD68B000D37768 /* OperationControllerError.swift in Sources */,
+				DE83CA3A26C3B768003A0A1E /* NSLocking++Extensions.swift in Sources */,
 				DE3841BF26C24A5100397D6F /* ParameterEncodingConfiguration.swift in Sources */,
 				DE4B06FF26C1632300CCEAD8 /* DownloadTaskConfig.swift in Sources */,
-				DE35CD1E26B2AF6100447070 /* AsynchronousOperation++AOIdentifiable.swift in Sources */,
+				DE35CD1E26B2AF6100447070 /* AsynchronousOperation++Protocols.swift in Sources */,
 				DE17651C26BED68900226BA0 /* StreamTask.swift in Sources */,
 				DE7253D126BE60680075A52A /* OperationCancelState.swift in Sources */,
 				DE35CD2426B2B02B00447070 /* URLRequestBuilder++URLRequestBuilderProtocol.swift in Sources */,
@@ -729,9 +757,12 @@
 				DE3841B526C2473400397D6F /* HTTPURLRequestConfiguration.swift in Sources */,
 				DE42ADE026BC5450000C9D8E /* StreamTaskOperationController.swift in Sources */,
 				DE2D74E326B5DCE000461ABF /* DataTaskOperationController.swift in Sources */,
+				DE83CA3826C3B73E003A0A1E /* AsynchronousOperation++Dependency.swift in Sources */,
 				DE1E9F0326BD924600D37768 /* Bool++Extensions.swift in Sources */,
 				DE1E9F0526BDA68300D37768 /* SessionController++CancelOptions.swift in Sources */,
 				DE35CD2C26B2BA6C00447070 /* URLSessionDelegateProxy.swift in Sources */,
+				DE83CA3D26C3D4CD003A0A1E /* QueueState.swift in Sources */,
+				DE83CA3426C3B525003A0A1E /* AsynchronousOperation++Property.swift in Sources */,
 				DE17651426BED65900226BA0 /* Method.swift in Sources */,
 				DE17651F26BED6A600226BA0 /* TCPAddress.swift in Sources */,
 				DE3841BB26C24A2D00397D6F /* ParameterEncoder++Protocol.swift in Sources */,
@@ -739,6 +770,7 @@
 				DE8361E526B1BA5F009C27BE /* AppDelegate.swift in Sources */,
 				DE8361FD26B1BC6E009C27BE /* ParameterEncoder.swift in Sources */,
 				DE3841C226C24CEF00397D6F /* URLHTTPRequestBuilder++Protocol.swift in Sources */,
+				DEF323C526C306690075D801 /* OperationSuspendState.swift in Sources */,
 				DE35CD1926B2AF2300447070 /* OperationConfig++OperationConfiguration.swift in Sources */,
 				DE1E9F0126BD895E00D37768 /* SessionError.swift in Sources */,
 				DE35CD2F26B2BF7500447070 /* URLSessionDelegate++SubjectProxy.swift in Sources */,

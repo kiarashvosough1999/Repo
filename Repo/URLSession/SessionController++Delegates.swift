@@ -16,11 +16,6 @@ import Foundation
 
 extension SessionController {
     
-    public var session:URLSession {
-        urlSession
-    }
-    
-    
     public var delegate:URLSessionDelegate? {
         set {
             delegateSetter(delegate: newValue)
