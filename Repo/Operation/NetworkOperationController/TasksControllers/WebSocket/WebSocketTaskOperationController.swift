@@ -17,13 +17,7 @@ final public class WebSocketTaskOperationController: AsynchronousOperation, WebS
         }
     }
     
-    private var task: SessionTask? {
-        didSet {
-            if task == nil, !state.isFinished , state.isExecuting {
-                _ = try? self.cancelOperation()
-            }
-        }
-    }
+    private var task: SessionTask?
     
     public var sessionTask: URLSessionWebSocketTask? {
         return task
@@ -68,13 +62,6 @@ final public class WebSocketTaskOperationController: AsynchronousOperation, WebS
         return { [weak self] in
             guard let self = self else { fatalError("Unable to execute executing block") }
             self.task?.resume()
-        }
-    }
-    
-    override var onSuspend: OperationCompletedSignal? {
-        return { [weak self] in
-            guard let self = self else { fatalError("Unable to execute suspend block") }
-            self.task?.suspend()
         }
     }
     
@@ -140,31 +127,6 @@ final public class WebSocketTaskOperationController: AsynchronousOperation, WebS
         sessionTask?.cancel(with: closeCode, reason: reason)
         return self
     }
-    
-//    @discardableResult
-//    public override func completeOperation() throws -> Self {
-//        try super.completeOperation()
-//        task = nil
-//        return self
-//    }
-//
-//    @discardableResult
-//    public override func cancelOperation() throws -> Self {
-//        task?.cancel()
-//        task = nil
-//        try super.cancelOperation()
-//        return self
-//    }
-//
-//    public override func main() {
-//        task?.resume()
-//    }
-//
-//    public override func cancel() {
-//        task?.cancel()
-//        task = nil
-//        super.cancel()
-//    }
 }
 
 extension WebSocketTaskOperationController {
@@ -181,7 +143,7 @@ extension WebSocketTaskOperationController {
     public var taskState: URLSessionTask.State? { sessionTask?.state }
     
     @available(iOS 7.0, *)
-    public var progress: Progress? { sessionTask?.progress }
+    @objc public var progress: Progress? { sessionTask?.progress }
     
     public var taskIdentifier: Int? { sessionTask?.taskIdentifier }
     

@@ -47,14 +47,6 @@ final public class DataTaskOperationController: AsynchronousOperation,
         }
     }
     
-    override var onSuspend: OperationCompletedSignal? {
-        return { [weak self] in
-            guard let self = self else { fatalError("Unable to execute suspend block") }
-            self.task?.suspend()
-            self.cancel()
-        }
-    }
-    
     public init(operationQueue: OperationQueue?,
                 sessionTask: @autoclosure () -> (DataTaskOperationController.SessionTask),
                 operationConfig: OperationConfig,
@@ -90,32 +82,6 @@ final public class DataTaskOperationController: AsynchronousOperation,
         if autoUpdateTaskConfigOnChange { applyTaskConfiguration() }
         return self
     }
-    
-//    @discardableResult
-//    public override func completeOperation() throws -> Self {
-//        try super.completeOperation()
-//        task = nil
-//        return self
-//    }
-//
-//    @discardableResult
-//    public override func cancelOperation() throws -> Self {
-//        task?.cancel()
-//        task = nil
-//        try super.cancelOperation()
-//        return self
-//    }
-//
-//    public override func main() {
-//        task?.resume()
-//    }
-//
-//    public override func cancel() {
-//        task?.cancel()
-//        task = nil
-//        super.cancel()
-//    }
-    
 }
 
 
@@ -134,7 +100,7 @@ extension DataTaskOperationController {
     public var taskState: URLSessionTask.State? { sessionTask?.state }
     
     @available(iOS 7.0, *)
-    public var progress: Progress? { sessionTask?.progress }
+    @objc public var progress: Progress? { sessionTask?.progress }
     
     public var taskIdentifier: Int? { sessionTask?.taskIdentifier }
     

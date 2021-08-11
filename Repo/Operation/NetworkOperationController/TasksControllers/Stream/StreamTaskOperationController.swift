@@ -47,13 +47,6 @@ public class StreamTaskOperationController: AsynchronousOperation,
         }
     }
     
-    override var onSuspend: OperationCompletedSignal? {
-        return { [weak self] in
-            guard let self = self else { fatalError("Unable to execute suspend block") }
-            self.task?.suspend()
-        }
-    }
-    
     public init(operationQueue: OperationQueue?,
                 sessionTask: @autoclosure () -> (StreamTaskOperationController.SessionTask),
                 operationConfig: OperationConfig,

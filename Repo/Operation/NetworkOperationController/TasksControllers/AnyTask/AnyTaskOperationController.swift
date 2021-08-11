@@ -48,13 +48,6 @@ final public class AnyTaskOperationController<SessionTask:URLSessionTask>: Async
         }
     }
     
-    override var onSuspend: OperationCompletedSignal? {
-        return { [weak self] in
-            guard let self = self else { fatalError("Unable to execute suspend block") }
-            self.task?.suspend()
-        }
-    }
-    
     
     init(operationQueue: OperationQueue?,
          sessionTask: @autoclosure SessionTaskBlock,
