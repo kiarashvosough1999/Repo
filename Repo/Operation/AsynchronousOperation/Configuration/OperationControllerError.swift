@@ -16,4 +16,6 @@ enum OperationControllerError:Error {
     case operationAlreadyCanceled(String)
     case operationIsNotExecutingToFinish(String)
     case dealocatedOperation(String)
+    case nilBlock(String)
+    case cancelDuringWaitingForDeadline(String)
 }
