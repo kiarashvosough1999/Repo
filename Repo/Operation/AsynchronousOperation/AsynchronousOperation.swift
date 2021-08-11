@@ -15,7 +15,7 @@ public class AsynchronousOperation: Operation,
         return OperationReadyState(context: self, queueState: .init(enqueued: false))
     }()
     
-    /// Custome configuration which user can modify to change th operation behavior
+    /// Custome configuration which user can modify to change the operation behavior
     internal private(set) var operationConfiguration: OperationConfig
     
     /// a `mutex lock` to `synchronize` some properties between threads
@@ -34,12 +34,25 @@ public class AsynchronousOperation: Operation,
     
     lazy public internal(set) var _suspended: Bool = false
     
+    // MARK: -  execution Blocks For Each State
+    
+    /// Could be provided by any subclass to execute some code before the operation state changes to `finished`.
     internal private(set) var onFinish: OperationCompletedSignal?
     
+    /// Could be provided by any subclass to execute some code before the operation state changes to `executing`.
+    /// instead of overriding main() function, override this property and provide a block of what you want when the operation start.
     internal private(set) var onExecuting: OperationCompletedSignal?
     
+    /// Could be provided by any subclass to execute some code before the operation state changes to `canceled`.
     internal private(set) var onCancel: OperationCompletedSignal?
     
+    /// Could be provided by any subclass to execute some code before the operation state changes to `suspended`.
+    /// The operation itself does not support suspending.
+    /// This extra state help some task to be paused and be resumed when the user asked
+    /// The operation will remain on queue but not executing
+    /// For URLSessionDataTasks:
+    /// - Provide block only on download and upload tasks
+    /// - Providing block on other tasks and using it may result in crash, leak and unexpected usage of network data.
     internal private(set) var onSuspend: OperationCompletedSignal?
     
     //MARK: - Init
