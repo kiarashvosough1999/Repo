@@ -11,7 +11,7 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startUploadTask<T>(on route: EndPoint,
+    public func uploadTask<T>(on route: EndPoint,
                                    with data:Data,
                                    requestBuilder: T,
                                    options: OperationConfig = OperationConfig(),
@@ -35,7 +35,7 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startUploadTask<T>(on urlRoute: EndPoint,
+    public func uploadTask<T>(on urlRoute: EndPoint,
                                    requestBuilder: T,
                                    options: OperationConfig = OperationConfig(),
                                    completionHandler: @escaping SessionUploadTaskResponse) throws

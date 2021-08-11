@@ -14,7 +14,6 @@ public protocol TaskOperationControllerProtocol: TaskOperationControllerBaseProt
     
     typealias SessionTaskBlock = () -> (SessionTask)
     
-    var sessionTask: SessionTask? { get }
     var taskConfiguration:TaskConfiguration { get }
     var autoUpdateTaskConfigOnChange:Bool { get set }
     

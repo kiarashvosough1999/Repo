@@ -13,7 +13,7 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startWebSocketTask<T>(with route: EndPoint,
+    public func webSocketTask<T>(with route: EndPoint,
                                       options: OperationConfig = OperationConfig())
     throws -> some WebSocketTaskOperationControllerProtocol where EndPoint: EndPointSocketType{
         try createTask { session, _ -> WebSocketTaskOperationController in
@@ -27,7 +27,7 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startWebSocketTask<T>(with route: EndPoint,
+    public func webSocketTask<T>(with route: EndPoint,
                                       requestBuilder: T,
                                       options: OperationConfig = OperationConfig()) throws
     -> some WebSocketTaskOperationControllerProtocol where T: URLRequestBuilderProtocol,
@@ -44,7 +44,7 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startWebSocketTask<T>(urlprotocols with: EndPoint,
+    public func webSocketTask<T>(urlprotocols with: EndPoint,
                                       options: OperationConfig = OperationConfig()) throws
     -> some WebSocketTaskOperationControllerProtocol where EndPoint: EndPointSocketType{
         try createTask { session, _ -> WebSocketTaskOperationController in

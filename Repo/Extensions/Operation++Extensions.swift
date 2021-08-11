@@ -10,6 +10,7 @@ import Foundation
 extension Operation {
     
     enum OperationError: Error {
+        case taskNil(String)
         case cantCastOperation
         case cantChangeOperationConfigOnCurrentState(String)
     }

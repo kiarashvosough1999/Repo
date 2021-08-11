@@ -19,6 +19,13 @@ extension Optional {
         return self == nil
     }
     
+    mutating func toggleNil() {
+        guard !self.isNil else {
+            return
+        }
+        self = nil
+    }
+    
     /// Returns the wrapped value that satisfy predicate otherwise return`nil`
     func matching(_ predicate: (Wrapped) -> Bool) -> Wrapped? {
         guard let value = self else {
@@ -49,6 +56,12 @@ extension Optional {
     
     /// Execute `some` closure if optionsl is not`nil` otherwise executes `none`
     func on(some: (Wrapped) throws -> Void, none: () throws -> Void) rethrows {
+        if let self = self { try some(self) }
+        else { try none() }
+    }
+    
+    /// Execute `some` closure if optionsl is not`nil` otherwise executes `none`
+    func on(_ some: (Wrapped) throws -> Void, _ none: () throws -> Void) rethrows {
         if let self = self { try some(self) }
         else { try none() }
     }

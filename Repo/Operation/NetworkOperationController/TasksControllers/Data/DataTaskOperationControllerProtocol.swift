@@ -10,7 +10,7 @@ import Foundation
 public protocol DataTaskOperationControllerProtocol: TaskOperationControllerProtocol where SessionTask == URLSessionDataTask,
 TaskConfiguration: DataTaskConfigurationProtocol{
     
-    
+    var HTTPURLResponse:HTTPURLResponse? { get }
 }
 
 public protocol DataTaskConfigurationProtocol: URLSessionAnyTaskConfigurationProtocol { }

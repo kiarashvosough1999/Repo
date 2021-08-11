@@ -13,12 +13,12 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
     internal typealias TaskBuilder<T> = (URLSession, @escaping OnCompletion) throws -> T
     
     internal var urlSession:URLSession!
-    internal var config:URLSessionConfiguration
-    internal var delegateOperationQueue: OperationQueue?
-    internal var tasksOperationQueue: OperationQueue
-    internal var ops:[TaskOperationControllerBaseProtocol] = []
-    internal var opss:[OperationIdentifier:TaskOperationControllerBaseProtocol] = [:]
-    private var network: NWPathMonitor
+    internal private(set) var config:URLSessionConfiguration
+    internal private(set) var delegateOperationQueue: OperationQueue?
+    internal private(set) var tasksOperationQueue: OperationQueue
+    internal private(set) var opss:[OperationIdentifier:TaskOperationControllerBaseProtocol] = [:]
+    private let network: NWPathMonitor
+    lazy private var dispachLabel = "Session\(ObjectIdentifier(self))"
     
     public init(config:URLSessionConfiguration = URLSessionConfiguration.default,
                 delegateOperationQueue: OperationQueue = OperationQueue(),
@@ -29,20 +29,28 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
         self.config = config
         self.network = NWPathMonitor()
         super.init()
-        self.tasksOperationQueue.underlyingQueue = underlyingQueue.isNil ? DispatchQueue(label: "Session\(ObjectIdentifier(self))") : underlyingQueue
-        startmonitoring()
+        self.tasksOperationQueue.underlyingQueue = underlyingQueue.or(DispatchQueue(label: dispachLabel))
+        configureSession()
     }
     
     deinit {
+        self.tasksOperationQueue.underlyingQueue.toggleNil()
         network.cancel()
+        opss.removeAll()
         tasksOperationQueue.cancelAllOperations()
         urlSession.invalidateAndCancel()
     }
     
+    fileprivate func configureSession() {
+        startmonitoring()
+    }
+    
+    #warning("should be checked")
     public func executeCancel(with option: OperationCancelOptions) throws {
         switch option {
             case .cancelAllOperation(let session):
-                try ops.forEach { _ = try $0.cancelOperation() }
+                try opss.forEach { _ = try $0.value.cancelOperation() }
+                opss.removeAll()
                 switch session {
                     case .none:
                         break
@@ -58,23 +66,26 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
                 
             case .cancelReadyOperationsAndWait:
                 tasksOperationQueue.cancelAllOperations()
+                opss.remove { $0.value.state.state == .canceled }
                 urlSession.finishTasksAndInvalidate()
                 
             case .cancelReadyOperation(let execpt):
-                try ops
-                    .filter {
-                    !execpt.contains($0.identifier) &&
-                    !$0._finished &&
-                    !$0._executing }
-                    .forEach { _ = try $0.cancelOperation() }
+                try opss
+                    .remove({
+                        !execpt.contains($0.value.identifier) &&
+                        $0.value.state.state == .ready
+                    }, execute: {
+                        _ = try $0.value.cancelOperation()
+                    })
                 
             case .cancelExecutingOperation(let execpt):
-                try ops
-                    .filter {
-                    !execpt.contains($0.identifier) &&
-                    $0._executing &&
-                    !$0._finished }
-                    .forEach { _ = try $0.cancelOperation() }
+                try opss
+                    .remove({
+                        !execpt.contains($0.value.identifier) &&
+                        $0.value.state.state == .executing
+                    }, execute: {
+                        _ = try $0.value.cancelOperation()
+                    })
         }
     }
     
@@ -107,15 +118,17 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
     }
     
     fileprivate func freeUnusedTasks() throws {
-        try self.ops
-            .enumerated()
-            .filter { $0.element.taskState == .completed }
-            .forEach {
-                _ = try $0.element.completeOperation()
-                self.ops.remove(at: $0.offset)
-            }
-        print(tasksOperationQueue.operationCount)
-        print(ops.count)
+        self.opss
+            .remove({
+                $0.value.taskState == .completed ||
+                $0.value.taskState == .canceling
+            }, execute: {
+                do {
+                   try $0.value.completeOperation()
+                }catch {
+                    print(error)
+                }
+            })
     }
     
     public func changeSessionConfig(_ config: (URLSessionConfiguration) -> ()) -> Self {
@@ -153,6 +166,6 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
             }
             return
         }
-        return ops <- try builder(urlSession,compeletion)
+        return opss <- try builder(urlSession, compeletion)
     }
 }

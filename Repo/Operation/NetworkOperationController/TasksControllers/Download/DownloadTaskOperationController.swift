@@ -15,17 +15,41 @@ public class DownloadTaskOperationController: AsynchronousOperation ,DownloadTas
     
     public var autoUpdateTaskConfigOnChange: Bool
     
-    private var task: URLSessionDownloadTask? {
-        didSet {
-            if task == nil, !state.isFinished , state.isExecuting {
-                _ = try? self.cancelOperation()
-            }
-        }
-    }
+    private var task: URLSessionDownloadTask?
     
     public var sessionTask: URLSessionDownloadTask? {
         get {
             task
+        }
+    }
+    
+    override var onCancel: OperationCompletedSignal? {
+        return { [weak self] in
+            guard let self = self else { fatalError("Unable to execute cancel block") }
+            self.task?.cancel()
+            self.task.toggleNil()
+        }
+    }
+    
+    override var onFinish: OperationCompletedSignal? {
+        return { [weak self] in
+            guard let self = self else { fatalError("Unable to execute finish block") }
+            self.task?.cancel()
+            self.task.toggleNil()
+        }
+    }
+
+    override var onExecuting: OperationCompletedSignal? {
+        return { [weak self] in
+            guard let self = self else { fatalError("Unable to execute executing block") }
+            self.task?.resume()
+        }
+    }
+    
+    override var onSuspend: OperationCompletedSignal? {
+        return { [weak self] in
+            guard let self = self else { fatalError("Unable to execute suspend block") }
+            self.task?.suspend()
         }
     }
     
@@ -70,32 +94,6 @@ public class DownloadTaskOperationController: AsynchronousOperation ,DownloadTas
         }
         return self
     }
-    
-    @discardableResult
-    public override func completeOperation() throws -> Self {
-        try super.completeOperation()
-        task = nil
-        return self
-    }
-    
-    @discardableResult
-    public override func cancelOperation() throws -> Self {
-        task?.cancel()
-        task = nil
-        try super.cancelOperation()
-        return self
-    }
-    
-    public override func main() {
-        task?.resume()
-    }
-    
-    public override func cancel() {
-        task?.cancel()
-        task = nil
-        super.cancel()
-    }
-    
 }
 
 
@@ -113,7 +111,7 @@ extension DownloadTaskOperationController {
     public var taskState: URLSessionTask.State? { sessionTask?.state }
     
     @available(iOS 7.0, *)
-    public var progress: Progress? { sessionTask?.progress }
+    @objc public var progress: Progress? { sessionTask?.progress }
     
     public var taskIdentifier: Int? { sessionTask?.taskIdentifier }
     

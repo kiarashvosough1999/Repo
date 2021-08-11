@@ -13,7 +13,7 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startStreamTask(with route: EndPoint,
+    public func streamTask(with route: EndPoint,
                          options: OperationConfig = OperationConfig()) throws
     -> some StreamTaskOperationControllerProtocol where EndPoint: EndPointStreamType {
         try createTask({ session, _ -> StreamTaskOperationController in

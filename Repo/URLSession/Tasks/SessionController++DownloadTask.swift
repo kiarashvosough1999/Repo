@@ -11,7 +11,7 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startDownloadTask<T>(with route: EndPoint,
+    public func downloadTask<T>(with route: EndPoint,
                                      requestBuilder: T,
                                      options: OperationConfig = OperationConfig(),
                                      completionHandler: @escaping SessionDownloadTaskResponse)
@@ -33,7 +33,7 @@ extension SessionController {
     @available(iOS 13.0, *)
     @discardableResult
     @usableFromInline
-    func startDownloadTask(with route: EndPoint,
+    func downloadTask(with route: EndPoint,
                            options: OperationConfig = OperationConfig(),
                            completionHandler: @escaping SessionDownloadTaskResponse)
     throws -> some DownloadTaskOperationControllerProtocol where EndPoint:EndPointDownloadType {
@@ -51,7 +51,7 @@ extension SessionController {
     @available(iOS 13.0, *)
     @discardableResult
     @usableFromInline
-    func startDownloadTask(on resumeData: Data,
+    func downloadTask(on resumeData: Data,
                            with options: OperationConfig = OperationConfig(),
                            completionHandler: @escaping SessionDownloadTaskResponse) throws
     -> some DownloadTaskOperationControllerProtocol where EndPoint:EndPointDownloadType {
@@ -69,7 +69,7 @@ extension SessionController {
     
     @available(iOS 13.0, *)
     @discardableResult
-    public func startDownloadTask(with request: URLRequest,
+    public func downloadTask(with request: URLRequest,
                                   and options: OperationConfig = OperationConfig(),
                                   completionHandler: @escaping SessionDownloadTaskResponse) throws -> some TaskOperationControllerProtocol {
         try createTask { session, completed -> DownloadTaskOperationController in
@@ -84,7 +84,7 @@ extension SessionController {
         
     }
     
-    //MARK: - Old API
+    // MARK: - Old API
     
     @available(iOS, introduced: 9.0, deprecated: 13.0, message: "Use new method with opaque types")
     @discardableResult

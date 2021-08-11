@@ -20,24 +20,38 @@ final public class AnyTaskOperationController<SessionTask:URLSessionTask>: Async
     
     public typealias SessionTask = SessionTask
     
-    private var task: SessionTask? {
-        didSet {
-            if task == nil, !state.isFinished , state.isExecuting {
-                _ = try? self.cancelOperation()
-            }
+    private var task: SessionTask?
+    
+    @available(iOS 7.0, *)
+    @objc public var progress: Progress? { task?.progress }
+    
+    override var onCancel: OperationCompletedSignal? {
+        return { [weak self] in
+            guard let self = self else { fatalError("Unable to execute cancel block") }
+            self.task?.cancel()
+            self.task.toggleNil()
         }
     }
     
-    public var sessionTask: SessionTask? {
-        return task
+    override var onFinish: OperationCompletedSignal? {
+        return { [weak self] in
+            guard let self = self else { fatalError("Unable to execute finish block") }
+            self.task?.cancel()
+            self.task.toggleNil()
+        }
     }
     
-    public var taskDescription: String? {
-        get {
-            sessionTask?.taskDescription
+    override var onExecuting: OperationCompletedSignal? {
+        return { [weak self] in
+            guard let self = self else { fatalError("Unable to execute executing block") }
+            self.task?.resume()
         }
-        set {
-            sessionTask?.taskDescription = newValue
+    }
+    
+    override var onSuspend: OperationCompletedSignal? {
+        return { [weak self] in
+            guard let self = self else { fatalError("Unable to execute suspend block") }
+            self.task?.suspend()
         }
     }
     
@@ -53,26 +67,6 @@ final public class AnyTaskOperationController<SessionTask:URLSessionTask>: Async
         super.init(operationQueue: operationQueue,
                    operationConfiguration: operationConfig)
     }
-    
-    //    init(operationQueue: OperationQueue?,
-    //         taskWrapper: TaskWrapper<SessionTask>,
-    //         operationConfig: OperationConfig) {
-    //        super.init(operationQueue: operationQueue,
-    //                   operationConfiguration: operationConfig,
-    //                   operationConfig: operationConfig)
-    //        do {
-    //            self.task = try taskWrapper.task({ [weak self] in
-    ////                guard let self = self else {
-    ////                    throw OperationControllerError.canNotCompleteTask(
-    ////                        "TaskOperationController was deinited before complete operation"
-    ////                    )
-    ////                }
-    ////                _ = try self.completeOperation()
-    //            })
-    //        } catch {
-    //            fatalError(error.localizedDescription)
-    //        }
-    //    }
     
     @discardableResult
     public func applyTaskConfiguration() -> Self {
@@ -97,104 +91,86 @@ final public class AnyTaskOperationController<SessionTask:URLSessionTask>: Async
         applyTaskConfiguration()
         return self
     }
-    
-    @discardableResult
-    public override func completeOperation() throws -> Self {
-        try super.completeOperation()
-        task = nil
-        return self
-    }
-    
-    @discardableResult
-    public override func cancelOperation() throws -> Self {
-        task?.cancel()
-        task = nil
-        try super.cancelOperation()
-        return self
-    }
-    
-    public override func main() {
-        task?.resume()
-    }
-    
-    public override func cancel() {
-        task?.cancel()
-        task = nil
-        super.cancel()
-    }
 }
 
 extension AnyTaskOperationController {
     
-    public var taskState: URLSessionTask.State? { sessionTask?.state }
+    public var taskDescription: String? {
+        get {
+            task?.taskDescription
+        }
+        set {
+            task?.taskDescription = newValue
+        }
+    }
     
-    public var progress: Progress? { sessionTask?.progress }
+    public var taskState: URLSessionTask.State? { task?.state }
     
-    public var taskIdentifier: Int? { sessionTask?.taskIdentifier }
+    public var taskIdentifier: Int? { task?.taskIdentifier }
     
-    public var originalRequest: URLRequest? { sessionTask?.originalRequest }
+    public var originalRequest: URLRequest? { task?.originalRequest }
     
-    public var currentRequest: URLRequest? { sessionTask?.currentRequest }
+    public var currentRequest: URLRequest? { task?.currentRequest }
     
-    public var response: URLResponse? { sessionTask?.response }
+    public var response: URLResponse? { task?.response }
     
     @available(iOS 11.0, *)
     public var earliestBeginDate: Date? {
         get {
-            sessionTask?.earliestBeginDate
+            task?.earliestBeginDate
         }
         set {
-            sessionTask?.earliestBeginDate = newValue
+            task?.earliestBeginDate = newValue
         }
     }
     
     @available(iOS 11.0, *)
     public var countOfBytesClientExpectsToSend: Int64? {
         get {
-            sessionTask?.countOfBytesClientExpectsToSend
+            task?.countOfBytesClientExpectsToSend
         }
         set {
-            sessionTask?.countOfBytesClientExpectsToSend = newValue.or(NSURLSessionTransferSizeUnknown)
+            task?.countOfBytesClientExpectsToSend = newValue.or(NSURLSessionTransferSizeUnknown)
         }
     }
     
     @available(iOS 11.0, *)
     public var countOfBytesClientExpectsToReceive: Int64? {
         get {
-            sessionTask?.countOfBytesClientExpectsToReceive
+            task?.countOfBytesClientExpectsToReceive
         }
         set {
-            sessionTask?.countOfBytesClientExpectsToReceive = newValue.or(NSURLSessionTransferSizeUnknown)
+            task?.countOfBytesClientExpectsToReceive = newValue.or(NSURLSessionTransferSizeUnknown)
         }
     }
     
-    public var countOfBytesReceived: Int64? { sessionTask?.countOfBytesReceived }
+    public var countOfBytesReceived: Int64? { task?.countOfBytesReceived }
     
-    public var countOfBytesSent: Int64? { sessionTask?.countOfBytesSent }
+    public var countOfBytesSent: Int64? { task?.countOfBytesSent }
     
-    public var countOfBytesExpectedToSend: Int64? { sessionTask?.countOfBytesExpectedToSend }
+    public var countOfBytesExpectedToSend: Int64? { task?.countOfBytesExpectedToSend }
     
-    public var countOfBytesExpectedToReceive: Int64? { sessionTask?.countOfBytesExpectedToReceive }
+    public var countOfBytesExpectedToReceive: Int64? { task?.countOfBytesExpectedToReceive }
     
-    public var error: Error? { sessionTask?.error }
+    public var error: Error? { task?.error }
     
     @available(iOS 8.0, *)
     public var priority: Float? {
         get {
-            sessionTask?.priority
+            task?.priority
         }
         set {
-            sessionTask?.priority = newValue.or(URLSessionTask.defaultPriority)
+            task?.priority = newValue.or(URLSessionTask.defaultPriority)
         }
     }
     
     @available(iOS 14.5, *)
     public var prefersIncrementalDelivery: Bool? {
         get {
-            sessionTask?.prefersIncrementalDelivery
+            task?.prefersIncrementalDelivery
         }
         set {
-            sessionTask?.prefersIncrementalDelivery = newValue.or(false)
+            task?.prefersIncrementalDelivery = newValue.or(false)
         }
     }
 }
