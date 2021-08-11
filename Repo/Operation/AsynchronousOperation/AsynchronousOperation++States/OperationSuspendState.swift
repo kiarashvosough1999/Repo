@@ -31,7 +31,7 @@ internal class OperationSuspendState: OperationStateProtocol {
         self.queueState = queueState
     }
     
-    func await(after: TimeInterval) throws {
+    func await(after deadline: TimeInterval) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -42,6 +42,6 @@ internal class OperationSuspendState: OperationStateProtocol {
         try context
             .changeState(new: OperationReadyState(context: context,
                                                   queueState: queueState))
-            .await(after: after)
+            .await(after: deadline)
     }
 }

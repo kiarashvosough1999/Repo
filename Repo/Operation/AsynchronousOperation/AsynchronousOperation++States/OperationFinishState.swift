@@ -23,7 +23,7 @@ internal class OperationFinishState: OperationStateProtocol {
         self.queueState = QueueState(enqueued: enqueued)
     }
     
-    func await(after: TimeInterval) throws {
+    func await(after deadline: TimeInterval) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -55,7 +55,7 @@ internal class OperationFinishState: OperationStateProtocol {
         )
     }
     
-    func suspend(after: TimeInterval, execute: OperationCompletedSignal?) throws {
+    func suspend(after deadline: TimeInterval, execute: OperationCompletedSignal?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """

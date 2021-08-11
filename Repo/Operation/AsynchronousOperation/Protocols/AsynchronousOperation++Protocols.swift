@@ -32,10 +32,10 @@ public protocol AsynchronousOperationProtocol: IdentifiableOperation {
     func cancelOperation() throws -> Self
     
     @discardableResult
-    func await(after: TimeInterval) throws -> Self
+    func await(after deadline: TimeInterval) throws -> Self
     
     @discardableResult
-    func suspend(after:TimeInterval) throws -> Self
+    func suspend(after deadline:TimeInterval) throws -> Self
     
     @discardableResult
     func dependsOnOperation(with identifier: OperationIdentifier) throws -> Self

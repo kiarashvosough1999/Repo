@@ -77,14 +77,14 @@ extension AsynchronousOperation {
     /// - Throws: Error of kind `OperationControllerError`
     /// - Returns: Self
     @discardableResult
-    public func await(after: TimeInterval = 0) throws -> Self {
-        try operationState.await(after: after)
+    public func await(after deadline: TimeInterval = 0) throws -> Self {
+        try operationState.await(after: deadline)
         return self
     }
     
     @discardableResult
-    public func suspend(after: TimeInterval) throws -> Self {
-        try self.operationState.suspend(after: after, execute: self.onSuspend)
+    public func suspend(after deadline: TimeInterval) throws -> Self {
+        try self.operationState.suspend(after: deadline, execute: self.onSuspend)
         return self
     }
     
