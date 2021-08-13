@@ -7,11 +7,12 @@
 
 import Foundation
 
+
 public protocol ConfigurableOperation {
     var operationConfiguration: OperationConfig { get }
     func changeOperationConfig(_ config: (inout OperationConfig) -> ()) throws -> Self
 }
-
+#warning("This class will be soon removed")
 public class AsynchronousOperation: StateFullOperation,
                                     AsynchronousOperationProtocol,
                                     ConfigurableOperation,
