@@ -7,9 +7,11 @@
 
 import Foundation
 
-internal class OperationCancelState: OperationStateProtocol {
+internal class OperationCancelState<Context>: OperationStateProtocol where Context: StateFullOperation &
+                                                                            CommandExecutable &
+                                                                            ConfigurableOperation {
     
-    internal weak var context: AsynchronousOperation?
+    internal weak var context: Context?
     internal var isFinished: Bool { true }
     internal var isExecuting: Bool { false }
     internal var state: OperationState { .canceled }
@@ -18,9 +20,10 @@ internal class OperationCancelState: OperationStateProtocol {
     internal var queueState: QueueState
     
     
-    internal init(context: AsynchronousOperation? = nil, queueState: QueueState) {
+    required internal init(context: Context? = nil, queueState: QueueState) {
         self.context = context
         self.queueState = queueState
+        self.context?.cancel()
     }
     
     func start() throws {
@@ -47,7 +50,7 @@ internal class OperationCancelState: OperationStateProtocol {
         )
     }
     
-    func suspend(after: TimeInterval, execute: OperationCompletedSignal?) throws {
+    func suspend(after deadline: TimeInterval, execute: WorkerItem?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -63,7 +66,7 @@ internal class OperationCancelState: OperationStateProtocol {
         )
     }
     
-    func await(after: TimeInterval) throws {
+    func await(after deadline: TimeInterval) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -79,7 +82,22 @@ internal class OperationCancelState: OperationStateProtocol {
         )
     }
     
-    internal func completeOperation() throws {
+    func cancelOperation(and execute: WorkerItem?) throws {
+        guard let context = context else {
+            throw OperationControllerError.dealocatedOperation(
+                """
+                context was dealocated on\(String(describing: self)), cannot change state
+                """
+            )
+        }
+        throw OperationControllerError.operationAlreadyCanceled(
+            """
+            Operation with identifier: \(context.identifier) is already canceled
+            """
+        )
+    }
+    
+    func completeOperation(and execute: WorkerItem?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """

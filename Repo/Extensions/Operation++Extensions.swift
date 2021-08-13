@@ -9,7 +9,15 @@ import Foundation
 
 extension Operation {
     
+    enum WorkItemError: Error {
+        case onCanceled
+        case onExecuting
+        case OnFinished
+        case OnSuspended
+    }
+    
     enum OperationError: Error {
+        case workItemFoundNil(tyep:WorkItemError,description:String)
         case taskNil(String)
         case cantCastOperation
         case cantChangeOperationConfigOnCurrentState(String)

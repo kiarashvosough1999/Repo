@@ -7,9 +7,9 @@
 
 import Foundation
 
-internal class OperationFinishState: OperationStateProtocol {
+internal class OperationFinishState<Context>: OperationStateProtocol where Context:StateFullOperation {
     
-    internal weak var context: AsynchronousOperation?
+    internal weak var context: Context?
     internal var isFinished: Bool { true }
     internal var isExecuting: Bool { false }
     internal var state: OperationState { .finished }
@@ -18,12 +18,12 @@ internal class OperationFinishState: OperationStateProtocol {
     internal var queueState: QueueState
     
     
-    internal init(context: AsynchronousOperation? = nil, enqueued:Bool = false) {
+    required internal init(context: Context?, queueState: QueueState) {
         self.context = context
-        self.queueState = QueueState(enqueued: enqueued)
+        self.queueState = QueueState(enqueued: queueState.enqueued)
     }
     
-    func await(after: TimeInterval) throws {
+    func await(after deadline: TimeInterval) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -55,7 +55,7 @@ internal class OperationFinishState: OperationStateProtocol {
         )
     }
     
-    func suspend(after: TimeInterval, execute: OperationCompletedSignal?) throws {
+    func suspend(after deadline: TimeInterval, execute: WorkerItem?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -71,7 +71,7 @@ internal class OperationFinishState: OperationStateProtocol {
         )
     }
     
-    func cancelOperation(and execute: OperationCompletedSignal?) throws {
+    func cancelOperation(and execute: WorkerItem?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -87,7 +87,7 @@ internal class OperationFinishState: OperationStateProtocol {
         )
     }
     
-    internal func completeOperation() throws {
+    internal func completeOperation(and execute: WorkerItem?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """

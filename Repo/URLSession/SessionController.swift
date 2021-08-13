@@ -66,14 +66,14 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
                 
             case .cancelReadyOperationsAndWait:
                 tasksOperationQueue.cancelAllOperations()
-                opss.remove { $0.value.state.state == .canceled }
+                opss.remove { $0.value.state == .canceled }
                 urlSession.finishTasksAndInvalidate()
                 
             case .cancelReadyOperation(let execpt):
                 try opss
                     .remove({
                         !execpt.contains($0.value.identifier) &&
-                        $0.value.state.state == .ready
+                        $0.value.state == .ready
                     }, execute: {
                         _ = try $0.value.cancelOperation()
                     })
@@ -82,7 +82,7 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
                 try opss
                     .remove({
                         !execpt.contains($0.value.identifier) &&
-                        $0.value.state.state == .executing
+                        $0.value.state == .executing
                     }, execute: {
                         _ = try $0.value.cancelOperation()
                     })

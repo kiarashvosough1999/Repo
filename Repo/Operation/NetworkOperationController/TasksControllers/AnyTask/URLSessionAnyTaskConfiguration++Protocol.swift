@@ -24,4 +24,6 @@ public protocol URLSessionAnyTaskConfigurationProtocol {
 
     @available(iOS 14.5, *)
     var prefersIncrementalDelivery: Bool? { get set }
+    
+    init()
 }

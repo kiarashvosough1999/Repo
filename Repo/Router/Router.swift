@@ -12,7 +12,12 @@ enum health {
     case act
 }
 
-extension health: EndPointHTTPType {
+extension health: EndPointHTTPType, EndPointDownloadType {
+    
+    var apiVersion: APIVersion {
+        .none
+    }
+    
     
     var task: HTTPTask {
         .request
@@ -35,7 +40,7 @@ extension health: EndPointHTTPType {
     }
     
     var url: URL {
-        URL(string: "")!
+        URL(string: "https://dl6.downloadha.com/hosein/animation/June2021/Rick.and.Morty.S05/720p.x265/Rick.and.Morty.S05E01.Mort.Dinner.Rick.Andre.720p.WEBRip.2CH.x265.HEVC-PSA_Downloadha.com_.mkv")!
     }
     
 }
@@ -54,9 +59,14 @@ class Router<EndPoint:EndPointHTTPType>: NetworkRouter  {
         let builder = URLHTTPRequestBuilder<EndPoint>()
         
         do {
-            let x = try sessionController.startDataTask(with: route,
-                                                        requestBuilder: builder,
-                                                        completionHandler: completion).await()
+            
+            let x6 = try sessionController.dataTask(with: route,
+                                                   requestBuilder: builder,
+                                                   completionHandler: completion).await(after: 0)
+            
+            let x8 = try sessionController.dataTask(with: route,
+                                                   requestBuilder: builder,
+                                                   completionHandler: completion).await(after: 0)
         } catch  {
             print(error)
         }

@@ -35,4 +35,5 @@ public struct DownloadTaskConfig: DownloadTaskConfigurationProtocol {
         self.prefersIncrementalDelivery = prefersIncrementalDelivery
     }
     
+    public init() {}
 }

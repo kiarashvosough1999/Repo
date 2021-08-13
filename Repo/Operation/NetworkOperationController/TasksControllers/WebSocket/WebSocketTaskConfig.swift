@@ -38,4 +38,5 @@ public struct WebSocketTaskConfig: WebSocketTaskConfigurationProtocol{
         self.prefersIncrementalDelivery = prefersIncrementalDelivery
         self.maximumMessageSize = maximumMessageSize
     }
+    public init() {}
 }
