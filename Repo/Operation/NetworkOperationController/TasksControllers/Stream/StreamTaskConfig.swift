@@ -34,4 +34,6 @@ public struct StreamTaskConfig: StreamTaskConfiguration {
         self.priority = priority
         self.prefersIncrementalDelivery = prefersIncrementalDelivery
     }
+    
+    public init() {}
 }

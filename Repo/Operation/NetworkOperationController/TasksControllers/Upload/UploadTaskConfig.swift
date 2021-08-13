@@ -34,4 +34,7 @@ public struct UploadTaskConfig: UploadTaskConfigurationProtocol {
         self.priority = priority
         self.prefersIncrementalDelivery = prefersIncrementalDelivery
     }
+    
+    public init() {}
+    
 }

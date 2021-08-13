@@ -41,4 +41,5 @@ public struct DataTaskConfig: DataTaskConfigurationProtocol {
         }
     }
     
+    public init() {}
 }
