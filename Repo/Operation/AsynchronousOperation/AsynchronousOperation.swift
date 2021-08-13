@@ -52,46 +52,4 @@ public class AsynchronousOperation: StateFullOperation,
         self.qualityOfService = operationConfiguration [keyPath:\.qualityOfService]
         self.name = operationConfiguration[keyPath:\.identifierGenerator]().rawValue
     }
-
-    
-//    /// Complete operation by changing its `state`
-//    /// - Throws: Error of kind `OperationControllerError`
-//    /// - Returns: Self
-//    @discardableResult
-//    public override func completeOperation() throws -> Self {
-//        try operationState.completeOperation(and: nil)
-//        return self
-//    }
-//    
-//    /// Cancel operation by changing its `state`
-//    /// - Throws: Error of kind `OperationControllerError`
-//    /// - Returns: Self
-//    @discardableResult
-//    public override func cancelOperation() throws -> Self {
-//        try operationState.cancelOperation(and: nil)
-//        return self
-//    }
-//    
-//    /// Start operation by changing its `state`
-//    /// - Throws: Error of kind `OperationControllerError`
-//    /// - Returns: Self
-//    @discardableResult
-//    public override func await(after deadline: TimeInterval = 0) throws -> Self {
-//        try operationState.await(after: deadline)
-//        return self
-//    }
-//    
-//    @discardableResult
-//    public override func suspend(after deadline: TimeInterval) throws -> Self {
-//        try self.operationState.suspend(after: deadline, execute: nil)
-//        return self
-//    }
-//    
-//    public override func start() {
-//        do {
-//            try operationState.start()
-//        } catch  {
-//            print(error)
-//        }
-//    }
 }

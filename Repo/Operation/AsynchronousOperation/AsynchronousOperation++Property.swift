@@ -10,5 +10,4 @@ import Foundation
 extension AsynchronousOperation {
     
     public var state: OperationState { operationState.state }
-    
 }
