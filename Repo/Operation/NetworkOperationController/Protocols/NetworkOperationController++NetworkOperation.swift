@@ -14,9 +14,6 @@ public protocol TaskOperationControllerProtocol: TaskOperationControllerBaseProt
     
     typealias SessionTaskBlock = () -> (SessionTask)
     
-    var taskConfiguration:TaskConfiguration { get }
-    var autoUpdateTaskConfigOnChange:Bool { get set }
-    
     func applyTaskConfiguration() -> Self
     func changeTaskConfiguration(_ config: (inout TaskConfiguration) -> Void) -> Self
 }
