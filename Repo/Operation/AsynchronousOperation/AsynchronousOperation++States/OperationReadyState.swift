@@ -7,9 +7,11 @@
 
 import Foundation
 
-internal class OperationReadyState: OperationStateProtocol {
+internal class OperationReadyState<Context>: OperationStateProtocol where Context: StateFullOperation &
+                                                                            CommandExecutable &
+                                                                            ConfigurableOperation {
     
-    internal weak var context: AsynchronousOperation?
+    internal weak var context: Context?
     internal var isFinished: Bool { false }
     internal var isExecuting: Bool { false }
     internal var isCanceled: Bool = false
@@ -17,12 +19,13 @@ internal class OperationReadyState: OperationStateProtocol {
     internal var state: OperationState { .ready }
     internal var queueState:QueueState
     
-    internal init(context: AsynchronousOperation? = nil, queueState:QueueState) {
+    required internal init(context: Context? = nil, queueState:QueueState) {
         self.context = context
         self.queueState = queueState
     }
     
-    internal func cancelOperation(and execute: OperationCompletedSignal?) throws {
+    
+    func cancelOperation(and execute: WorkerItem?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -30,7 +33,15 @@ internal class OperationReadyState: OperationStateProtocol {
                 """
             )
         }
-        context.changeState(new: OperationCancelState(context: context, queueState: queueState))
+        context.commandHistory.set(
+            CancelCommand(on: context, [
+                .init(dispathOption: .asyncWithInheritedQueue,
+                      block: { [weak context, queueState]  in
+                    guard let context = context else { fatalError() }
+                    context.changeState(new: OperationCancelState(context: context, queueState: queueState))
+                })
+            ])
+        )
     }
     
     /// First the `await` method should be called  then
@@ -47,11 +58,19 @@ internal class OperationReadyState: OperationStateProtocol {
             )
         }
         // handle complete and cancel event when deadline is more than 0.0 and operation is waiting to be enqueued
-        context.changeState(new: OperationExecutingState(context: context, queueState: queueState))
-        context.main()
+        self.queueState.enqueued = true
+        context.commandHistory.set(
+            StartCommand(on: context, [
+                .init(dispathOption: .asyncWithInheritedQueue, block: { [weak context, queueState]  in
+                    guard let context = context else { fatalError() }
+                    context.changeState(new: OperationExecutingState(context: context, queueState: queueState))
+                    context.main()
+                })
+            ])
+        )
     }
     
-    internal func completeOperation(and execute: OperationCompletedSignal?) throws {
+    func completeOperation(and execute: WorkerItem?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -68,7 +87,7 @@ internal class OperationReadyState: OperationStateProtocol {
         )
     }
     
-    func suspend(after deadline: TimeInterval, execute: OperationCompletedSignal?) throws {
+    func suspend(after deadline: TimeInterval, execute: WorkerItem?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -91,6 +110,7 @@ internal class OperationReadyState: OperationStateProtocol {
     /// `start` method will be called ofter the deadline
     /// - Parameter after: amount of time to tolerate until the operation will be added
     /// - Throws: Throws OperationControllerError.dealocatedOperation if the context is nil
+    
     internal func await(after deadline:TimeInterval = 0) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
@@ -99,42 +119,31 @@ internal class OperationReadyState: OperationStateProtocol {
                 """
             )
         }
-        guard let queue = context.operationQueue?.underlyingQueue else {
-            throw OperationControllerError.operationQueueIsNil(
-                """
-                    underlyingQueue associated with operationQueue on Operation
-                    with identifier: \(context.identifier)
-                    was found nil,can not suspend this operation
-                """)
-        }
 
         if queueState.enqueued {
-            queue.asyncAfter(deadline: .now() + deadline) { [weak self] in
-                guard let self = self else {
-                    fatalError(
-                        "State \(String(describing: self)) was dealocated"
-                    )
-                }
-                do {
-                    try self.start()
-                } catch  {
-                    print(error)
-                }
-            }
+            context.commandHistory.set(
+                AwaitCommand(on: context, [
+                    .init(dispathOption: .asyncAfterWithInheritedQueue(deadline: deadline),
+                          block: { [weak context]  in
+                        guard let context = context else { fatalError() }
+                        context.start()
+                    })
+                ])
+            )
             return
         }
         
         
         self.queueState.enqueuedAfter = deadline
-        queue.asyncAfter(deadline: .now() + deadline) { [weak self] in
-            guard let self = self else {
-                fatalError(
-                    "State \(String(describing: self)) was dealocated"
-                )
-            }
-            context.operationQueue?.addOperation(context)
-            self.queueState.enqueued = true
-        }
+        context.commandHistory.set(
+            AwaitCommand(on: context, [
+                .init(dispathOption: .asyncAfterWithInheritedQueue(deadline: deadline),
+                      block: { [weak context]  in
+                    guard let context = context else { fatalError() }
+                    context.operationQueue?.addOperation(context)
+                })
+            ])
+        )
         // block the current thread until all operation finish
         // new operation cant be added to queue during this block time
         context

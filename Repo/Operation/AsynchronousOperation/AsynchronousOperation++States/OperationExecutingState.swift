@@ -7,9 +7,12 @@
 
 import Foundation
 
-internal class OperationExecutingState: OperationStateProtocol {
+internal class OperationExecutingState<Context>: OperationStateProtocol where Context: StateFullOperation &
+                                                                                CommandExecutable &
+                                                                                ConfigurableOperation {
     
-    internal weak var context: AsynchronousOperation?
+    
+    internal weak var context: Context?
     internal var isFinished: Bool { false }
     internal var isExecuting: Bool { true }
     internal var isCanceled: Bool = false
@@ -17,15 +20,30 @@ internal class OperationExecutingState: OperationStateProtocol {
     internal var state: OperationState { .executing }
     internal var queueState: QueueState
     
-    internal init(context: AsynchronousOperation? = nil, queueState: QueueState) {
+    required internal init(context: Context? = nil, queueState: QueueState) {
         self.context = context
         self.queueState = queueState
     }
     
+    func start() throws {
+        guard let context = context else {
+            throw OperationControllerError.dealocatedOperation(
+                """
+                context was dealocated on\(String(describing: self)), cannot change state
+                """
+            )
+        }
+        throw OperationControllerError.operationIsNotExecutingToFinish(
+            """
+            Operation with identifier: \(context.identifier) is already Executing
+            Could not be started
+            """
+        )
+    }
     
     /// This Method is just handeling await request when an operation should be suspended after an amount of time
     /// and user request to await before that time reachs,
-    /// it will make async block to call await after the state changes to Suspended
+    /// it will make async recursive block to call await when the state changes to Suspended
     /// - Parameter deadline: amount of time to tolerate until the operation will be added
     /// - Throws:
     ///  - OperationControllerError.dealocatedOperation on context nil
@@ -38,22 +56,23 @@ internal class OperationExecutingState: OperationStateProtocol {
                 """
             )
         }
-        guard let operationQueue = context.operationQueue?.underlyingQueue else {
-            throw OperationControllerError.operationQueueIsNil(
-                """
-                    underlyingQueue associated with operationQueue on Operation
-                    with identifier: \(context.identifier)
-                    was found nil,can not suspend this operation
-                """)
-        }
         if queueState.suspendedAfter > 0.0 {
-            operationQueue.async(execute: {
-                do {
-                    try context.await(after: deadline)
-                }catch {
-                    print(error)
-                }
-            })
+            
+            context.commandHistory.set(
+                AwaitCommand(on: context,[
+                    .init(dispathOption: .asyncAfterWithInheritedQueue(deadline: deadline),
+                          block: { [weak context] in
+                            guard let context = context else { fatalError() }
+                            do {
+                                try context.await(after: deadline)
+                            }
+                            catch {
+                                print(error)
+                            }
+                          })
+                ])
+            )
+            return
         }
         throw OperationControllerError.misUseError(
             """
@@ -67,35 +86,15 @@ internal class OperationExecutingState: OperationStateProtocol {
     /// 2. Changing state to `OperationFinishState`
     /// - Parameter execute: onFinish block which was provoded by overriding it on subclasses
     /// - Throws: OperationControllerError.dealocatedOperation or
-    internal func completeOperation(and execute: OperationCompletedSignal?) throws {
+    func completeOperation(and execute: WorkerItem?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
-                context was dealocated on\(String(describing: self)), cannot change state
-                """
+            context was dealocated on\(String(describing: self)), cannot change state
+            """
             )
         }
-        guard let execute = execute else {
-            throw OperationControllerError.nilBlock(
-                """
-                complete block could not be executed on\(String(describing: self)) while it is nil
-                cannot change state
-                """
-            )
-        }
-        execute()
-        context.changeState(new: OperationFinishState(context: context, enqueued: queueState.enqueued))
-    }
-    
-    func cancelOperation(and execute: OperationCompletedSignal?) throws {
-        guard let context = context else {
-            throw OperationControllerError.dealocatedOperation(
-                """
-                context was dealocated on\(String(describing: self)), cannot change state
-                """
-            )
-        }
-        guard let execute = execute else {
+        guard let onFinished = execute else {
             throw OperationControllerError.nilBlock(
                 """
                 cancel block could not be executed on\(String(describing: self)) while it is nil
@@ -103,12 +102,48 @@ internal class OperationExecutingState: OperationStateProtocol {
                 """
             )
         }
-        execute()
-        context.changeState(new: OperationCancelState(context: context, queueState: queueState))
-        context.cancel()
+        context.commandHistory.set(
+            CompeleteCommand(on: context, [
+                .init(dispathOption: .asyncWithInheritedQueue,
+                      block: { [weak context,queueState] in
+                        guard let context = context else { fatalError() }
+                        context.changeState(new: OperationFinishState(context: context, queueState: queueState))
+                      }),
+                onFinished
+            ])
+        )
+    }
+    func cancelOperation(and execute: WorkerItem?) throws {
+        guard let context = context else {
+            throw OperationControllerError.dealocatedOperation(
+                """
+                context was dealocated on\(String(describing: self)), cannot change state
+                """
+            )
+        }
+        guard let onCanceled = execute else {
+            throw OperationControllerError.nilBlock(
+                """
+                cancel block could not be executed on\(String(describing: self)) while it is nil
+                cannot change state
+                """
+            )
+        }
+        context.commandHistory.set(
+            CancelCommand(on: context, [
+                .init(dispathOption: .asyncWithInheritedQueue,
+                      block: { [weak context, queueState] in
+                        guard let context = context else { fatalError() }
+                        context.changeState(new: OperationCancelState(context: context, queueState: queueState))
+                        context.cancel()
+                      }),
+                onCanceled
+            ])
+        )
     }
     
-    func suspend(after deadline: TimeInterval, execute: OperationCompletedSignal?) throws {
+    
+    func suspend(after deadline: TimeInterval, execute: WorkerItem?) throws {
         guard let context = context else {
             throw OperationControllerError.dealocatedOperation(
                 """
@@ -117,7 +152,7 @@ internal class OperationExecutingState: OperationStateProtocol {
                 """
             )
         }
-        guard let execute = execute else {
+        guard let onSuspended = execute else {
             throw OperationControllerError.nilBlock(
                 """
                 suspend block could not be executed
@@ -126,28 +161,22 @@ internal class OperationExecutingState: OperationStateProtocol {
                 """
             )
         }
-        guard let operationQueue = context.operationQueue?.underlyingQueue else {
-            throw OperationControllerError.operationQueueIsNil(
-                """
-                    underlyingQueue associated with operationQueue on Operation
-                    with identifier: \(context.identifier)
-                    was found nil,can not suspend this operation
-                """)
-        }
+        let v = Date()
         self.queueState.suspendedAfter = deadline
-        
-        operationQueue.asyncAfter(deadline: .now() + deadline) { [weak self] in
-            guard let self = self else {
-                fatalError(
-                    "State \(String(describing: self)) was dealocated"
-                )
-            }
-            execute()
-            self
-                .context?
-                .changeState(new: OperationSuspendState(context: context,
-                                                        queueState: self.queueState))
-        }
+        context
+            .commandHistory
+            .set(
+                SuspendCommand(on: context, [
+                    .init(dispathOption: .asyncAfterWithInheritedQueue(deadline: deadline),
+                          block: { [weak context,queueState,v] in
+                            print(Date().timeIntervalSince(v))
+                            guard let context = context else { fatalError() }
+                            context
+                                .changeState(new: OperationSuspendState(context: context,
+                                                                        queueState: queueState))
+                          }),
+                    onSuspended
+                ])
+            )
     }
-    
 }
