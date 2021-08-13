@@ -7,65 +7,32 @@
 
 import Foundation
 
-public class AsynchronousOperation: Operation,
+public protocol ConfigurableOperation {
+    var operationConfiguration: OperationConfig { get }
+    func changeOperationConfig(_ config: (inout OperationConfig) -> ()) throws -> Self
+}
+
+public class AsynchronousOperation: StateFullOperation,
                                     AsynchronousOperationProtocol,
-                                    OperationContextStateObject {
+                                    ConfigurableOperation,
+                                    CommandExecutable {
     
-    lazy internal var operationState: OperationStateProtocol = {
-        return OperationReadyState(context: self, queueState: .init(enqueued: false))
-    }()
+    internal private(set) var commandHistory:CommandHistory
     
     /// Custome configuration which user can modify to change the operation behavior
-    internal private(set) var operationConfiguration: OperationConfig
-    
-    /// a `mutex lock` to `synchronize` some properties between threads
-    internal let lock: NSLock
-    
-    /// the `Operation Queue` which this operation work with
-    internal private(set) weak var operationQueue:OperationQueue?
-    
-    /// `Thread Safe Readable` Variables Indicating Operation Status
-    
-    lazy public internal(set) var _executing: Bool = false
-    
-    lazy public internal(set) var _finished: Bool = false
-    
-    lazy public internal(set) var _canceled: Bool = false
-    
-    lazy public internal(set) var _suspended: Bool = false
-    
-    // MARK: -  execution Blocks For Each State
-    
-    /// Could be provided by any subclass to execute some code before the operation state changes to `finished`.
-    internal private(set) var onFinish: OperationCompletedSignal?
-    
-    /// Could be provided by any subclass to execute some code before the operation state changes to `executing`.
-    /// instead of overriding main() function, override this property and provide a block of what you want when the operation start.
-    internal private(set) var onExecuting: OperationCompletedSignal?
-    
-    /// Could be provided by any subclass to execute some code before the operation state changes to `canceled`.
-    internal private(set) var onCancel: OperationCompletedSignal?
-    
-    /// Could be provided by any subclass to execute some code before the operation state changes to `suspended`.
-    /// The operation itself does not support suspending.
-    /// This extra state help some task to be paused and be resumed when the user asked
-    /// The operation will remain on queue but not executing
-    /// For URLSessionDataTasks:
-    /// - Provide block only on download and upload tasks
-    /// - Providing block on other tasks and using it may result in crash, leak and unexpected usage of network data.
-    internal private(set) var onSuspend: OperationCompletedSignal?
+    public private(set) var operationConfiguration: OperationConfig
     
     //MARK: - Init
     
-    internal init(operationQueue: OperationQueue?,
+    internal init(operationQueue: OperationQueue,
                   operationConfiguration: OperationConfig) {
-        self.lock = NSLock()
-        self.operationQueue = operationQueue
         self.operationConfiguration = operationConfiguration
-        super.init()
-        self.queuePriority = operationConfiguration [keyPath:\.queuePriority]
-        self.qualityOfService = operationConfiguration [keyPath:\.qualityOfService]
-        self.name = operationConfiguration[keyPath:\.identifierGenerator]().rawValue
+        self.commandHistory = CommandHistory(commandOperationQueue: OperationQueue(),
+                                             underlyingQueue: operationQueue.underlyingQueue!)
+        super.init(operationQueue: operationQueue)
+        self.operationState = OperationReadyState<AsynchronousOperation>(context: self,
+                                                                         queueState: .init(enqueued: false))
+        self.setOperationConfigurationChanges()
     }
     
     /// User can call this function on result of request `before` the `await` function been called to modify configuration
@@ -76,16 +43,55 @@ public class AsynchronousOperation: Operation,
             throw OperationError.cantChangeOperationConfigOnCurrentState(String(describing: operationState.self))
         }
         config(&self.operationConfiguration)
+        setOperationConfigurationChanges()
+        return self
+    }
+    
+    internal func setOperationConfigurationChanges() {
         self.queuePriority = operationConfiguration [keyPath:\.queuePriority]
         self.qualityOfService = operationConfiguration [keyPath:\.qualityOfService]
         self.name = operationConfiguration[keyPath:\.identifierGenerator]().rawValue
-        return self
     }
+
     
-    public func setOperationCompletedSignal(_ sig: OperationCompletedSignal?) -> Self {
-        completionBlock = sig
-        return self
-    }
-    
-    
+//    /// Complete operation by changing its `state`
+//    /// - Throws: Error of kind `OperationControllerError`
+//    /// - Returns: Self
+//    @discardableResult
+//    public override func completeOperation() throws -> Self {
+//        try operationState.completeOperation(and: nil)
+//        return self
+//    }
+//    
+//    /// Cancel operation by changing its `state`
+//    /// - Throws: Error of kind `OperationControllerError`
+//    /// - Returns: Self
+//    @discardableResult
+//    public override func cancelOperation() throws -> Self {
+//        try operationState.cancelOperation(and: nil)
+//        return self
+//    }
+//    
+//    /// Start operation by changing its `state`
+//    /// - Throws: Error of kind `OperationControllerError`
+//    /// - Returns: Self
+//    @discardableResult
+//    public override func await(after deadline: TimeInterval = 0) throws -> Self {
+//        try operationState.await(after: deadline)
+//        return self
+//    }
+//    
+//    @discardableResult
+//    public override func suspend(after deadline: TimeInterval) throws -> Self {
+//        try self.operationState.suspend(after: deadline, execute: nil)
+//        return self
+//    }
+//    
+//    public override func start() {
+//        do {
+//            try operationState.start()
+//        } catch  {
+//            print(error)
+//        }
+//    }
 }
