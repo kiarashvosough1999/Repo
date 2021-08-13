@@ -1,13 +1,14 @@
 //
-//  AsynchronousOperation++Dependency.swift
+//  SafeOperation++OperationDependencyProtocol.swift
 //  Repo
 //
-//  Created by Kiarash Vosough on 5/20/1400 AP.
+//  Created by Kiarash Vosough on 5/21/1400 AP.
 //
 
 import Foundation
 
-extension AsynchronousOperation {
+#warning("Should be checked")
+extension SafeOperation: OperationDependencyProtocol {
     
     //MARK: - Dependencies
     
@@ -29,7 +30,7 @@ extension AsynchronousOperation {
     }
     
     /// Remove dependency from this operation,
-    /// - Parameter name: Operation which `this` operation depends on
+    /// - Parameter name: Operation name which `this` operation depends on
     /// - Throws: `OperationControllerError.operationNotFound` if no operation found with the given name
     /// - Returns: `Self`
     @discardableResult
@@ -77,7 +78,7 @@ extension AsynchronousOperation {
             )
         }
         self.removeDependency(op)
-        try self.cancelOperation()
+        self.cancel()
         return self
     }
     
@@ -135,4 +136,50 @@ extension AsynchronousOperation {
         self.addDependency(op)
         return self
     }
+}
+
+
+public protocol OperationDependencyProtocol: AnyObject {
+    
+    /// make this operation depend on another with given identifier
+    /// - Parameter identifier: Target Operation which this operation will be depend on
+    /// - Throws: OperationControllerError.canNotAddDependency if Target or Source Operation was canceled or finished or `OperationControllerError.operationNotFound` if no operation found with the given name
+    /// - Returns: `Self`
+    @discardableResult
+    func dependsOnOperation(with identifier: OperationIdentifier) throws -> Self
+    
+    /// Remove dependency from current operation,
+    /// - Parameter identifier: Operation which `this` operation depends on
+    /// - Throws: `OperationControllerError.operationNotFound` if no operation found with the given identifier
+    /// - Returns: `Self`
+    @discardableResult
+    func removeDependency(with identifier: OperationIdentifier) throws -> Self
+    
+    /// Remove dependency from this operation,
+    /// - Parameter name: Operation name which `this` operation depends on
+    /// - Throws: `OperationControllerError.operationNotFound` if no operation found with the given name
+    /// - Returns: `Self`
+    @discardableResult
+    func removeDependency(with name: String) throws -> Self
+    
+    /// Remove dependency from this operation and cancel target operation
+    /// - Parameter name: Operation which `this` operation depends on
+    /// - Throws: `OperationControllerError.operationNotFound` if no operation found with the given name
+    /// - Returns: `Self`
+    @discardableResult
+    func removeDependencyAndCancelTraget(with name: String) throws -> Self
+    
+    /// make this operation depend on another
+    /// - Parameter op: Operation which this Operation will be depend on
+    /// - Throws: OperationControllerError.canNotAddDependency if Target or Source Operation was canceled or finished
+    /// - Returns: `Self`
+    @discardableResult
+    func dependsOn(_ op: Operation) throws -> Self
+    
+    /// Remove dependency from this operation and cancel source operation
+    /// - Parameter name: Operation which `this` operation depends on
+    /// - Throws: `OperationControllerError.operationNotFound` if no operation found with the given name
+    /// - Returns: `Self`
+    @discardableResult
+    func removeDependencyAndCancel(with name: String) throws -> Self
 }
