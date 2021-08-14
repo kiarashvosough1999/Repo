@@ -16,7 +16,22 @@ public enum OperationState {
     case suspended
 }
 
-public protocol OperationStateBase: AnyObject {
+public protocol OperationStateBase: AnyObject {}
+
+protocol OperationStateProtocol: OperationStateBase {
+    
+    typealias Context = CommandExecutable &
+        ConfigurableOperation &
+        OperationProtocol &
+        OperationContextStateObject &
+        IdentifiableOperation &
+        ControlableOperation
+    
+    init(context: Context?, queueState:QueueState)
+    
+    /// A delegate to AsynchronousOperation for handeling state chnages
+    var context: Context? { get set }
+    
     var isExecuting: Bool { get }
     var isFinished: Bool { get }
     var isCanceled: Bool { get }
@@ -48,104 +63,26 @@ public protocol OperationStateBase: AnyObject {
     /// Calling this method on other tasksmay result in crash, leak and unexpected usage of network data.
     /// - Parameters:
     ///   - deadline: execute suspend request after an amount of time.
-    ///   - execute: suspend block which will be executed before changing the state.
+    ///   - execute: suspend block which will be executed after changing the state.
     /// - Throws:
     ///   - `OperationControllerError.nilBlock ` when `execute` is nil.
     ///   - `OperationControllerError.dealocatedOperation` when context is nil.
     func suspend(after deadline: TimeInterval, execute: WorkerItem?) throws
 }
 
-protocol OperationStateProtocol: OperationStateBase {
-    
-    associatedtype Context: StateFullOperation & AnyObject
-    
-    init(context: Context?, queueState:QueueState)
-    
-    /// A delegate to AsynchronousOperation for handeling state chnages
-    var context: Context? { get set }
-}
-
-extension OperationStateBase {
+extension OperationStateProtocol {
     
     var canModifyOperationConfig: Bool {
         !isExecuting && !isFinished && !isSuspended
     }
-    
-//    func suspend(after deadline: TimeInterval, execute: OperationCompletedSignal?) throws {
-//        guard let context = context else {
-//            throw OperationControllerError.dealocatedOperation(
-//                """
-//                context was dealocated on\(String(describing: self)), cannot change state
-//                """
-//            )
-//        }
-//        if isFinished {
-//            throw OperationControllerError.operationAlreadyCanceled(
-//                """
-//                Operation with identifier: \(context.identifier) is already finished
-//                and cant be suspend
-//                """
-//            )
-//        }
-//        else if !isExecuting {
-//            throw OperationControllerError.operationAlreadyCanceled(
-//                """
-//                Operation with identifier: \(context.identifier) is not executing
-//                and cant be suspend
-//                """
-//            )
-//        }
-//    }
-//
-//    func cancelOperation(and execute: OperationCompletedSignal?) throws {
-//        guard let context = context else {
-//            throw OperationControllerError.dealocatedOperation(
-//                """
-//                context was dealocated on\(String(describing: self)), cannot change state
-//                """
-//            )
-//        }
-//        throw OperationControllerError.operationAlreadyCanceled(
-//            """
-//            Operation with identifier: \(context.identifier) is already canceled
-//            """
-//        )
-//    }
-//
-//    func completeOperation(and execute: OperationCompletedSignal?) throws {
-//        guard let context = context else {
-//            throw OperationControllerError.dealocatedOperation(
-//                """
-//                context was dealocated on\(String(describing: self)), cannot change state
-//                """
-//            )
-//        }
-//        throw OperationControllerError.operationIsNotExecutingToFinish(
-//            """
-//            Operation with identifier: \(context.identifier) is already canceled and finished,
-//            """
-//        )
-//    }
-//
-//    func start() throws {
-//        guard !context.isNil else {
-//            throw OperationControllerError.dealocatedOperation(
-//                """
-//                context was dealocated on\(String(describing: self)), cannot change state
-//                """
-//            )
-//        }
-//        throw OperationControllerError.misUseError(
-//            " `start` function should just be called once by operationQueue when the aperation was added to the queue"
-//        )
-//    }
 }
 
 protocol OperationContextStateObject: AnyObject {
     
-    var operationState: OperationStateBase! { get }
+    var operationState: OperationStateProtocol { get }
     
     /// This method should be called whenever the state of the operation is going to change
     /// - Parameter state: Should provide new state
-    func changeState(new state: OperationStateBase) -> OperationStateBase
+    @discardableResult
+    func changeState(new state: OperationStateProtocol) -> OperationStateProtocol
 }

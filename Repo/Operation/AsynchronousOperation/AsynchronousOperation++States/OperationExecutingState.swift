@@ -7,9 +7,7 @@
 
 import Foundation
 
-internal class OperationExecutingState<Context>: OperationStateProtocol where Context: StateFullOperation &
-                                                                                CommandExecutable &
-                                                                                ConfigurableOperation {
+internal class OperationExecutingState: OperationStateProtocol  {
     
     
     internal weak var context: Context?
@@ -23,6 +21,7 @@ internal class OperationExecutingState<Context>: OperationStateProtocol where Co
     required internal init(context: Context? = nil, queueState: QueueState) {
         self.context = context
         self.queueState = queueState
+        self.queueState.enqueued = true
     }
     
     func start() throws {
@@ -56,24 +55,25 @@ internal class OperationExecutingState<Context>: OperationStateProtocol where Co
                 """
             )
         }
-        if queueState.suspendedAfter > 0.0 {
-            
-            context.commandHistory.set(
-                AwaitCommand(on: context,[
-                    .init(dispathOption: .asyncAfterWithInheritedQueue(deadline: deadline),
-                          block: { [weak context] in
-                            guard let context = context else { fatalError() }
-                            do {
-                                try context.await(after: deadline)
-                            }
-                            catch {
-                                print(error)
-                            }
-                          })
-                ])
-            )
-            return
-        }
+        /// all command are sync now tthis is useless
+//        if queueState.suspendedAfter > 0.0 {
+//
+//            context.commandHistory.set(
+//                AwaitCommand(on: context,[
+//                    .init(dispathOption: .asyncAfterWithInheritedQueue(deadline: deadline),
+//                          block: { [weak context] in
+//                            guard let context = context else { fatalError() }
+//                            do {
+//                                try context.await(after: deadline)
+//                            }
+//                            catch {
+//                                print(error)
+//                            }
+//                          })
+//                ])
+//            )
+//            return
+//        }
         throw OperationControllerError.misUseError(
             """
             await method should only be called once or after suspension.
@@ -102,15 +102,13 @@ internal class OperationExecutingState<Context>: OperationStateProtocol where Co
                 """
             )
         }
-        context.commandHistory.set(
-            CompeleteCommand(on: context, [
-                .init(dispathOption: .asyncWithInheritedQueue,
-                      block: { [weak context,queueState] in
-                        guard let context = context else { fatalError() }
-                        context.changeState(new: OperationFinishState(context: context, queueState: queueState))
-                      }),
-                onFinished
-            ])
+        context.commandHistory.setCommand(
+            CompeleteCommand(dispathOption: .unsafeSync) { [weak context,queueState] in
+                guard let context = context else { fatalError() }
+                context.changeState(new: OperationFinishState(context: context, queueState: queueState))
+                onFinished.perform(on: nil)
+                
+            }
         )
     }
     func cancelOperation(and execute: WorkerItem?) throws {
@@ -129,16 +127,13 @@ internal class OperationExecutingState<Context>: OperationStateProtocol where Co
                 """
             )
         }
-        context.commandHistory.set(
-            CancelCommand(on: context, [
-                .init(dispathOption: .asyncWithInheritedQueue,
-                      block: { [weak context, queueState] in
-                        guard let context = context else { fatalError() }
-                        context.changeState(new: OperationCancelState(context: context, queueState: queueState))
-                        context.cancel()
-                      }),
-                onCanceled
-            ])
+        
+        context.commandHistory.setCommand(
+            CancelCommand(dispathOption: .unsafeSync) { [weak context, queueState] in
+                guard let context = context else { fatalError() }
+                context.changeState(new: OperationCancelState(context: context, queueState: queueState))
+                onCanceled.perform(on: nil)
+            }
         )
     }
     
@@ -161,22 +156,18 @@ internal class OperationExecutingState<Context>: OperationStateProtocol where Co
                 """
             )
         }
-        let v = Date()
         self.queueState.suspendedAfter = deadline
+        
         context
             .commandHistory
-            .set(
-                SuspendCommand(on: context, [
-                    .init(dispathOption: .asyncAfterWithInheritedQueue(deadline: deadline),
-                          block: { [weak context,queueState,v] in
-                            print(Date().timeIntervalSince(v))
+            .setCommand(wait: deadline,
+                        SuspendCommand(dispathOption: .unsafeSync) { [weak context,queueState] in
                             guard let context = context else { fatalError() }
                             context
                                 .changeState(new: OperationSuspendState(context: context,
                                                                         queueState: queueState))
-                          }),
-                    onSuspended
-                ])
+                            onSuspended.perform()
+                        }
             )
     }
 }
