@@ -17,23 +17,23 @@ import Foundation
                                  |               |
             +--------------------|     Ready     |---------------------------+
             |                    |               |                           |
-            |                    +---------------+                           |
-            |                                                                |
-            |                                                                |
-            |                                                                |
-            ↓                                                                ↓
-     +---------------+                                                +---------------+
-     |               +------------------------------------------------+               |
-     |   Executing   +←---------------------+                         |   Canceled    |
-     |               |                      |                         |               |
-     +-------+-------+                      |                         +------+--------+
-             |                              |                                ↑
-             |                              |                                |
-             |                              |                                |
-             ↓                              ↓                                |
-     +-------+---------+            +-------+---------+                      |
+            |                    +----------+----+                           |
+            |                               ↑                                |
+            |                               |                                |
+            |                               |                                |
+            ↓                               |                                ↓
+     +---------------+                      |                         +---------------+
+     |               |-----------------------------------------------→+               |
+     |   Executing   |-------------------+  |                         |   Canceled    |
+     |               |                   |  |                         |               |
+     +-------+-------+                   |  |                         +------+--------+
+             |                           |  |                                ↑
+             |                           |  |                                |
+             |                           |  |                                |
+             ↓                           ↓  |                                |
+     +-------+---------+            +----+--+---------+                      |
      |                 |            |                 |                      |
-     |    Finished     |←-----------+    Suspended    |←---------------------+
+     |    Finished     +←-----------|    Suspended    |----------------------+
      |                 |            |                 |
      +-----------------+            +-----------------+
  
@@ -48,7 +48,13 @@ import Foundation
 public class StateFullOperation: SafeOperation, ControlableOperation, OperationContextStateObject {
     
     /// initialize this propery after super.init() call otherwise it results in crash
-    internal var operationState:OperationStateBase!
+    internal var operationState:OperationStateProtocol {
+        didSet {
+            isExecuting = operationState.isExecuting
+            isFinished = operationState.isFinished
+            isCancelled = operationState.isCanceled
+        }
+    }
     
     // MARK: -  Execution Blocks For Each State
     
@@ -73,7 +79,11 @@ public class StateFullOperation: SafeOperation, ControlableOperation, OperationC
     /// - Providing block on other tasks and using it may result in crash, leak and unexpected usage of network data.
     internal private(set) var onSuspended: WorkerItemBlock?
     
-    override init(operationQueue: OperationQueue?) {
+    //MARK: - init
+    
+    init(operationQueue: OperationQueue?,
+         operationState:OperationStateProtocol = OperationReadyState(queueState: .init(enqueued: false))) {
+        self.operationState = operationState
         super.init(operationQueue: operationQueue)
     }
     
@@ -84,15 +94,12 @@ public class StateFullOperation: SafeOperation, ControlableOperation, OperationC
     /// - Parameter state: Next State
     /// - Returns: Return new state of the context
     @discardableResult
-    internal func changeState(new state: OperationStateBase) -> OperationStateBase {
+    internal func changeState(new state: OperationStateProtocol) -> OperationStateProtocol {
         self.operationState = state
-        isExecuting = state.isExecuting
-        isFinished = state.isFinished
-        isCancelled = state.isCanceled
         return self.operationState
     }
     
-    public override func start() {
+    public override func shouldStartRunnable() throws {
         if isCancelled {
             do {
                 guard let onCanceled = onCanceled?() else {
@@ -115,12 +122,9 @@ public class StateFullOperation: SafeOperation, ControlableOperation, OperationC
         } catch  {
             print(error)
         }
-        main()
-        
     }
     
-    
-    public override func main() {
+    public override func runnable() throws {
         guard let onExecuting = onExecuting?() else {
             fatalError("onExecuting was found nil")
         }
