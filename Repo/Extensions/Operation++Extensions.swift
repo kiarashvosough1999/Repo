@@ -16,10 +16,16 @@ extension Operation {
         case OnSuspended
     }
     
+    enum QueueType: Error {
+        case operation(String?)
+        case dispatch(String?)
+    }
+    
     enum OperationError: Error {
         case workItemFoundNil(tyep:WorkItemError,description:String)
         case taskNil(String)
         case cantCastOperation
+        case queueFoundNil(type:QueueType,String)
         case cantChangeOperationConfigOnCurrentState(String)
     }
     
