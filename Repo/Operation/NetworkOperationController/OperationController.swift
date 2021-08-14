@@ -26,7 +26,7 @@ public class OperationController<Task,Configuration>: AsynchronousOperation,
     
     override var onCanceled: StateFullOperation.WorkerItemBlock? {
         return {
-            .init(dispathOption: .asyncWithInheritedQueue) { [weak self] in
+            .init(dispathOption: .unsafeSync) { [weak self] in
                 guard let self = self else { fatalError("Unable to execute cancel block") }
                 self.task?.cancel()
                 self.task.toggleNil()
@@ -37,7 +37,7 @@ public class OperationController<Task,Configuration>: AsynchronousOperation,
     
     override var onFinished: StateFullOperation.WorkerItemBlock? {
         return {
-            .init(dispathOption: .asyncWithInheritedQueue) { [weak self] in
+            .init(dispathOption: .unsafeSync) { [weak self] in
                 guard let self = self else { fatalError("Unable to execute finish block") }
                 self.task?.cancel()
                 self.task.toggleNil()
@@ -47,7 +47,7 @@ public class OperationController<Task,Configuration>: AsynchronousOperation,
     
     override var onExecuting: StateFullOperation.WorkerItemBlock? {
         return {
-            .init(dispathOption: .asyncWithInheritedQueue) { [weak self] in
+            .init(dispathOption: .unsafeSync) { [weak self] in
                 guard let self = self else { fatalError("Unable to execute executing block") }
                 self.task?.resume()
             }

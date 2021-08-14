@@ -129,6 +129,7 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
                     print(error)
                 }
             })
+        print(opss.count)
     }
     
     public func changeSessionConfig(_ config: (URLSessionConfiguration) -> ()) -> Self {

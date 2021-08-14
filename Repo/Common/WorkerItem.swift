@@ -42,7 +42,7 @@ public struct WorkerItem {
         self.worker = worker
     }
     
-    public func perform(on inheritedQueue: DispatchQueue?){
+    public func perform(on inheritedQueue: DispatchQueue? = nil){
         perform(on: inheritedQueue, self.dispathOption)
     }
     

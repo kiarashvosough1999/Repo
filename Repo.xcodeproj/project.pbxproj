@@ -76,7 +76,7 @@
 		DE7253CF26BE60570075A52A /* OperationFinishState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7253CE26BE60570075A52A /* OperationFinishState.swift */; };
 		DE7253D126BE60680075A52A /* OperationCancelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7253D026BE60680075A52A /* OperationCancelState.swift */; };
 		DE7688F826C5366D00774342 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7688F726C5366D00774342 /* Queue.swift */; };
-		DE7688FB26C5589D00774342 /* CommandOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7688FA26C5589D00774342 /* CommandOperation.swift */; };
+		DE7688FB26C5589D00774342 /* DispatchWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7688FA26C5589D00774342 /* DispatchWorker.swift */; };
 		DE7688FD26C55E6F00774342 /* CommandHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7688FC26C55E6F00774342 /* CommandHistory.swift */; };
 		DE7688FF26C57B4000774342 /* StateFullOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7688FE26C57B4000774342 /* StateFullOperation.swift */; };
 		DE76890126C585CF00774342 /* WorkerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE76890026C585CF00774342 /* WorkerItem.swift */; };
@@ -179,7 +179,7 @@
 		DE7253CE26BE60570075A52A /* OperationFinishState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationFinishState.swift; sourceTree = "<group>"; };
 		DE7253D026BE60680075A52A /* OperationCancelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationCancelState.swift; sourceTree = "<group>"; };
 		DE7688F726C5366D00774342 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
-		DE7688FA26C5589D00774342 /* CommandOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandOperation.swift; sourceTree = "<group>"; };
+		DE7688FA26C5589D00774342 /* DispatchWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchWorker.swift; sourceTree = "<group>"; };
 		DE7688FC26C55E6F00774342 /* CommandHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandHistory.swift; sourceTree = "<group>"; };
 		DE7688FE26C57B4000774342 /* StateFullOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateFullOperation.swift; sourceTree = "<group>"; };
 		DE76890026C585CF00774342 /* WorkerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkerItem.swift; sourceTree = "<group>"; };
@@ -282,6 +282,8 @@
 		DE1D481726C6A59B006F540C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				DE7688F926C5588600774342 /* Command */,
+				DE7688FA26C5589D00774342 /* DispatchWorker.swift */,
 				DE83CA3C26C3D4CD003A0A1E /* QueueState.swift */,
 				DEC1C9FA26BD1EFD00B31B41 /* OperationIdentifier.swift */,
 				DE76890026C585CF00774342 /* WorkerItem.swift */,
@@ -327,7 +329,6 @@
 			children = (
 				DE76890226C58C7800774342 /* StateFullOperation */,
 				DE04A62126C677070073FD1B /* SafeOperation */,
-				DE7688F926C5588600774342 /* CommandOperation */,
 				DE35CD1A26B2AF4100447070 /* AsynchronousOperation */,
 				DE35CD1026B2AEA500447070 /* NetworkOperationController */,
 			);
@@ -504,13 +505,12 @@
 			path = Tasks;
 			sourceTree = "<group>";
 		};
-		DE7688F926C5588600774342 /* CommandOperation */ = {
+		DE7688F926C5588600774342 /* Command */ = {
 			isa = PBXGroup;
 			children = (
-				DE7688FA26C5589D00774342 /* CommandOperation.swift */,
 				DE7688FC26C55E6F00774342 /* CommandHistory.swift */,
 			);
-			path = CommandOperation;
+			path = Command;
 			sourceTree = "<group>";
 		};
 		DE76890226C58C7800774342 /* StateFullOperation */ = {
@@ -853,7 +853,7 @@
 				DE4B070226C169FC00CCEAD8 /* UploadTaskOperationController++Protocol.swift in Sources */,
 				DE35CD1226B2AEC000447070 /* NetworkOperationController++NetworkOperationBase.swift in Sources */,
 				DE4B070426C16A2200CCEAD8 /* UploadTaskConfig.swift in Sources */,
-				DE7688FB26C5589D00774342 /* CommandOperation.swift in Sources */,
+				DE7688FB26C5589D00774342 /* DispatchWorker.swift in Sources */,
 				DEA4763326C2973500057ADB /* APIVersion.swift in Sources */,
 				DE17650F26BED5F100226BA0 /* EndPointType++Protocols.swift in Sources */,
 				DE17651226BED62D00226BA0 /* HTTPTask.swift in Sources */,
