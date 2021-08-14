@@ -18,7 +18,9 @@ public class AsynchronousOperation: StateFullOperation,
                                     ConfigurableOperation,
                                     CommandExecutable {
     
-    internal private(set) var commandHistory:CommandHistory
+    internal private(set) lazy var commandHistory:CommandHistory = {
+        CommandHistory()
+    }()
     
     /// Custome configuration which user can modify to change the operation behavior
     public private(set) var operationConfiguration: OperationConfig
@@ -28,11 +30,8 @@ public class AsynchronousOperation: StateFullOperation,
     internal init(operationQueue: OperationQueue,
                   operationConfiguration: OperationConfig) {
         self.operationConfiguration = operationConfiguration
-        self.commandHistory = CommandHistory(commandOperationQueue: OperationQueue(),
-                                             underlyingQueue: operationQueue.underlyingQueue!)
         super.init(operationQueue: operationQueue)
-        self.operationState = OperationReadyState<AsynchronousOperation>(context: self,
-                                                                         queueState: .init(enqueued: false))
+        self.operationState.context = self
         self.setOperationConfigurationChanges()
     }
     

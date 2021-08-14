@@ -1,5 +1,5 @@
 //
-//  WorkerItem.swift
+//  CommandOperation.swift
 //  Repo
 //
 //  Created by Kiarash Vosough on 5/21/1400 AP.
@@ -7,28 +7,47 @@
 
 import Foundation
 
-public enum DispathOption {
-    case none
-    case sync(queue: DispatchQueue)
-    case syncWithInheritedQueue
-    case asyncWithInheritedQueue
-    case asyncAfterWithInheritedQueue(deadline: TimeInterval = 0)
-    case asyncAfter(deadline: TimeInterval = 0,
-                    queue: DispatchQueue)
-    case async(queue: DispatchQueue)
-    case unsafeSync
+internal protocol DispatchWorkerProtocol {
+    
+    var isCancelled: Bool { get }
+    
+    func perform(on inheritedQueue: DispatchQueue?)
+    
+    func perform(on inheritedQueue: DispatchQueue?,_ dispatchOption:DispathOption)
+    
+    func waitSync()
+    
+    @discardableResult
+    func waitSync(timeout: DispatchTime) -> DispatchTimeoutResult
+    
+    func notify(qos: DispatchQoS,
+                flags: DispatchWorkItemFlags,
+                queue: DispatchQueue,
+                execute: @escaping @convention(block) () -> Void)
+    
+    func notify(queue: DispatchQueue, execute: DispatchWorkItem)
+    
+    func cancel()
+    
+    init(qos: DispatchQoS,
+         flags: DispatchWorkItemFlags,
+         dispathOption:DispathOption,
+         block: @escaping @convention(block) () -> Void)
+    
+    init(dispathOption: DispathOption,
+         _ worker: DispatchWorkItem)
 }
 
-public struct WorkerItem {
+internal class DispatchWorker: DispatchWorkerProtocol  {
     
     private let dispathOption: DispathOption
     private let worker: DispatchWorkItem
     
-    var isCancelled: Bool { worker.isCancelled }
+    internal var isCancelled: Bool { worker.isCancelled }
     
-    public init(qos: DispatchQoS = .unspecified,
+    required internal init(qos: DispatchQoS = .unspecified,
          flags: DispatchWorkItemFlags = [],
-         dispathOption:DispathOption = .none,
+         dispathOption:DispathOption,
          block: @escaping @convention(block) () -> Void){
         self.dispathOption = dispathOption
         self.worker = DispatchWorkItem(qos: qos,
@@ -36,17 +55,18 @@ public struct WorkerItem {
                                        block: block)
     }
     
-    public init(dispathOption: DispathOption = .none,
+    required internal init(dispathOption: DispathOption,
          _ worker: DispatchWorkItem){
         self.dispathOption = dispathOption
         self.worker = worker
     }
     
-    public func perform(on inheritedQueue: DispatchQueue? = nil){
+    internal func perform(on inheritedQueue: DispatchQueue?){
         perform(on: inheritedQueue, self.dispathOption)
     }
     
-    public func perform(on inheritedQueue: DispatchQueue?,_ dispatchOption:DispathOption) {
+    
+    internal func perform(on inheritedQueue: DispatchQueue?,_ dispatchOption:DispathOption) {
         switch dispathOption {
             case .asyncWithInheritedQueue:
                 guard let inheritedQueue = inheritedQueue else {
@@ -80,12 +100,12 @@ public struct WorkerItem {
         }
     }
 
-    public func waitSync() { worker.wait() }
+    internal func waitSync() { worker.wait() }
 
-    public func waitSync(timeout: DispatchTime) -> DispatchTimeoutResult { worker.wait(timeout: timeout) }
+    internal func waitSync(timeout: DispatchTime) -> DispatchTimeoutResult { worker.wait(timeout: timeout) }
 
 
-    public func notify(qos: DispatchQoS = .unspecified,
+    internal func notify(qos: DispatchQoS = .unspecified,
                 flags: DispatchWorkItemFlags = [],
                 queue: DispatchQueue,
                 execute: @escaping @convention(block) () -> Void){
@@ -94,10 +114,34 @@ public struct WorkerItem {
                       queue: queue, execute: execute)
     }
 
-    public func notify(queue: DispatchQueue, execute: DispatchWorkItem){
+    internal func notify(queue: DispatchQueue, execute: DispatchWorkItem){
         worker.notify(queue: queue, execute: execute)
     }
 
-    public func cancel() { worker.cancel() }
+    internal func cancel() { worker.cancel() }
+    
+}
+
+
+
+
+
+final internal class AwaitCommand: DispatchWorker {
+    
+}
+
+final internal class SuspendCommand: DispatchWorker {
+    
+}
+
+final internal class CancelCommand: DispatchWorker {
+    
+}
+
+final internal class CompeleteCommand: DispatchWorker {
+    
+}
+
+final internal class StartCommand: DispatchWorker {
     
 }

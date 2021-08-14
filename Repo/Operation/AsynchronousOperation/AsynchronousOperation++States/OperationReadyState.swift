@@ -7,9 +7,7 @@
 
 import Foundation
 
-internal class OperationReadyState<Context>: OperationStateProtocol where Context: StateFullOperation &
-                                                                            CommandExecutable &
-                                                                            ConfigurableOperation {
+internal class OperationReadyState: OperationStateProtocol {
     
     internal weak var context: Context?
     internal var isFinished: Bool { false }
@@ -19,7 +17,7 @@ internal class OperationReadyState<Context>: OperationStateProtocol where Contex
     internal var state: OperationState { .ready }
     internal var queueState:QueueState
     
-    required internal init(context: Context? = nil, queueState:QueueState) {
+    required internal init(context: Context? = nil, queueState:QueueState = .init(enqueued: false)) {
         self.context = context
         self.queueState = queueState
     }
@@ -33,15 +31,12 @@ internal class OperationReadyState<Context>: OperationStateProtocol where Contex
                 """
             )
         }
-        context.commandHistory.set(
-            CancelCommand(on: context, [
-                .init(dispathOption: .asyncWithInheritedQueue,
-                      block: { [weak context, queueState]  in
-                    guard let context = context else { fatalError() }
-                    context.changeState(new: OperationCancelState(context: context, queueState: queueState))
-                })
-            ])
-        )
+        context.commandHistory.cancelAllCommands()
+        context.commandHistory.setCommand { [weak context, queueState]  in
+            guard let context = context else { fatalError() }
+            context.changeState(new: OperationCancelState(context: context, queueState: queueState))
+            
+        }
     }
     
     /// First the `await` method should be called  then
@@ -58,15 +53,17 @@ internal class OperationReadyState<Context>: OperationStateProtocol where Contex
             )
         }
         // handle complete and cancel event when deadline is more than 0.0 and operation is waiting to be enqueued
-        self.queueState.enqueued = true
-        context.commandHistory.set(
-            StartCommand(on: context, [
-                .init(dispathOption: .asyncWithInheritedQueue, block: { [weak context, queueState]  in
-                    guard let context = context else { fatalError() }
-                    context.changeState(new: OperationExecutingState(context: context, queueState: queueState))
-                    context.main()
-                })
-            ])
+        context.commandHistory.setCommand(
+            StartCommand(dispathOption: .unsafeSync) { [weak context, queueState]  in
+                guard let context = context else { fatalError() }
+                context.changeState(new: OperationExecutingState(context: context, queueState: queueState))
+                do {
+                    try context.startRunnable()
+                }catch {
+                    print(error)
+                }
+                
+            }
         )
     }
     
@@ -119,30 +116,32 @@ internal class OperationReadyState<Context>: OperationStateProtocol where Contex
                 """
             )
         }
-
+        /// from suspend to ready
         if queueState.enqueued {
-            context.commandHistory.set(
-                AwaitCommand(on: context, [
-                    .init(dispathOption: .asyncAfterWithInheritedQueue(deadline: deadline),
-                          block: { [weak context]  in
-                        guard let context = context else { fatalError() }
-                        context.start()
-                    })
-                ])
+            context.commandHistory.setCommand(
+                AwaitCommand(dispathOption: .unsafeSync) { [weak context]  in
+                    guard let context = context else { fatalError() }
+                    do {
+                        try context.startRunnable()
+                    }catch {
+                        print(error)
+                    }
+                }
             )
             return
         }
         
         
         self.queueState.enqueuedAfter = deadline
-        context.commandHistory.set(
-            AwaitCommand(on: context, [
-                .init(dispathOption: .asyncAfterWithInheritedQueue(deadline: deadline),
-                      block: { [weak context]  in
-                    guard let context = context else { fatalError() }
-                    context.operationQueue?.addOperation(context)
-                })
-            ])
+        context.commandHistory.setCommand(
+            AwaitCommand(dispathOption: .unsafeSync) { [weak context]  in
+                guard let context = context else { fatalError() }
+                do {
+                    try context.enqueueSelf()
+                }catch {
+                    print(error)
+                }
+            }
         )
         // block the current thread until all operation finish
         // new operation cant be added to queue during this block time
@@ -150,7 +149,7 @@ internal class OperationReadyState<Context>: OperationStateProtocol where Contex
             .operationConfiguration
             .waitUntilAllOperationsAreFinished
             .accept {
-                context.operationQueue?.waitUntilAllOperationsAreFinished()
+                context.waitUntilAllOperationsAreFinished()
             }
     }
 }

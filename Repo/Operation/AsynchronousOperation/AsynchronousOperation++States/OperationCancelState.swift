@@ -7,9 +7,7 @@
 
 import Foundation
 
-internal class OperationCancelState<Context>: OperationStateProtocol where Context: StateFullOperation &
-                                                                            CommandExecutable &
-                                                                            ConfigurableOperation {
+internal class OperationCancelState: OperationStateProtocol {
     
     internal weak var context: Context?
     internal var isFinished: Bool { true }
@@ -23,7 +21,8 @@ internal class OperationCancelState<Context>: OperationStateProtocol where Conte
     required internal init(context: Context? = nil, queueState: QueueState) {
         self.context = context
         self.queueState = queueState
-        self.context?.cancel()
+        self.queueState.enqueued = false
+//        self.context?.cancelRunnable()
     }
     
     func start() throws {

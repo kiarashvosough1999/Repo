@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal class OperationFinishState<Context>: OperationStateProtocol where Context:StateFullOperation {
+internal class OperationFinishState: OperationStateProtocol {
     
     internal weak var context: Context?
     internal var isFinished: Bool { true }
@@ -20,7 +20,8 @@ internal class OperationFinishState<Context>: OperationStateProtocol where Conte
     
     required internal init(context: Context?, queueState: QueueState) {
         self.context = context
-        self.queueState = QueueState(enqueued: queueState.enqueued)
+        self.queueState = queueState
+        self.queueState.enqueued = false
     }
     
     func await(after deadline: TimeInterval) throws {

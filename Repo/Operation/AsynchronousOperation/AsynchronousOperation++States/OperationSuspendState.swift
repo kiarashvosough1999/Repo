@@ -7,9 +7,7 @@
 
 import Foundation
 
-internal class OperationSuspendState<Context>: OperationStateProtocol where Context:StateFullOperation &
-                                                                                CommandExecutable &
-                                                                                ConfigurableOperation {
+internal class OperationSuspendState: OperationStateProtocol {
     
     internal weak var context: Context?
     
@@ -41,24 +39,22 @@ internal class OperationSuspendState<Context>: OperationStateProtocol where Cont
                 """
             )
         }
-        let date = Date()
-        context.commandHistory.set(
-            AwaitCommand(on: context, [
-                .init(dispathOption: .asyncAfterWithInheritedQueue(deadline: deadline),
-                      block: { [weak context, queueState,date] in
-                    guard let context = context else { fatalError() }
-                    do {
-                        print(Date().timeIntervalSince(date))
-                        try context
-                            .changeState(new: OperationReadyState(context: context,
-                                                                  queueState: queueState))
-                            .await(after: 0)
-                    }catch {
-                        print(error)
-                    }
-                })
-            ])
-        )
+        
+        context
+            .commandHistory
+            .setCommand(wait: deadline,
+                        AwaitCommand(dispathOption: .unsafeSync) { [weak context, queueState] in
+                            guard let context = context else { fatalError() }
+                            do {
+                                try context
+                                    .changeState(new: OperationReadyState(context: context,
+                                                                          queueState: queueState))
+                                    .await(after: 0)
+                            }catch {
+                                print(error)
+                            }
+                        }
+                        )
     }
     
     func start() throws {
@@ -109,15 +105,13 @@ internal class OperationSuspendState<Context>: OperationStateProtocol where Cont
                 """
             )
         }
-        context.commandHistory.set(
-            CancelCommand(on: context, [
-                onCanceled,
-                .init(dispathOption: .asyncWithInheritedQueue,
-                      block: { [weak context, queueState] in
-                        guard let context = context else { fatalError() }
-                        context.changeState(new: OperationCancelState(context: context, queueState: queueState))
-                      })
-            ])
+        
+        context.commandHistory.setCommand(
+            CancelCommand(dispathOption: .unsafeSync) { [weak context, queueState] in
+                guard let context = context else { fatalError() }
+                context.changeState(new: OperationCancelState(context: context, queueState: queueState))
+                onCanceled.perform()
+            }
         )
     }
     
@@ -137,15 +131,12 @@ internal class OperationSuspendState<Context>: OperationStateProtocol where Cont
                 """
             )
         }
-        context.commandHistory.set(
-            CompeleteCommand(on: context, [
-                onFinished,
-                .init(dispathOption: .asyncWithInheritedQueue,
-                      block: { [weak context,queueState] in
-                        guard let context = context else { fatalError() }
-                        context.changeState(new: OperationFinishState(context: context, queueState: queueState))
-                      })
-            ])
+        context.commandHistory.setCommand(
+            CompeleteCommand(dispathOption: .unsafeSync) { [weak context,queueState] in
+                guard let context = context else { fatalError() }
+                context.changeState(new: OperationFinishState(context: context, queueState: queueState))
+                onFinished.perform()
+            }
         )
     }
 }

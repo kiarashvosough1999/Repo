@@ -30,7 +30,8 @@ import Foundation
  This can be useful when adding or removing dependencies.
  
  */
-public class SafeOperation: Operation {
+public class SafeOperation: Operation, OperationProtocol {
+    
     
     /// Any changes to operation flags will be stored on these variables
     lazy private var _executing: Bool = false
@@ -94,6 +95,12 @@ public class SafeOperation: Operation {
     /// the `Operation Queue` which this operation work with
     internal private(set) weak var operationQueue:OperationQueue?
     
+    internal var operation_queue: OperationQueue? {
+        get {
+            operationQueue
+        }
+    }
+    
     // MARK: - init
     internal init(operationQueue: OperationQueue?) {
         self.lock = NSLock()
@@ -101,13 +108,76 @@ public class SafeOperation: Operation {
         super.init()
     }
     
+    /// Do not override this method
+    ///
+    /// Override shouldStartRunnable instead
     public override func start() {
-        if _canceled {
-            isFinished = true
-            isExecuting = false
-            return
+        do {
+            try shouldStartRunnable()
+        } catch {
+            print(error)
         }
-        main()
+    }
+    
+    internal func shouldStartRunnable() throws {
+        do {
+            try startRunnable()
+        } catch  {
+            print(error)
+        }
+    }
+    
+    internal func startRunnable() throws {
+        autoreleasepool {
+            do {
+                try runnable()
+            } catch  {
+                print(error)
+            }
+        }
+    }
+    
+    internal func runnable() throws {
+        
+    }
+    
+    internal func cancelRunnable() throws {
+        cancel()
+    }
+    
+    func enqueueSelf() throws {
+        guard let queue = operation_queue else {
+            throw OperationError.queueFoundNil(type: .operation(
+                """
+                OperationQueue assosiatated with operation
+                with identifier \(identifier) was found nil
+                """
+            ),
+            """
+            Can not enqueue operation
+            with identifier \(identifier)
+            """
+            )
+        }
+        queue.addOperation(self)
+    }
+    internal func waitUntilAllOperationsAreFinished() {
+        guard let queue = operation_queue else {
+            fatalError()
+        }
+        queue.waitUntilAllOperationsAreFinished()
     }
 }
 
+
+internal protocol OperationProtocol: AnyObject {
+    
+    var operation_queue:OperationQueue? { get }
+    
+    func waitUntilAllOperationsAreFinished()
+    func enqueueSelf() throws
+    func runnable() throws
+    func shouldStartRunnable() throws
+    func startRunnable() throws
+    func cancelRunnable() throws
+}
