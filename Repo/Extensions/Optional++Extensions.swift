@@ -7,7 +7,20 @@
 
 import Foundation
 
+infix operator ... : AssignmentPrecedence
+infix operator ?-> : DefaultPrecedence
 extension Optional {
+    
+    static func ...(lhs: Self , rhs: Wrapped) -> Wrapped {
+        if !lhs.isNil { return lhs! }
+        else { return rhs }
+    }
+    
+    static func ?->(lhs: Self , rhs: (Wrapped) throws -> Void) rethrows {
+        if !lhs.isNil {
+            try rhs(lhs!)
+        }
+    }
     
     enum OptionalError:Error {
         case Nil
