@@ -40,6 +40,11 @@ extension Dictionary where Key == OperationIdentifier {
         lhs.updateValue(rhs as! Self.Value, forKey: rhs.identifier)
         return rhs
     }
+    
+    static func <- (lhs: inout [Self.Key: Self.Value], rhs: Self.Value) -> Self.Value where Self.Value: IdentifiableOperation{
+        lhs.updateValue(rhs , forKey: rhs.identifier)
+        return rhs
+    }
 }
 
 
