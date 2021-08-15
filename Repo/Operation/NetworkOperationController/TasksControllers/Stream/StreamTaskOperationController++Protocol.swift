@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol StreamTaskOperationControllerProtocol: TaskOperationControllerProtocol where SessionTask == URLSessionStreamTask,
+public protocol StreamTaskOperationControllerProtocol: NetworkTaskOperationControllable where SessionTask == URLSessionStreamTask,
                                                                                              TaskConfiguration: StreamTaskConfiguration{
     
     func readData(ofMinLength minBytes: Int,

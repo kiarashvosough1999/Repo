@@ -74,6 +74,12 @@ extension Optional {
     }
     
     /// Execute `some` closure if optionsl is not`nil` otherwise executes `none`
+    func on<T>(some: (Wrapped) throws -> T, none: () throws -> T) rethrows -> T {
+        if let self = self { return try some(self) }
+        else { return try none() }
+    }
+    
+    /// Execute `some` closure if optionsl is not`nil` otherwise executes `none`
     func on(_ some: (Wrapped) throws -> Void, _ none: () throws -> Void) rethrows {
         if let self = self { try some(self) }
         else { try none() }

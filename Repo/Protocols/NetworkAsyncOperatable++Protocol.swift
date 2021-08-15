@@ -13,8 +13,6 @@ public protocol NetworkAsyncOperatable: IdentifiableOperation,
                                                OperationDependencyProtocol,
                                                ControlableOperation {
     
-    typealias ConfigurationCallBack<T> = (inout T) -> ()
-    
     var state:OperationState { get }
     
     @discardableResult

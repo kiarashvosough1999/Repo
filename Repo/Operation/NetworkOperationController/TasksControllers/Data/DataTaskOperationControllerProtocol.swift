@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol DataTaskOperationControllerProtocol: TaskOperationControllerProtocol where SessionTask == URLSessionDataTask,
+public protocol DataTaskOperationControllerProtocol: NetworkTaskOperationControllable where SessionTask == URLSessionDataTask,
 TaskConfiguration: DataTaskConfigurationProtocol{
     
     var HTTPURLResponse:HTTPURLResponse? { get }

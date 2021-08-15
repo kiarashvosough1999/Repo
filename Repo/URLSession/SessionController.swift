@@ -8,7 +8,7 @@
 import Foundation
 import Network
 
-public final class SessionController<EndPoint:Hashable>: NSObject, SessionControllerProtocol {
+public final class SessionController<EndPoint:Hashable>: NSObject, SessionControllable {
     
     internal typealias TaskBuilder<T> = (URLSession, @escaping OnCompletion) throws -> T
     
@@ -16,7 +16,7 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
     internal private(set) var config:URLSessionConfiguration
     internal private(set) var delegateOperationQueue: OperationQueue?
     internal private(set) var tasksOperationQueue: OperationQueue
-    internal private(set) var opss:[OperationIdentifier:TaskOperationControllerBaseProtocol] = [:]
+    internal private(set) var opss:[OperationIdentifier:NetworkTaskOperationControllableBase] = [:]
     private let network: NWPathMonitor
     lazy private var dispachLabel = "Session\(ObjectIdentifier(self))"
     
@@ -147,7 +147,7 @@ public final class SessionController<EndPoint:Hashable>: NSObject, SessionContro
         return self
     }
     
-    internal func createTask<T>(_ builder:TaskBuilder<T>) throws -> T where T:TaskOperationControllerBaseProtocol {
+    internal func createTask<T>(_ builder:TaskBuilder<T>) throws -> T where T:NetworkTaskOperationControllableBase {
         guard !urlSession.isNil else {
             throw SessionError.sessionIsNil(
                 "call startSession to initialize session"

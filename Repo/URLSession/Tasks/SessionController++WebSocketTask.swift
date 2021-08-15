@@ -14,13 +14,13 @@ extension SessionController {
     @available(iOS 13.0, *)
     @discardableResult
     public func webSocketTask<T>(with route: EndPoint,
-                                      options: OperationConfig = OperationConfig())
+                                 operationConfiguration: OperationConfiguration = OperationConfiguration())
     throws -> some WebSocketTaskOperationControllerProtocol where EndPoint: EndPointSocketType{
-        try createTask { session, _ -> WebSocketTaskOperationController in
+        try createTask { session, _ -> NetworkWebSocketTaskOperationController in
             let task = session.webSocketTask(with: route.url)
-            return WebSocketTaskOperationController(operationQueue: tasksOperationQueue,
-                                                    sessionTask: task,
-                                                    operationConfig: options)
+            return NetworkWebSocketTaskOperationController(operationQueue: tasksOperationQueue,
+                                                           sessionTask: task,
+                                                           configuration: operationConfiguration)
         }
         
     }
@@ -28,16 +28,16 @@ extension SessionController {
     @available(iOS 13.0, *)
     @discardableResult
     public func webSocketTask<T>(with route: EndPoint,
-                                      requestBuilder: T,
-                                      options: OperationConfig = OperationConfig()) throws
+                                 requestBuilder: T,
+                                 operationConfiguration: OperationConfiguration = OperationConfiguration()) throws
     -> some WebSocketTaskOperationControllerProtocol where T: URLRequestBuilderProtocol,
                                                            EndPoint: EndPointSocketType,
                                                            T.EndPoint == EndPoint {
-        try createTask { session, _ -> WebSocketTaskOperationController in
+        try createTask { session, _ -> NetworkWebSocketTaskOperationController in
             let task = try session.webSocketTask(with: requestBuilder.buildRequest(from: route))
-            return  WebSocketTaskOperationController(operationQueue: tasksOperationQueue,
-                                                     sessionTask: task,
-                                                     operationConfig: options)
+            return  NetworkWebSocketTaskOperationController(operationQueue: tasksOperationQueue,
+                                                            sessionTask: task,
+                                                            configuration: operationConfiguration)
         }
         
     }
@@ -45,13 +45,13 @@ extension SessionController {
     @available(iOS 13.0, *)
     @discardableResult
     public func webSocketTask<T>(urlprotocols with: EndPoint,
-                                      options: OperationConfig = OperationConfig()) throws
+                                 operationConfiguration: OperationConfiguration = OperationConfiguration()) throws
     -> some WebSocketTaskOperationControllerProtocol where EndPoint: EndPointSocketType{
-        try createTask { session, _ -> WebSocketTaskOperationController in
+        try createTask { session, _ -> NetworkWebSocketTaskOperationController in
             let task = session.webSocketTask(with: with.url, protocols: with.protocols)
-            return WebSocketTaskOperationController(operationQueue: tasksOperationQueue,
-                                                    sessionTask: task,
-                                                    operationConfig: options)
+            return NetworkWebSocketTaskOperationController(operationQueue: tasksOperationQueue,
+                                                           sessionTask: task,
+                                                           configuration: operationConfiguration)
         }
         
     }

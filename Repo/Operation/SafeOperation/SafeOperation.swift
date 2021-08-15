@@ -29,9 +29,19 @@ import Foundation
  
  This can be useful when adding or removing dependencies.
  
+ Subclasses must not override any method of the base Opertaion Class
+  , instead they can override the provided method on protocol `OperationProtocol` to take control of what should be done
+ 
  */
-public class SafeOperation: Operation, OperationProtocol {
+public class SafeOperation: Operation, OperationCycleProtocol, ConfigurableOperation {
     
+    var shouldCheckForCancelation: Bool {
+        get {
+            false
+        }
+    }
+    
+    internal private(set) var configuration: OperationConfiguration
     
     /// Any changes to operation flags will be stored on these variables
     lazy private var _executing: Bool = false
@@ -95,21 +105,23 @@ public class SafeOperation: Operation, OperationProtocol {
     /// the `Operation Queue` which this operation work with
     internal private(set) weak var operationQueue:OperationQueue?
     
-    internal var operation_queue: OperationQueue? {
-        get {
-            operationQueue
-        }
-    }
-    
     // MARK: - init
-    internal init(operationQueue: OperationQueue?) {
+    internal init(operationQueue: OperationQueue?,
+                  configuration: OperationConfiguration) {
         self.lock = NSLock()
         self.operationQueue = operationQueue
+        self.configuration = configuration
         super.init()
+        setOperationConfigurationChanges()
+    }
+    
+    private func setOperationConfigurationChanges() {
+        self.queuePriority = configuration [keyPath:\.queuePriority]
+        self.qualityOfService = configuration [keyPath:\.qualityOfService]
+        self.name = configuration[keyPath:\.identifier].rawValue
     }
     
     /// Do not override this method
-    ///
     /// Override shouldStartRunnable instead
     public override func start() {
         do {
@@ -120,6 +132,16 @@ public class SafeOperation: Operation, OperationProtocol {
     }
     
     internal func shouldStartRunnable() throws {
+        if shouldCheckForCancelation && (isCancelled || isFinished) {
+            isFinished = true
+            isExecuting = false
+            throw OperationError.operationAlreadyCanceled(
+                """
+                operation with identifier \(identifier) is already canceled,
+                cannot start canceled operation
+                """
+            )
+        }
         do {
             try startRunnable()
         } catch  {
@@ -137,16 +159,16 @@ public class SafeOperation: Operation, OperationProtocol {
         }
     }
     
-    internal func runnable() throws {
-        
-    }
+    internal func runnable() throws {}
     
     internal func cancelRunnable() throws {
-        cancel()
+        isExecuting = false
+        isFinished = true
+        isCancelled = true
     }
     
     func enqueueSelf() throws {
-        guard let queue = operation_queue else {
+        guard let queue = operationQueue else {
             throw OperationError.queueFoundNil(type: .operation(
                 """
                 OperationQueue assosiatated with operation
@@ -161,23 +183,11 @@ public class SafeOperation: Operation, OperationProtocol {
         }
         queue.addOperation(self)
     }
+    
     internal func waitUntilAllOperationsAreFinished() {
-        guard let queue = operation_queue else {
+        guard let queue = operationQueue else {
             fatalError()
         }
         queue.waitUntilAllOperationsAreFinished()
     }
-}
-
-
-internal protocol OperationProtocol: AnyObject {
-    
-    var operation_queue:OperationQueue? { get }
-    
-    func waitUntilAllOperationsAreFinished()
-    func enqueueSelf() throws
-    func runnable() throws
-    func shouldStartRunnable() throws
-    func startRunnable() throws
-    func cancelRunnable() throws
 }

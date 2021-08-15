@@ -8,5 +8,5 @@
 import Foundation
 
 internal protocol ConfigurableOperation {
-    var configuration: SafeOperation.Configuration { get }
+    var configuration: OperationConfiguration { get }
 }

@@ -13,7 +13,7 @@ import RxCocoa
 class URLSessionDelegateProxy<T>: DelegateProxy<T, URLSessionDelegate>,
                                URLSessionDelegateSubjectProxy,
                                DelegateProxyType,
-                               URLSessionDelegate where T: SessionControllerProtocol {
+                               URLSessionDelegate where T: SessionControllable {
     
     
     public init(parentObject: T) {

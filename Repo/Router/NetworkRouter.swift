@@ -41,8 +41,8 @@ struct WebSocketSession<EndPoint:Hashable> {
     var wrappedValue:SessionController<EndPoint>
     var identifier:OperationIdentifier
     
-    var projectedValue: WebSocketTaskOperationController {
-        guard let socket = wrappedValue.opss[identifier] as? WebSocketTaskOperationController else {
+    var projectedValue: NetworkWebSocketTaskOperationController {
+        guard let socket = wrappedValue.opss[identifier] as? NetworkWebSocketTaskOperationController else {
             fatalError("There is no socket with this \(identifier) identifier")
         }
         return socket

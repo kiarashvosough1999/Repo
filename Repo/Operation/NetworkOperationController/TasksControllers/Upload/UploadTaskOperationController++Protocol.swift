@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol UploadTaskOperationControllerProtocol: TaskOperationControllerProtocol
+public protocol UploadTaskOperationControllerProtocol: NetworkTaskOperationControllable
 where SessionTask == URLSessionUploadTask,
       TaskConfiguration:UploadTaskConfigurationProtocol
 {

@@ -13,7 +13,7 @@ import RxCocoa
 class URLSessionTaskDelegateProxy<T>: DelegateProxy<T, URLSessionTaskDelegate>,
                                       URLSessionTaskDelegateSubjectProxy,
                                       DelegateProxyType,
-                                      URLSessionDelegate where T: SessionControllerProtocol {
+                                      URLSessionDelegate where T: SessionControllable {
     
     
     public init(parentObject: T) {
@@ -110,7 +110,7 @@ class URLSessionTaskDelegateProxy<T>: DelegateProxy<T, URLSessionTaskDelegate>,
     }
 }
 
-extension Reactive where Base: SessionControllerProtocol  {
+extension Reactive where Base: SessionControllable  {
     
     var sessionDidBecomeInvalidWithError:Observable<(URLSession,Error?)> {
         return URLSessionDelegateProxy.proxy(for: base)

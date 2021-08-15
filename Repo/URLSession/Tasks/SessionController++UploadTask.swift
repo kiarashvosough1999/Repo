@@ -12,14 +12,14 @@ extension SessionController {
     @available(iOS 13.0, *)
     @discardableResult
     public func uploadTask<T>(on route: EndPoint,
-                                   with data:Data,
-                                   requestBuilder: T,
-                                   options: OperationConfig = OperationConfig(),
-                                   completionHandler: @escaping SessionUploadTaskResponse) throws
+                              with data:Data,
+                              requestBuilder: T,
+                              operationConfiguration: OperationConfiguration = OperationConfiguration(),
+                              completionHandler: @escaping SessionUploadTaskResponse) throws
     -> some UploadTaskOperationControllerProtocol where T: URLRequestBuilderProtocol,
                                                         EndPoint: EndPointUploadType,
                                                         T.EndPoint == EndPoint {
-        try createTask { session, completed -> UploadTaskOperationController in
+        try createTask { session, completed -> NetworkUploadTaskOperationController in
             let request = try requestBuilder.buildRequest(from: route)
             let wrapper = session.uploadTask(with:  request,
                                              from: data ,
@@ -27,30 +27,30 @@ extension SessionController {
                                                 completionHandler(data,resp,error)
                                                 completed()
                                              })
-            return UploadTaskOperationController(operationQueue: tasksOperationQueue,
-                                                 sessionTask: wrapper,
-                                                 operationConfig: options)
+            return NetworkUploadTaskOperationController(operationQueue: tasksOperationQueue,
+                                                        sessionTask: wrapper,
+                                                        configuration: operationConfiguration)
         }
     }
     
     @available(iOS 13.0, *)
     @discardableResult
     public func uploadTask<T>(on urlRoute: EndPoint,
-                                   requestBuilder: T,
-                                   options: OperationConfig = OperationConfig(),
-                                   completionHandler: @escaping SessionUploadTaskResponse) throws
+                              requestBuilder: T,
+                              operationConfiguration: OperationConfiguration = OperationConfiguration(),
+                              completionHandler: @escaping SessionUploadTaskResponse) throws
     -> some UploadTaskOperationControllerProtocol where T: URLRequestBuilderProtocol,
                                                         EndPoint: EndPointUploadType,
                                                         T.EndPoint == EndPoint {
-        try createTask { session, completed -> UploadTaskOperationController in
+        try createTask { session, completed -> NetworkUploadTaskOperationController in
             let request = try requestBuilder.buildRequest(from: urlRoute)
             let wrapper = session.uploadTask(with:  request, fromFile: urlRoute.fileUrl ,completionHandler: { data, resp, error in
                 completionHandler(data,resp,error)
                 completed()
             })
-            return UploadTaskOperationController(operationQueue: tasksOperationQueue,
-                                                 sessionTask: wrapper,
-                                                 operationConfig: options)
+            return NetworkUploadTaskOperationController(operationQueue: tasksOperationQueue,
+                                                        sessionTask: wrapper,
+                                                        configuration: operationConfiguration)
         }
     }
     
@@ -61,12 +61,12 @@ extension SessionController {
     public func startUploadTask<T>(on route: EndPoint,
                                    with data:Data,
                                    requestBuilder: T,
-                                   options: OperationConfig = OperationConfig(),
+                                   operationConfiguration: OperationConfiguration = OperationConfiguration(),
                                    completionHandler: @escaping SessionUploadTaskResponse) throws
-    -> UploadTaskOperationController where T: URLRequestBuilderProtocol,
-                                           EndPoint: EndPointUploadType,
-                                           T.EndPoint == EndPoint {
-        try createTask { session, completed -> UploadTaskOperationController in
+    -> NetworkUploadTaskOperationController where T: URLRequestBuilderProtocol,
+                                                  EndPoint: EndPointUploadType,
+                                                  T.EndPoint == EndPoint {
+        try createTask { session, completed -> NetworkUploadTaskOperationController in
             let request = try requestBuilder.buildRequest(from: route)
             let wrapper = session.uploadTask(with:  request,
                                              from: data ,
@@ -74,9 +74,9 @@ extension SessionController {
                                                 completionHandler(data,resp,error)
                                                 completed()
                                              })
-            return UploadTaskOperationController(operationQueue: tasksOperationQueue,
-                                                 sessionTask: wrapper,
-                                                 operationConfig: options)
+            return NetworkUploadTaskOperationController(operationQueue: tasksOperationQueue,
+                                                        sessionTask: wrapper,
+                                                        configuration: operationConfiguration)
         }
     }
     
@@ -84,20 +84,20 @@ extension SessionController {
     @discardableResult
     public func startUploadTask<T>(on urlRoute: EndPoint,
                                    requestBuilder: T,
-                                   options: OperationConfig = OperationConfig(),
+                                   operationConfiguration: OperationConfiguration = OperationConfiguration(),
                                    completionHandler: @escaping SessionUploadTaskResponse) throws
-    -> UploadTaskOperationController where T: URLRequestBuilderProtocol,
-                                           EndPoint: EndPointUploadType,
-                                           T.EndPoint == EndPoint {
-        try createTask { session, completed -> UploadTaskOperationController in
+    -> NetworkUploadTaskOperationController where T: URLRequestBuilderProtocol,
+                                                  EndPoint: EndPointUploadType,
+                                                  T.EndPoint == EndPoint {
+        try createTask { session, completed -> NetworkUploadTaskOperationController in
             let request = try requestBuilder.buildRequest(from: urlRoute)
             let wrapper = session.uploadTask(with:  request, fromFile: urlRoute.fileUrl ,completionHandler: { data, resp, error in
                 completionHandler(data,resp,error)
                 completed()
             })
-            return UploadTaskOperationController(operationQueue: tasksOperationQueue,
-                                                 sessionTask: wrapper,
-                                                 operationConfig: options)
+            return NetworkUploadTaskOperationController(operationQueue: tasksOperationQueue,
+                                                        sessionTask: wrapper,
+                                                        configuration: operationConfiguration)
         }
     }
     
@@ -108,12 +108,12 @@ extension SessionController {
     public func startUploadTask<T>(on route: EndPoint,
                                    with data:Data,
                                    requestBuilder: T,
-                                   options: OperationConfig = OperationConfig(),
+                                   operationConfiguration: OperationConfiguration = OperationConfiguration(),
                                    completionHandler: @escaping SessionUploadTaskResponse) throws
-    -> TaskOperationControllerBaseProtocol where T: URLRequestBuilderProtocol,
-                                           EndPoint: EndPointUploadType,
-                                           T.EndPoint == EndPoint {
-        try createTask { session, completed -> AnyTaskOperationController in
+    -> NetworkTaskOperationControllableBase where T: URLRequestBuilderProtocol,
+                                                  EndPoint: EndPointUploadType,
+                                                  T.EndPoint == EndPoint {
+        try createTask { session, completed -> NetworkAnyTaskOperationController in
             let request = try requestBuilder.buildRequest(from: route)
             let wrapper = session.uploadTask(with:  request,
                                              from: data ,
@@ -121,9 +121,9 @@ extension SessionController {
                                                 completionHandler(data,resp,error)
                                                 completed()
                                              })
-            return AnyTaskOperationController(operationQueue: tasksOperationQueue,
-                                                 sessionTask: wrapper,
-                                                 operationConfig: options)
+            return NetworkAnyTaskOperationController(operationQueue: tasksOperationQueue,
+                                                     sessionTask: wrapper,
+                                                     configuration: operationConfiguration)
         }
     }
     
@@ -131,20 +131,20 @@ extension SessionController {
     @discardableResult
     public func startUploadTask<T>(on urlRoute: EndPoint,
                                    requestBuilder: T,
-                                   options: OperationConfig = OperationConfig(),
+                                   operationConfiguration: OperationConfiguration = OperationConfiguration(),
                                    completionHandler: @escaping SessionUploadTaskResponse) throws
-    -> TaskOperationControllerBaseProtocol where T: URLRequestBuilderProtocol,
-                                           EndPoint: EndPointUploadType,
-                                           T.EndPoint == EndPoint {
-        try createTask { session, completed -> AnyTaskOperationController in
+    -> NetworkTaskOperationControllableBase where T: URLRequestBuilderProtocol,
+                                                  EndPoint: EndPointUploadType,
+                                                  T.EndPoint == EndPoint {
+        try createTask { session, completed -> NetworkAnyTaskOperationController in
             let request = try requestBuilder.buildRequest(from: urlRoute)
             let wrapper = session.uploadTask(with:  request, fromFile: urlRoute.fileUrl ,completionHandler: { data, resp, error in
                 completionHandler(data,resp,error)
                 completed()
             })
-            return AnyTaskOperationController(operationQueue: tasksOperationQueue,
-                                                 sessionTask: wrapper,
-                                                 operationConfig: options)
+            return NetworkAnyTaskOperationController(operationQueue: tasksOperationQueue,
+                                                     sessionTask: wrapper,
+                                                     configuration: operationConfiguration)
         }
     }
     
