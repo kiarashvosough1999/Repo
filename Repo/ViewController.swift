@@ -19,8 +19,6 @@ class ViewController: UIViewController {
         do {
             let x = try sessionController.downloadTask(with: .act, completionHandler: { url, _, _ in
                 print(url)
-            }).changeOperationConfig({
-                $0.identifierGenerator = { .download }
             }).await(after: 0)
             
             let x6 = try sessionController.dataTask(with: .foods,
