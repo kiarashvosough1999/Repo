@@ -25,6 +25,7 @@ extension Operation {
         case workItemFoundNil(tyep:WorkItemError,description:String)
         case taskNil(String)
         case cantCastOperation
+        case operationAlreadyCanceled(String)
         case queueFoundNil(type:QueueType,String)
         case cantChangeOperationConfigOnCurrentState(String)
     }

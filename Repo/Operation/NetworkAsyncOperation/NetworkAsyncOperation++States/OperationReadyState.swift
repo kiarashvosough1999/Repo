@@ -146,7 +146,7 @@ internal class OperationReadyState: OperationStateProtocol {
         // block the current thread until all operation finish
         // new operation cant be added to queue during this block time
         context
-            .operationConfiguration
+            .configuration
             .waitUntilAllOperationsAreFinished
             .accept {
                 context.waitUntilAllOperationsAreFinished()

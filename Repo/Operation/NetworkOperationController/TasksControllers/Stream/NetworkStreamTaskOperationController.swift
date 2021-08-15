@@ -7,9 +7,9 @@
 
 import Foundation
 
-public final class StreamTaskOperationController: OperationController<URLSessionStreamTask,StreamTaskConfig> {}
+public final class NetworkStreamTaskOperationController: NetworkOperationController<URLSessionStreamTask,StreamTaskConfig> {}
 
-extension StreamTaskOperationController: StreamTaskOperationControllerProtocol {
+extension NetworkStreamTaskOperationController: StreamTaskOperationControllerProtocol {
     
     @discardableResult
     public func readData(ofMinLength minBytes: Int,

@@ -7,8 +7,8 @@
 
 import Foundation
 
-public class OperationController<Task,Configuration>: AsynchronousOperation,
-                                                      TaskOperationControllerProtocol where Task:URLSessionTask,
+public class NetworkOperationController<Task,Configuration>: NetworkAsyncOperation,
+                                                      NetworkTaskOperationControllable where Task:URLSessionTask,
                                                                                             Configuration:URLSessionAnyTaskConfigurationProtocol{
     
     public typealias SessionTask = Task
@@ -59,12 +59,11 @@ public class OperationController<Task,Configuration>: AsynchronousOperation,
          sessionTask: @autoclosure SessionTaskBlock,
          autoUpdateTaskConfigOnChange: Bool = true,
          taskConfig:Configuration = .init(),
-         operationConfig: OperationConfig = .init()) {
+         configuration: OperationConfiguration = .init()) {
         self.autoUpdateTaskConfigOnChange = autoUpdateTaskConfigOnChange
         self.task = sessionTask()
         self.taskConfiguration = taskConfig
-        super.init(operationQueue: operationQueue,
-                   operationConfiguration: operationConfig)
+        super.init(operationQueue: operationQueue, configuration: configuration)
     }
     
     
@@ -94,7 +93,7 @@ public class OperationController<Task,Configuration>: AsynchronousOperation,
     
 }
 
-extension OperationController {
+extension NetworkOperationController {
     
     public var taskDescription: String? {
         get {

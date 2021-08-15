@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol WebSocketTaskOperationControllerProtocol:TaskOperationControllerProtocol
+public protocol WebSocketTaskOperationControllerProtocol:NetworkTaskOperationControllable
 where SessionTask == URLSessionWebSocketTask,
       TaskConfiguration:WebSocketTaskConfigurationProtocol {
     

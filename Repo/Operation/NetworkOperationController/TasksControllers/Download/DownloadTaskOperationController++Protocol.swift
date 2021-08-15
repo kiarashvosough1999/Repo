@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol DownloadTaskOperationControllerProtocol: TaskOperationControllerProtocol where SessionTask == URLSessionDownloadTask,
+public protocol DownloadTaskOperationControllerProtocol: NetworkTaskOperationControllable where SessionTask == URLSessionDownloadTask,
                                                                                                TaskConfiguration: DownloadTaskConfigurationProtocol {
     func cancel(byProducingResumeData completionHandler: @escaping (Data?) -> Void) -> Self
 }

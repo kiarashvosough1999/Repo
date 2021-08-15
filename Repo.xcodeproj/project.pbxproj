@@ -22,20 +22,13 @@
 		DE1D481626C6922E006F540C /* RawFunctionCallable++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1D481526C6922E006F540C /* RawFunctionCallable++Protocol.swift */; };
 		DE1E9EF626BD5DC600D37768 /* Optional++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1E9EF526BD5DC600D37768 /* Optional++Extensions.swift */; };
 		DE1E9EF826BD68B000D37768 /* OperationControllerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1E9EF726BD68B000D37768 /* OperationControllerError.swift */; };
-		DE1E9EFD26BD6A7700D37768 /* SessionControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1E9EFC26BD6A7700D37768 /* SessionControllerProtocol.swift */; };
 		DE1E9EFF26BD893000D37768 /* TaskWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1E9EFE26BD893000D37768 /* TaskWrapper.swift */; };
 		DE1E9F0126BD895E00D37768 /* SessionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1E9F0026BD895E00D37768 /* SessionError.swift */; };
 		DE1E9F0326BD924600D37768 /* Bool++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1E9F0226BD924600D37768 /* Bool++Extensions.swift */; };
-		DE1E9F0526BDA68300D37768 /* SessionController++CancelOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1E9F0426BDA68300D37768 /* SessionController++CancelOptions.swift */; };
-		DE27F3B926B26F2F00D79F37 /* AsynchronousOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE27F3B826B26F2F00D79F37 /* AsynchronousOperation.swift */; };
+		DE27F3B926B26F2F00D79F37 /* NetworkAsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE27F3B826B26F2F00D79F37 /* NetworkAsyncOperation.swift */; };
 		DE2D74E126B5A9F100461ABF /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2D74E026B5A9F100461ABF /* Router.swift */; };
-		DE2D74E326B5DCE000461ABF /* DataTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2D74E226B5DCE000461ABF /* DataTaskOperationController.swift */; };
+		DE2D74E326B5DCE000461ABF /* NetworkDataTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2D74E226B5DCE000461ABF /* NetworkDataTaskOperationController.swift */; };
 		DE35CD0F26B2AA9300447070 /* Operation++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD0E26B2AA9300447070 /* Operation++Extensions.swift */; };
-		DE35CD1226B2AEC000447070 /* NetworkOperationController++NetworkOperationBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD1126B2AEC000447070 /* NetworkOperationController++NetworkOperationBase.swift */; };
-		DE35CD1426B2AEDE00447070 /* NetworkOperationController++NetworkOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD1326B2AEDE00447070 /* NetworkOperationController++NetworkOperation.swift */; };
-		DE35CD1726B2AF0900447070 /* OperationConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD1626B2AF0900447070 /* OperationConfig.swift */; };
-		DE35CD1926B2AF2300447070 /* OperationConfig++OperationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD1826B2AF2300447070 /* OperationConfig++OperationConfiguration.swift */; };
-		DE35CD1E26B2AF6100447070 /* AsynchronousOperation++Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD1D26B2AF6100447070 /* AsynchronousOperation++Protocols.swift */; };
 		DE35CD2226B2AFE700447070 /* URLRequestConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD2126B2AFE700447070 /* URLRequestConfiguration.swift */; };
 		DE35CD2426B2B02B00447070 /* URLRequestBuilder++URLRequestBuilderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD2326B2B02B00447070 /* URLRequestBuilder++URLRequestBuilderProtocol.swift */; };
 		DE35CD2626B2B1E300447070 /* SessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE35CD2526B2B1E300447070 /* SessionController.swift */; };
@@ -48,15 +41,30 @@
 		DE3841BD26C24A4100397D6F /* ParameterEncodingConfiguration++Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3841BC26C24A4100397D6F /* ParameterEncodingConfiguration++Protocols.swift */; };
 		DE3841BF26C24A5100397D6F /* ParameterEncodingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3841BE26C24A5100397D6F /* ParameterEncodingConfiguration.swift */; };
 		DE3841C226C24CEF00397D6F /* URLHTTPRequestBuilder++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3841C126C24CEF00397D6F /* URLHTTPRequestBuilder++Protocol.swift */; };
-		DE42ADD026BC3BC9000C9D8E /* DownloadTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADCF26BC3BC9000C9D8E /* DownloadTaskOperationController.swift */; };
+		DE3E54B526C9123200C66691 /* OperationCycle++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54B426C9123200C66691 /* OperationCycle++Protocol.swift */; };
+		DE3E54B826C912D100C66691 /* CommandExecutable++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54B726C912D100C66691 /* CommandExecutable++Protocol.swift */; };
+		DE3E54BA26C9141E00C66691 /* OperationState++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54B926C9141E00C66691 /* OperationState++Protocol.swift */; };
+		DE3E54BC26C9144000C66691 /* OperationContextStateObject++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54BB26C9144000C66691 /* OperationContextStateObject++Protocol.swift */; };
+		DE3E54BE26C9146E00C66691 /* ControlableOperation++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54BD26C9146E00C66691 /* ControlableOperation++Protocol.swift */; };
+		DE3E54C026C9157D00C66691 /* NetworkTaskOperationControllableBase++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54BF26C9157D00C66691 /* NetworkTaskOperationControllableBase++Protocol.swift */; };
+		DE3E54C226C9159100C66691 /* NetworkTaskOperationControllable++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54C126C9159100C66691 /* NetworkTaskOperationControllable++Protocol.swift */; };
+		DE3E54C426C915C400C66691 /* SessionControllable++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54C326C915C400C66691 /* SessionControllable++Protocol.swift */; };
+		DE3E54C726C9160B00C66691 /* ResponseDecoderError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54C626C9160B00C66691 /* ResponseDecoderError.swift */; };
+		DE3E54C926C9163700C66691 /* OperationCancelOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54C826C9163700C66691 /* OperationCancelOptions.swift */; };
+		DE3E54CB26C9164300C66691 /* SessionCancelOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54CA26C9164300C66691 /* SessionCancelOptions.swift */; };
+		DE3E54CD26C91DB700C66691 /* NetworkAsyncOperatable++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54CC26C91DB700C66691 /* NetworkAsyncOperatable++Protocol.swift */; };
+		DE3E54CF26C91EDE00C66691 /* OperationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54CE26C91EDE00C66691 /* OperationState.swift */; };
+		DE3E54D126C926E000C66691 /* SafeOperation++Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54D026C926E000C66691 /* SafeOperation++Configuration.swift */; };
+		DE3E54D326C92E5300C66691 /* ConfigurableOperation++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E54D226C92E5300C66691 /* ConfigurableOperation++Protocol.swift */; };
+		DE42ADD026BC3BC9000C9D8E /* NetworkDownloadTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADCF26BC3BC9000C9D8E /* NetworkDownloadTaskOperationController.swift */; };
 		DE42ADD226BC3E65000C9D8E /* Array++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADD126BC3E65000C9D8E /* Array++Extensions.swift */; };
 		DE42ADD426BC4338000C9D8E /* SessionController++DataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADD326BC4338000C9D8E /* SessionController++DataTask.swift */; };
 		DE42ADD626BC43B3000C9D8E /* SessionController++DownloadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADD526BC43B2000C9D8E /* SessionController++DownloadTask.swift */; };
 		DE42ADD826BC47D0000C9D8E /* SessionController++UploadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADD726BC47D0000C9D8E /* SessionController++UploadTask.swift */; };
-		DE42ADDA26BC483C000C9D8E /* UploadTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADD926BC483C000C9D8E /* UploadTaskOperationController.swift */; };
-		DE42ADDC26BC4AB5000C9D8E /* WebSocketTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADDB26BC4AB5000C9D8E /* WebSocketTaskOperationController.swift */; };
+		DE42ADDA26BC483C000C9D8E /* NetworkUploadTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADD926BC483C000C9D8E /* NetworkUploadTaskOperationController.swift */; };
+		DE42ADDC26BC4AB5000C9D8E /* NetworkWebSocketTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADDB26BC4AB5000C9D8E /* NetworkWebSocketTaskOperationController.swift */; };
 		DE42ADDE26BC4BA7000C9D8E /* SessionController++WebSocketTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADDD26BC4BA7000C9D8E /* SessionController++WebSocketTask.swift */; };
-		DE42ADE026BC5450000C9D8E /* StreamTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADDF26BC5450000C9D8E /* StreamTaskOperationController.swift */; };
+		DE42ADE026BC5450000C9D8E /* NetworkStreamTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADDF26BC5450000C9D8E /* NetworkStreamTaskOperationController.swift */; };
 		DE42ADE226BC5583000C9D8E /* SessionController++StreamTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE42ADE126BC5583000C9D8E /* SessionController++StreamTask.swift */; };
 		DE4B06FD26C1630000CCEAD8 /* DownloadTaskOperationController++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4B06FC26C1630000CCEAD8 /* DownloadTaskOperationController++Protocol.swift */; };
 		DE4B06FF26C1632300CCEAD8 /* DownloadTaskConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4B06FE26C1632300CCEAD8 /* DownloadTaskConfig.swift */; };
@@ -64,13 +72,12 @@
 		DE4B070426C16A2200CCEAD8 /* UploadTaskConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4B070326C16A2200CCEAD8 /* UploadTaskConfig.swift */; };
 		DE4B070726C16BAD00CCEAD8 /* StreamTaskOperationController++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4B070626C16BAD00CCEAD8 /* StreamTaskOperationController++Protocol.swift */; };
 		DE4B070926C16C4100CCEAD8 /* StreamTaskConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4B070826C16C4100CCEAD8 /* StreamTaskConfig.swift */; };
-		DE4B070D26C1785900CCEAD8 /* AnyTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4B070C26C1785900CCEAD8 /* AnyTaskOperationController.swift */; };
+		DE4B070D26C1785900CCEAD8 /* NetworkAnyTaskOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4B070C26C1785900CCEAD8 /* NetworkAnyTaskOperationController.swift */; };
 		DE4B070F26C1788500CCEAD8 /* URLSessionAnyTaskConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4B070E26C1788500CCEAD8 /* URLSessionAnyTaskConfig.swift */; };
 		DE4B071126C178A400CCEAD8 /* URLSessionAnyTaskConfiguration++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE4B071026C178A400CCEAD8 /* URLSessionAnyTaskConfiguration++Protocol.swift */; };
 		DE5B474826BC0F07008CEC29 /* Mediator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5B474726BC0F07008CEC29 /* Mediator.swift */; };
 		DE5B474A26BC14D6008CEC29 /* TargetActionMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5B474926BC14D6008CEC29 /* TargetActionMaker.swift */; };
 		DE5B474C26BC2CB5008CEC29 /* Memento.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE5B474B26BC2CB5008CEC29 /* Memento.swift */; };
-		DE7253C926BE60170075A52A /* AOState++Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7253C826BE60170075A52A /* AOState++Protocol.swift */; };
 		DE7253CB26BE60310075A52A /* OperationReadyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7253CA26BE60310075A52A /* OperationReadyState.swift */; };
 		DE7253CD26BE60430075A52A /* OperationExecutingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7253CC26BE60430075A52A /* OperationExecutingState.swift */; };
 		DE7253CF26BE60570075A52A /* OperationFinishState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7253CE26BE60570075A52A /* OperationFinishState.swift */; };
@@ -80,10 +87,9 @@
 		DE7688FD26C55E6F00774342 /* CommandHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7688FC26C55E6F00774342 /* CommandHistory.swift */; };
 		DE7688FF26C57B4000774342 /* StateFullOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE7688FE26C57B4000774342 /* StateFullOperation.swift */; };
 		DE76890126C585CF00774342 /* WorkerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE76890026C585CF00774342 /* WorkerItem.swift */; };
-		DE76890426C58C8D00774342 /* StateFullOperation++ControlableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE76890326C58C8D00774342 /* StateFullOperation++ControlableOperation.swift */; };
 		DE76890626C58CAD00774342 /* SafeOperation++IdentifiableOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE76890526C58CAD00774342 /* SafeOperation++IdentifiableOperation.swift */; };
 		DE76890826C58CD800774342 /* SafeOperation++OperationDependencyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE76890726C58CD800774342 /* SafeOperation++OperationDependencyProtocol.swift */; };
-		DE76890F26C5989000774342 /* OperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE76890E26C5989000774342 /* OperationController.swift */; };
+		DE76890F26C5989000774342 /* NetworkOperationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE76890E26C5989000774342 /* NetworkOperationController.swift */; };
 		DE8361E526B1BA5F009C27BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8361E426B1BA5F009C27BE /* AppDelegate.swift */; };
 		DE8361E726B1BA5F009C27BE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8361E626B1BA5F009C27BE /* SceneDelegate.swift */; };
 		DE8361E926B1BA5F009C27BE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8361E826B1BA5F009C27BE /* ViewController.swift */; };
@@ -92,7 +98,7 @@
 		DE8361F126B1BA60009C27BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE8361EF26B1BA60009C27BE /* LaunchScreen.storyboard */; };
 		DE8361FD26B1BC6E009C27BE /* ParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8361FC26B1BC6E009C27BE /* ParameterEncoder.swift */; };
 		DE83620026B1C51A009C27BE /* Dictionary++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8361FF26B1C51A009C27BE /* Dictionary++Extensions.swift */; };
-		DE83CA3426C3B525003A0A1E /* AsynchronousOperation++Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83CA3326C3B525003A0A1E /* AsynchronousOperation++Property.swift */; };
+		DE83CA3426C3B525003A0A1E /* NetworkAsyncOperation++Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83CA3326C3B525003A0A1E /* NetworkAsyncOperation++Property.swift */; };
 		DE83CA3A26C3B768003A0A1E /* NSLocking++Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83CA3926C3B768003A0A1E /* NSLocking++Extensions.swift */; };
 		DE83CA3D26C3D4CD003A0A1E /* QueueState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE83CA3C26C3D4CD003A0A1E /* QueueState.swift */; };
 		DEA4763326C2973500057ADB /* APIVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA4763226C2973500057ADB /* APIVersion.swift */; };
@@ -125,20 +131,13 @@
 		DE1D481526C6922E006F540C /* RawFunctionCallable++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RawFunctionCallable++Protocol.swift"; sourceTree = "<group>"; };
 		DE1E9EF526BD5DC600D37768 /* Optional++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional++Extensions.swift"; sourceTree = "<group>"; };
 		DE1E9EF726BD68B000D37768 /* OperationControllerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationControllerError.swift; sourceTree = "<group>"; };
-		DE1E9EFC26BD6A7700D37768 /* SessionControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionControllerProtocol.swift; sourceTree = "<group>"; };
 		DE1E9EFE26BD893000D37768 /* TaskWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskWrapper.swift; sourceTree = "<group>"; };
 		DE1E9F0026BD895E00D37768 /* SessionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionError.swift; sourceTree = "<group>"; };
 		DE1E9F0226BD924600D37768 /* Bool++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool++Extensions.swift"; sourceTree = "<group>"; };
-		DE1E9F0426BDA68300D37768 /* SessionController++CancelOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionController++CancelOptions.swift"; sourceTree = "<group>"; };
-		DE27F3B826B26F2F00D79F37 /* AsynchronousOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsynchronousOperation.swift; sourceTree = "<group>"; };
+		DE27F3B826B26F2F00D79F37 /* NetworkAsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAsyncOperation.swift; sourceTree = "<group>"; };
 		DE2D74E026B5A9F100461ABF /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		DE2D74E226B5DCE000461ABF /* DataTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskOperationController.swift; sourceTree = "<group>"; };
+		DE2D74E226B5DCE000461ABF /* NetworkDataTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataTaskOperationController.swift; sourceTree = "<group>"; };
 		DE35CD0E26B2AA9300447070 /* Operation++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Operation++Extensions.swift"; sourceTree = "<group>"; };
-		DE35CD1126B2AEC000447070 /* NetworkOperationController++NetworkOperationBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkOperationController++NetworkOperationBase.swift"; sourceTree = "<group>"; };
-		DE35CD1326B2AEDE00447070 /* NetworkOperationController++NetworkOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkOperationController++NetworkOperation.swift"; sourceTree = "<group>"; };
-		DE35CD1626B2AF0900447070 /* OperationConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationConfig.swift; sourceTree = "<group>"; };
-		DE35CD1826B2AF2300447070 /* OperationConfig++OperationConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OperationConfig++OperationConfiguration.swift"; sourceTree = "<group>"; };
-		DE35CD1D26B2AF6100447070 /* AsynchronousOperation++Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsynchronousOperation++Protocols.swift"; sourceTree = "<group>"; };
 		DE35CD2126B2AFE700447070 /* URLRequestConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestConfiguration.swift; sourceTree = "<group>"; };
 		DE35CD2326B2B02B00447070 /* URLRequestBuilder++URLRequestBuilderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequestBuilder++URLRequestBuilderProtocol.swift"; sourceTree = "<group>"; };
 		DE35CD2526B2B1E300447070 /* SessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionController.swift; sourceTree = "<group>"; };
@@ -151,15 +150,30 @@
 		DE3841BC26C24A4100397D6F /* ParameterEncodingConfiguration++Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParameterEncodingConfiguration++Protocols.swift"; sourceTree = "<group>"; };
 		DE3841BE26C24A5100397D6F /* ParameterEncodingConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncodingConfiguration.swift; sourceTree = "<group>"; };
 		DE3841C126C24CEF00397D6F /* URLHTTPRequestBuilder++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLHTTPRequestBuilder++Protocol.swift"; sourceTree = "<group>"; };
-		DE42ADCF26BC3BC9000C9D8E /* DownloadTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadTaskOperationController.swift; sourceTree = "<group>"; };
+		DE3E54B426C9123200C66691 /* OperationCycle++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OperationCycle++Protocol.swift"; sourceTree = "<group>"; };
+		DE3E54B726C912D100C66691 /* CommandExecutable++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CommandExecutable++Protocol.swift"; sourceTree = "<group>"; };
+		DE3E54B926C9141E00C66691 /* OperationState++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OperationState++Protocol.swift"; sourceTree = "<group>"; };
+		DE3E54BB26C9144000C66691 /* OperationContextStateObject++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OperationContextStateObject++Protocol.swift"; sourceTree = "<group>"; };
+		DE3E54BD26C9146E00C66691 /* ControlableOperation++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ControlableOperation++Protocol.swift"; sourceTree = "<group>"; };
+		DE3E54BF26C9157D00C66691 /* NetworkTaskOperationControllableBase++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkTaskOperationControllableBase++Protocol.swift"; sourceTree = "<group>"; };
+		DE3E54C126C9159100C66691 /* NetworkTaskOperationControllable++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkTaskOperationControllable++Protocol.swift"; sourceTree = "<group>"; };
+		DE3E54C326C915C400C66691 /* SessionControllable++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionControllable++Protocol.swift"; sourceTree = "<group>"; };
+		DE3E54C626C9160B00C66691 /* ResponseDecoderError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseDecoderError.swift; sourceTree = "<group>"; };
+		DE3E54C826C9163700C66691 /* OperationCancelOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationCancelOptions.swift; sourceTree = "<group>"; };
+		DE3E54CA26C9164300C66691 /* SessionCancelOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCancelOptions.swift; sourceTree = "<group>"; };
+		DE3E54CC26C91DB700C66691 /* NetworkAsyncOperatable++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkAsyncOperatable++Protocol.swift"; sourceTree = "<group>"; };
+		DE3E54CE26C91EDE00C66691 /* OperationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationState.swift; sourceTree = "<group>"; };
+		DE3E54D026C926E000C66691 /* SafeOperation++Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SafeOperation++Configuration.swift"; sourceTree = "<group>"; };
+		DE3E54D226C92E5300C66691 /* ConfigurableOperation++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConfigurableOperation++Protocol.swift"; sourceTree = "<group>"; };
+		DE42ADCF26BC3BC9000C9D8E /* NetworkDownloadTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDownloadTaskOperationController.swift; sourceTree = "<group>"; };
 		DE42ADD126BC3E65000C9D8E /* Array++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array++Extensions.swift"; sourceTree = "<group>"; };
 		DE42ADD326BC4338000C9D8E /* SessionController++DataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionController++DataTask.swift"; sourceTree = "<group>"; };
 		DE42ADD526BC43B2000C9D8E /* SessionController++DownloadTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionController++DownloadTask.swift"; sourceTree = "<group>"; };
 		DE42ADD726BC47D0000C9D8E /* SessionController++UploadTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionController++UploadTask.swift"; sourceTree = "<group>"; };
-		DE42ADD926BC483C000C9D8E /* UploadTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTaskOperationController.swift; sourceTree = "<group>"; };
-		DE42ADDB26BC4AB5000C9D8E /* WebSocketTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketTaskOperationController.swift; sourceTree = "<group>"; };
+		DE42ADD926BC483C000C9D8E /* NetworkUploadTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUploadTaskOperationController.swift; sourceTree = "<group>"; };
+		DE42ADDB26BC4AB5000C9D8E /* NetworkWebSocketTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWebSocketTaskOperationController.swift; sourceTree = "<group>"; };
 		DE42ADDD26BC4BA7000C9D8E /* SessionController++WebSocketTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionController++WebSocketTask.swift"; sourceTree = "<group>"; };
-		DE42ADDF26BC5450000C9D8E /* StreamTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamTaskOperationController.swift; sourceTree = "<group>"; };
+		DE42ADDF26BC5450000C9D8E /* NetworkStreamTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStreamTaskOperationController.swift; sourceTree = "<group>"; };
 		DE42ADE126BC5583000C9D8E /* SessionController++StreamTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SessionController++StreamTask.swift"; sourceTree = "<group>"; };
 		DE4B06FC26C1630000CCEAD8 /* DownloadTaskOperationController++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DownloadTaskOperationController++Protocol.swift"; sourceTree = "<group>"; };
 		DE4B06FE26C1632300CCEAD8 /* DownloadTaskConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadTaskConfig.swift; sourceTree = "<group>"; };
@@ -167,13 +181,12 @@
 		DE4B070326C16A2200CCEAD8 /* UploadTaskConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadTaskConfig.swift; sourceTree = "<group>"; };
 		DE4B070626C16BAD00CCEAD8 /* StreamTaskOperationController++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StreamTaskOperationController++Protocol.swift"; sourceTree = "<group>"; };
 		DE4B070826C16C4100CCEAD8 /* StreamTaskConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamTaskConfig.swift; sourceTree = "<group>"; };
-		DE4B070C26C1785900CCEAD8 /* AnyTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyTaskOperationController.swift; sourceTree = "<group>"; };
+		DE4B070C26C1785900CCEAD8 /* NetworkAnyTaskOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAnyTaskOperationController.swift; sourceTree = "<group>"; };
 		DE4B070E26C1788500CCEAD8 /* URLSessionAnyTaskConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionAnyTaskConfig.swift; sourceTree = "<group>"; };
 		DE4B071026C178A400CCEAD8 /* URLSessionAnyTaskConfiguration++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionAnyTaskConfiguration++Protocol.swift"; sourceTree = "<group>"; };
 		DE5B474726BC0F07008CEC29 /* Mediator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mediator.swift; sourceTree = "<group>"; };
 		DE5B474926BC14D6008CEC29 /* TargetActionMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetActionMaker.swift; sourceTree = "<group>"; };
 		DE5B474B26BC2CB5008CEC29 /* Memento.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memento.swift; sourceTree = "<group>"; };
-		DE7253C826BE60170075A52A /* AOState++Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AOState++Protocol.swift"; sourceTree = "<group>"; };
 		DE7253CA26BE60310075A52A /* OperationReadyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationReadyState.swift; sourceTree = "<group>"; };
 		DE7253CC26BE60430075A52A /* OperationExecutingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationExecutingState.swift; sourceTree = "<group>"; };
 		DE7253CE26BE60570075A52A /* OperationFinishState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationFinishState.swift; sourceTree = "<group>"; };
@@ -183,10 +196,9 @@
 		DE7688FC26C55E6F00774342 /* CommandHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandHistory.swift; sourceTree = "<group>"; };
 		DE7688FE26C57B4000774342 /* StateFullOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateFullOperation.swift; sourceTree = "<group>"; };
 		DE76890026C585CF00774342 /* WorkerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkerItem.swift; sourceTree = "<group>"; };
-		DE76890326C58C8D00774342 /* StateFullOperation++ControlableOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StateFullOperation++ControlableOperation.swift"; sourceTree = "<group>"; };
 		DE76890526C58CAD00774342 /* SafeOperation++IdentifiableOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SafeOperation++IdentifiableOperation.swift"; sourceTree = "<group>"; };
 		DE76890726C58CD800774342 /* SafeOperation++OperationDependencyProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SafeOperation++OperationDependencyProtocol.swift"; sourceTree = "<group>"; };
-		DE76890E26C5989000774342 /* OperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationController.swift; sourceTree = "<group>"; };
+		DE76890E26C5989000774342 /* NetworkOperationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkOperationController.swift; sourceTree = "<group>"; };
 		DE8361E126B1BA5F009C27BE /* Repo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Repo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE8361E426B1BA5F009C27BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DE8361E626B1BA5F009C27BE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -197,7 +209,7 @@
 		DE8361F226B1BA60009C27BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE8361FC26B1BC6E009C27BE /* ParameterEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParameterEncoder.swift; sourceTree = "<group>"; };
 		DE8361FF26B1C51A009C27BE /* Dictionary++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary++Extensions.swift"; sourceTree = "<group>"; };
-		DE83CA3326C3B525003A0A1E /* AsynchronousOperation++Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AsynchronousOperation++Property.swift"; sourceTree = "<group>"; };
+		DE83CA3326C3B525003A0A1E /* NetworkAsyncOperation++Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkAsyncOperation++Property.swift"; sourceTree = "<group>"; };
 		DE83CA3926C3B768003A0A1E /* NSLocking++Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLocking++Extensions.swift"; sourceTree = "<group>"; };
 		DE83CA3C26C3D4CD003A0A1E /* QueueState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueState.swift; sourceTree = "<group>"; };
 		DEA4763226C2973500057ADB /* APIVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIVersion.swift; sourceTree = "<group>"; };
@@ -244,9 +256,10 @@
 		DE04A62126C677070073FD1B /* SafeOperation */ = {
 			isa = PBXGroup;
 			children = (
+				DE04A62226C677500073FD1B /* SafeOperation.swift */,
 				DE76890526C58CAD00774342 /* SafeOperation++IdentifiableOperation.swift */,
 				DE76890726C58CD800774342 /* SafeOperation++OperationDependencyProtocol.swift */,
-				DE04A62226C677500073FD1B /* SafeOperation.swift */,
+				DE3E54D026C926E000C66691 /* SafeOperation++Configuration.swift */,
 			);
 			path = SafeOperation;
 			sourceTree = "<group>";
@@ -283,21 +296,13 @@
 			isa = PBXGroup;
 			children = (
 				DE7688F926C5588600774342 /* Command */,
+				DE1E9EFE26BD893000D37768 /* TaskWrapper.swift */,
 				DE7688FA26C5589D00774342 /* DispatchWorker.swift */,
 				DE83CA3C26C3D4CD003A0A1E /* QueueState.swift */,
 				DEC1C9FA26BD1EFD00B31B41 /* OperationIdentifier.swift */,
 				DE76890026C585CF00774342 /* WorkerItem.swift */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		DE1E9EF926BD69D200D37768 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				DE35CD1326B2AEDE00447070 /* NetworkOperationController++NetworkOperation.swift */,
-				DE35CD1126B2AEC000447070 /* NetworkOperationController++NetworkOperationBase.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		DE1E9EFA26BD69F800D37768 /* TasksControllers */ = {
@@ -313,23 +318,12 @@
 			path = TasksControllers;
 			sourceTree = "<group>";
 		};
-		DE1E9EFB26BD6A6E00D37768 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				DE1E9EFC26BD6A7700D37768 /* SessionControllerProtocol.swift */,
-				DE1E9EFE26BD893000D37768 /* TaskWrapper.swift */,
-				DE1E9F0026BD895E00D37768 /* SessionError.swift */,
-				DE1E9F0426BDA68300D37768 /* SessionController++CancelOptions.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
 		DE27F3B726B26F2200D79F37 /* Operation */ = {
 			isa = PBXGroup;
 			children = (
-				DE76890226C58C7800774342 /* StateFullOperation */,
 				DE04A62126C677070073FD1B /* SafeOperation */,
-				DE35CD1A26B2AF4100447070 /* AsynchronousOperation */,
+				DE76890226C58C7800774342 /* StateFullOperation */,
+				DE35CD1A26B2AF4100447070 /* NetworkAsyncOperation */,
 				DE35CD1026B2AEA500447070 /* NetworkOperationController */,
 			);
 			path = Operation;
@@ -347,33 +341,20 @@
 		DE35CD1026B2AEA500447070 /* NetworkOperationController */ = {
 			isa = PBXGroup;
 			children = (
-				DE76890E26C5989000774342 /* OperationController.swift */,
+				DE76890E26C5989000774342 /* NetworkOperationController.swift */,
 				DE1E9EFA26BD69F800D37768 /* TasksControllers */,
-				DE1E9EF926BD69D200D37768 /* Protocols */,
 			);
 			path = NetworkOperationController;
 			sourceTree = "<group>";
 		};
-		DE35CD1526B2AEFE00447070 /* Configuration */ = {
+		DE35CD1A26B2AF4100447070 /* NetworkAsyncOperation */ = {
 			isa = PBXGroup;
 			children = (
-				DE35CD1626B2AF0900447070 /* OperationConfig.swift */,
-				DE35CD1826B2AF2300447070 /* OperationConfig++OperationConfiguration.swift */,
-				DE1E9EF726BD68B000D37768 /* OperationControllerError.swift */,
+				DE7253C726BE60030075A52A /* NetworkAsyncOperation++States */,
+				DE27F3B826B26F2F00D79F37 /* NetworkAsyncOperation.swift */,
+				DE83CA3326C3B525003A0A1E /* NetworkAsyncOperation++Property.swift */,
 			);
-			path = Configuration;
-			sourceTree = "<group>";
-		};
-		DE35CD1A26B2AF4100447070 /* AsynchronousOperation */ = {
-			isa = PBXGroup;
-			children = (
-				DE83CA3B26C3B7B2003A0A1E /* Protocols */,
-				DE35CD1526B2AEFE00447070 /* Configuration */,
-				DE7253C726BE60030075A52A /* AsynchronousOperation++States */,
-				DE27F3B826B26F2F00D79F37 /* AsynchronousOperation.swift */,
-				DE83CA3326C3B525003A0A1E /* AsynchronousOperation++Property.swift */,
-			);
-			path = AsynchronousOperation;
+			path = NetworkAsyncOperation;
 			sourceTree = "<group>";
 		};
 		DE35CD1F26B2AFD100447070 /* URLRequestBuilder */ = {
@@ -423,10 +404,40 @@
 			path = HTTP;
 			sourceTree = "<group>";
 		};
+		DE3E54B626C912C500C66691 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				DE3E54B426C9123200C66691 /* OperationCycle++Protocol.swift */,
+				DE3E54B726C912D100C66691 /* CommandExecutable++Protocol.swift */,
+				DE3E54B926C9141E00C66691 /* OperationState++Protocol.swift */,
+				DE3E54BB26C9144000C66691 /* OperationContextStateObject++Protocol.swift */,
+				DE3E54BD26C9146E00C66691 /* ControlableOperation++Protocol.swift */,
+				DE3E54BF26C9157D00C66691 /* NetworkTaskOperationControllableBase++Protocol.swift */,
+				DE3E54C126C9159100C66691 /* NetworkTaskOperationControllable++Protocol.swift */,
+				DE3E54C326C915C400C66691 /* SessionControllable++Protocol.swift */,
+				DE3E54CC26C91DB700C66691 /* NetworkAsyncOperatable++Protocol.swift */,
+				DE3E54D226C92E5300C66691 /* ConfigurableOperation++Protocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		DE3E54C526C915FF00C66691 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				DE1E9EF726BD68B000D37768 /* OperationControllerError.swift */,
+				DE1E9F0026BD895E00D37768 /* SessionError.swift */,
+				DE3E54C626C9160B00C66691 /* ResponseDecoderError.swift */,
+				DE3E54C826C9163700C66691 /* OperationCancelOptions.swift */,
+				DE3E54CA26C9164300C66691 /* SessionCancelOptions.swift */,
+				DE3E54CE26C91EDE00C66691 /* OperationState.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
 		DE4B06FB26C162C500CCEAD8 /* Download */ = {
 			isa = PBXGroup;
 			children = (
-				DE42ADCF26BC3BC9000C9D8E /* DownloadTaskOperationController.swift */,
+				DE42ADCF26BC3BC9000C9D8E /* NetworkDownloadTaskOperationController.swift */,
 				DE4B06FC26C1630000CCEAD8 /* DownloadTaskOperationController++Protocol.swift */,
 				DE4B06FE26C1632300CCEAD8 /* DownloadTaskConfig.swift */,
 			);
@@ -436,7 +447,7 @@
 		DE4B070026C169E600CCEAD8 /* Upload */ = {
 			isa = PBXGroup;
 			children = (
-				DE42ADD926BC483C000C9D8E /* UploadTaskOperationController.swift */,
+				DE42ADD926BC483C000C9D8E /* NetworkUploadTaskOperationController.swift */,
 				DE4B070126C169FC00CCEAD8 /* UploadTaskOperationController++Protocol.swift */,
 				DE4B070326C16A2200CCEAD8 /* UploadTaskConfig.swift */,
 			);
@@ -446,7 +457,7 @@
 		DE4B070526C16B9F00CCEAD8 /* Stream */ = {
 			isa = PBXGroup;
 			children = (
-				DE42ADDF26BC5450000C9D8E /* StreamTaskOperationController.swift */,
+				DE42ADDF26BC5450000C9D8E /* NetworkStreamTaskOperationController.swift */,
 				DE4B070626C16BAD00CCEAD8 /* StreamTaskOperationController++Protocol.swift */,
 				DE4B070826C16C4100CCEAD8 /* StreamTaskConfig.swift */,
 			);
@@ -463,7 +474,7 @@
 		DE4B070B26C1783300CCEAD8 /* AnyTask */ = {
 			isa = PBXGroup;
 			children = (
-				DE4B070C26C1785900CCEAD8 /* AnyTaskOperationController.swift */,
+				DE4B070C26C1785900CCEAD8 /* NetworkAnyTaskOperationController.swift */,
 				DE4B070E26C1788500CCEAD8 /* URLSessionAnyTaskConfig.swift */,
 				DE4B071026C178A400CCEAD8 /* URLSessionAnyTaskConfiguration++Protocol.swift */,
 			);
@@ -480,17 +491,16 @@
 			path = UIComponnent;
 			sourceTree = "<group>";
 		};
-		DE7253C726BE60030075A52A /* AsynchronousOperation++States */ = {
+		DE7253C726BE60030075A52A /* NetworkAsyncOperation++States */ = {
 			isa = PBXGroup;
 			children = (
-				DE7253C826BE60170075A52A /* AOState++Protocol.swift */,
 				DE7253CA26BE60310075A52A /* OperationReadyState.swift */,
 				DE7253CC26BE60430075A52A /* OperationExecutingState.swift */,
 				DE7253CE26BE60570075A52A /* OperationFinishState.swift */,
 				DE7253D026BE60680075A52A /* OperationCancelState.swift */,
 				DEF323C426C306690075D801 /* OperationSuspendState.swift */,
 			);
-			path = "AsynchronousOperation++States";
+			path = "NetworkAsyncOperation++States";
 			sourceTree = "<group>";
 		};
 		DE7253D226BE6A740075A52A /* Tasks */ = {
@@ -517,7 +527,6 @@
 			isa = PBXGroup;
 			children = (
 				DE7688FE26C57B4000774342 /* StateFullOperation.swift */,
-				DE76890326C58C8D00774342 /* StateFullOperation++ControlableOperation.swift */,
 			);
 			path = StateFullOperation;
 			sourceTree = "<group>";
@@ -543,6 +552,8 @@
 		DE8361E326B1BA5F009C27BE /* Repo */ = {
 			isa = PBXGroup;
 			children = (
+				DE3E54C526C915FF00C66691 /* Errors */,
+				DE3E54B626C912C500C66691 /* Protocols */,
 				DE1D481726C6A59B006F540C /* Common */,
 				DE5B474626BC0EEF008CEC29 /* UIComponnent */,
 				DE2D74DF26B5A9D800461ABF /* Router */,
@@ -616,7 +627,6 @@
 			children = (
 				DE4B070A26C174B300CCEAD8 /* Config */,
 				DE7253D226BE6A740075A52A /* Tasks */,
-				DE1E9EFB26BD6A6E00D37768 /* Protocols */,
 				DE35CD2A26B2BA5100447070 /* Rx+Extensions */,
 				DE35CD2526B2B1E300447070 /* SessionController.swift */,
 				DEA9DC8D26B48608002F30AF /* SessionController++Delegates.swift */,
@@ -624,18 +634,10 @@
 			path = URLSession;
 			sourceTree = "<group>";
 		};
-		DE83CA3B26C3B7B2003A0A1E /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				DE35CD1D26B2AF6100447070 /* AsynchronousOperation++Protocols.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
 		DECC7D1D26C151600065ADA1 /* WebSocket */ = {
 			isa = PBXGroup;
 			children = (
-				DE42ADDB26BC4AB5000C9D8E /* WebSocketTaskOperationController.swift */,
+				DE42ADDB26BC4AB5000C9D8E /* NetworkWebSocketTaskOperationController.swift */,
 				DECC7D1E26C1518A0065ADA1 /* WebSocketTaskOperationController++Protocol.swift */,
 				DECC7D2026C151BF0065ADA1 /* WebSocketTaskConfig.swift */,
 			);
@@ -645,7 +647,7 @@
 		DECC7D2226C152510065ADA1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				DE2D74E226B5DCE000461ABF /* DataTaskOperationController.swift */,
+				DE2D74E226B5DCE000461ABF /* NetworkDataTaskOperationController.swift */,
 				DECC7D2326C152620065ADA1 /* DataTaskOperationControllerProtocol.swift */,
 				DECC7D2726C152AA0065ADA1 /* DataTaskConfig.swift */,
 			);
@@ -768,16 +770,19 @@
 			files = (
 				DE4B070F26C1788500CCEAD8 /* URLSessionAnyTaskConfig.swift in Sources */,
 				DEF833D926B7282000D94D2E /* URLSessionTaskDelegate++SubjectProxy.swift in Sources */,
-				DE42ADDA26BC483C000C9D8E /* UploadTaskOperationController.swift in Sources */,
+				DE42ADDA26BC483C000C9D8E /* NetworkUploadTaskOperationController.swift in Sources */,
+				DE3E54BA26C9141E00C66691 /* OperationState++Protocol.swift in Sources */,
 				DE5B474C26BC2CB5008CEC29 /* Memento.swift in Sources */,
+				DE3E54BE26C9146E00C66691 /* ControlableOperation++Protocol.swift in Sources */,
 				DE2D74E126B5A9F100461ABF /* Router.swift in Sources */,
-				DE42ADDC26BC4AB5000C9D8E /* WebSocketTaskOperationController.swift in Sources */,
+				DE42ADDC26BC4AB5000C9D8E /* NetworkWebSocketTaskOperationController.swift in Sources */,
 				DE7688FF26C57B4000774342 /* StateFullOperation.swift in Sources */,
 				DE42ADD426BC4338000C9D8E /* SessionController++DataTask.swift in Sources */,
 				DE7688FD26C55E6F00774342 /* CommandHistory.swift in Sources */,
 				DE35CD0F26B2AA9300447070 /* Operation++Extensions.swift in Sources */,
 				DE5B474826BC0F07008CEC29 /* Mediator.swift in Sources */,
 				DE17651826BED67300226BA0 /* UploadTask.swift in Sources */,
+				DE3E54C026C9157D00C66691 /* NetworkTaskOperationControllableBase++Protocol.swift in Sources */,
 				DE42ADD826BC47D0000C9D8E /* SessionController++UploadTask.swift in Sources */,
 				DE7253CB26BE60310075A52A /* OperationReadyState.swift in Sources */,
 				DE42ADD226BC3E65000C9D8E /* Array++Extensions.swift in Sources */,
@@ -785,58 +790,59 @@
 				DE1D481626C6922E006F540C /* RawFunctionCallable++Protocol.swift in Sources */,
 				DE4B070926C16C4100CCEAD8 /* StreamTaskConfig.swift in Sources */,
 				DECC7D2126C151BF0065ADA1 /* WebSocketTaskConfig.swift in Sources */,
+				DE3E54D126C926E000C66691 /* SafeOperation++Configuration.swift in Sources */,
+				DE3E54B826C912D100C66691 /* CommandExecutable++Protocol.swift in Sources */,
 				DE4B06FD26C1630000CCEAD8 /* DownloadTaskOperationController++Protocol.swift in Sources */,
 				DECC7D2826C152AA0065ADA1 /* DataTaskConfig.swift in Sources */,
 				DE17650A26BECEED00226BA0 /* URLHTTPRequestBuilder.swift in Sources */,
+				DE3E54C926C9163700C66691 /* OperationCancelOptions.swift in Sources */,
 				DE42ADD626BC43B3000C9D8E /* SessionController++DownloadTask.swift in Sources */,
+				DE3E54B526C9123200C66691 /* OperationCycle++Protocol.swift in Sources */,
 				DE7253CF26BE60570075A52A /* OperationFinishState.swift in Sources */,
-				DE7253C926BE60170075A52A /* AOState++Protocol.swift in Sources */,
 				DE4B070726C16BAD00CCEAD8 /* StreamTaskOperationController++Protocol.swift in Sources */,
 				DE42ADE226BC5583000C9D8E /* SessionController++StreamTask.swift in Sources */,
 				DECC7D1F26C1518A0065ADA1 /* WebSocketTaskOperationController++Protocol.swift in Sources */,
 				DE1E9EFF26BD893000D37768 /* TaskWrapper.swift in Sources */,
 				DE17652126BED71200226BA0 /* NetworkRouter.swift in Sources */,
 				DE7688F826C5366D00774342 /* Queue.swift in Sources */,
-				DE76890426C58C8D00774342 /* StateFullOperation++ControlableOperation.swift in Sources */,
 				DE1E9EF826BD68B000D37768 /* OperationControllerError.swift in Sources */,
+				DE3E54D326C92E5300C66691 /* ConfigurableOperation++Protocol.swift in Sources */,
 				DE83CA3A26C3B768003A0A1E /* NSLocking++Extensions.swift in Sources */,
 				DE3841BF26C24A5100397D6F /* ParameterEncodingConfiguration.swift in Sources */,
 				DE4B06FF26C1632300CCEAD8 /* DownloadTaskConfig.swift in Sources */,
-				DE35CD1E26B2AF6100447070 /* AsynchronousOperation++Protocols.swift in Sources */,
 				DE17651C26BED68900226BA0 /* StreamTask.swift in Sources */,
 				DE7253D126BE60680075A52A /* OperationCancelState.swift in Sources */,
 				DE35CD2426B2B02B00447070 /* URLRequestBuilder++URLRequestBuilderProtocol.swift in Sources */,
-				DE35CD1726B2AF0900447070 /* OperationConfig.swift in Sources */,
 				DE8361E926B1BA5F009C27BE /* ViewController.swift in Sources */,
-				DE27F3B926B26F2F00D79F37 /* AsynchronousOperation.swift in Sources */,
-				DE35CD1426B2AEDE00447070 /* NetworkOperationController++NetworkOperation.swift in Sources */,
+				DE27F3B926B26F2F00D79F37 /* NetworkAsyncOperation.swift in Sources */,
 				DE7253CD26BE60430075A52A /* OperationExecutingState.swift in Sources */,
 				DE76890826C58CD800774342 /* SafeOperation++OperationDependencyProtocol.swift in Sources */,
-				DE4B070D26C1785900CCEAD8 /* AnyTaskOperationController.swift in Sources */,
-				DE1E9EFD26BD6A7700D37768 /* SessionControllerProtocol.swift in Sources */,
+				DE4B070D26C1785900CCEAD8 /* NetworkAnyTaskOperationController.swift in Sources */,
 				DE5B474A26BC14D6008CEC29 /* TargetActionMaker.swift in Sources */,
+				DE3E54C726C9160B00C66691 /* ResponseDecoderError.swift in Sources */,
 				DE17651626BED66600226BA0 /* SocketTask.swift in Sources */,
 				DE42ADDE26BC4BA7000C9D8E /* SessionController++WebSocketTask.swift in Sources */,
 				DEF833D726B726D700D94D2E /* URLSessionTask++DelegateProxy.swift in Sources */,
 				DE35CD2626B2B1E300447070 /* SessionController.swift in Sources */,
+				DE3E54CD26C91DB700C66691 /* NetworkAsyncOperatable++Protocol.swift in Sources */,
 				DE3841B526C2473400397D6F /* HTTPURLRequestConfiguration.swift in Sources */,
-				DE42ADE026BC5450000C9D8E /* StreamTaskOperationController.swift in Sources */,
-				DE2D74E326B5DCE000461ABF /* DataTaskOperationController.swift in Sources */,
+				DE42ADE026BC5450000C9D8E /* NetworkStreamTaskOperationController.swift in Sources */,
+				DE2D74E326B5DCE000461ABF /* NetworkDataTaskOperationController.swift in Sources */,
 				DE1E9F0326BD924600D37768 /* Bool++Extensions.swift in Sources */,
-				DE1E9F0526BDA68300D37768 /* SessionController++CancelOptions.swift in Sources */,
 				DE35CD2C26B2BA6C00447070 /* URLSessionDelegateProxy.swift in Sources */,
 				DE83CA3D26C3D4CD003A0A1E /* QueueState.swift in Sources */,
-				DE83CA3426C3B525003A0A1E /* AsynchronousOperation++Property.swift in Sources */,
+				DE83CA3426C3B525003A0A1E /* NetworkAsyncOperation++Property.swift in Sources */,
+				DE3E54CF26C91EDE00C66691 /* OperationState.swift in Sources */,
 				DE17651426BED65900226BA0 /* Method.swift in Sources */,
 				DE17651F26BED6A600226BA0 /* TCPAddress.swift in Sources */,
-				DE76890F26C5989000774342 /* OperationController.swift in Sources */,
+				DE76890F26C5989000774342 /* NetworkOperationController.swift in Sources */,
 				DE3841BB26C24A2D00397D6F /* ParameterEncoder++Protocol.swift in Sources */,
 				DEA9DC8E26B48608002F30AF /* SessionController++Delegates.swift in Sources */,
 				DE8361E526B1BA5F009C27BE /* AppDelegate.swift in Sources */,
+				DE3E54C426C915C400C66691 /* SessionControllable++Protocol.swift in Sources */,
 				DE8361FD26B1BC6E009C27BE /* ParameterEncoder.swift in Sources */,
 				DE3841C226C24CEF00397D6F /* URLHTTPRequestBuilder++Protocol.swift in Sources */,
 				DEF323C526C306690075D801 /* OperationSuspendState.swift in Sources */,
-				DE35CD1926B2AF2300447070 /* OperationConfig++OperationConfiguration.swift in Sources */,
 				DE1E9F0126BD895E00D37768 /* SessionError.swift in Sources */,
 				DE35CD2F26B2BF7500447070 /* URLSessionDelegate++SubjectProxy.swift in Sources */,
 				DE1E9EF626BD5DC600D37768 /* Optional++Extensions.swift in Sources */,
@@ -844,21 +850,23 @@
 				DE3841B726C249EF00397D6F /* ParameterEncoding++Type.swift in Sources */,
 				DE04A62326C677500073FD1B /* SafeOperation.swift in Sources */,
 				DE17651A26BED67E00226BA0 /* DownloadTask.swift in Sources */,
-				DE42ADD026BC3BC9000C9D8E /* DownloadTaskOperationController.swift in Sources */,
+				DE42ADD026BC3BC9000C9D8E /* NetworkDownloadTaskOperationController.swift in Sources */,
 				DECC7D2426C152620065ADA1 /* DataTaskOperationControllerProtocol.swift in Sources */,
 				DE3841BD26C24A4100397D6F /* ParameterEncodingConfiguration++Protocols.swift in Sources */,
 				DE35CD2226B2AFE700447070 /* URLRequestConfiguration.swift in Sources */,
 				DE76890626C58CAD00774342 /* SafeOperation++IdentifiableOperation.swift in Sources */,
+				DE3E54BC26C9144000C66691 /* OperationContextStateObject++Protocol.swift in Sources */,
 				DE4B071126C178A400CCEAD8 /* URLSessionAnyTaskConfiguration++Protocol.swift in Sources */,
 				DE4B070226C169FC00CCEAD8 /* UploadTaskOperationController++Protocol.swift in Sources */,
-				DE35CD1226B2AEC000447070 /* NetworkOperationController++NetworkOperationBase.swift in Sources */,
 				DE4B070426C16A2200CCEAD8 /* UploadTaskConfig.swift in Sources */,
 				DE7688FB26C5589D00774342 /* DispatchWorker.swift in Sources */,
 				DEA4763326C2973500057ADB /* APIVersion.swift in Sources */,
 				DE17650F26BED5F100226BA0 /* EndPointType++Protocols.swift in Sources */,
 				DE17651226BED62D00226BA0 /* HTTPTask.swift in Sources */,
+				DE3E54CB26C9164300C66691 /* SessionCancelOptions.swift in Sources */,
 				DEC1C9FB26BD1EFD00B31B41 /* OperationIdentifier.swift in Sources */,
 				DE8361E726B1BA5F009C27BE /* SceneDelegate.swift in Sources */,
+				DE3E54C226C9159100C66691 /* NetworkTaskOperationControllable++Protocol.swift in Sources */,
 				DE83620026B1C51A009C27BE /* Dictionary++Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

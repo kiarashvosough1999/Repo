@@ -7,7 +7,7 @@
 
 import Foundation
 
-final public class DataTaskOperationController: OperationController<URLSessionDataTask,DataTaskConfig> {
+final public class NetworkDataTaskOperationController: NetworkOperationController<URLSessionDataTask,DataTaskConfig> {
     
     public var HTTPURLResponse: HTTPURLResponse? {
         response as? HTTPURLResponse
@@ -15,4 +15,4 @@ final public class DataTaskOperationController: OperationController<URLSessionDa
     
 }
 
-extension DataTaskOperationController: DataTaskOperationControllerProtocol {}
+extension NetworkDataTaskOperationController: DataTaskOperationControllerProtocol {}

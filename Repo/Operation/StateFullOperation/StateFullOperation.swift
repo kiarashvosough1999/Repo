@@ -82,9 +82,10 @@ public class StateFullOperation: SafeOperation, ControlableOperation, OperationC
     //MARK: - init
     
     init(operationQueue: OperationQueue?,
+         configuration: OperationConfiguration,
          operationState:OperationStateProtocol = OperationReadyState(queueState: .init(enqueued: false))) {
         self.operationState = operationState
-        super.init(operationQueue: operationQueue)
+        super.init(operationQueue: operationQueue, configuration: configuration)
     }
     
     

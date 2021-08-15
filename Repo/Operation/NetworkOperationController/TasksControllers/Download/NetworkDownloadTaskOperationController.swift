@@ -1,5 +1,5 @@
 //
-//  UploadTaskOperationController.swift
+//  DownloadTaskOperationController.swift
 //  Repo
 //
 //  Created by Kiarash Vosough on 5/14/1400 AP.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-public final class UploadTaskOperationController: OperationController<URLSessionUploadTask,UploadTaskConfig> {
-    
+public final class NetworkDownloadTaskOperationController: NetworkOperationController<URLSessionDownloadTask,DownloadTaskConfig> {
+
     override var onExecuting: WorkerItemBlock? {
         return {
             WorkerItem(dispathOption: .unsafeSync) { [weak self] in
@@ -27,6 +27,12 @@ public final class UploadTaskOperationController: OperationController<URLSession
             }
         }
     }
+    
+    @discardableResult
+    public func cancel(byProducingResumeData completionHandler: @escaping (Data?) -> Void) -> Self {
+        task?.cancel(byProducingResumeData: completionHandler)
+        return self
+    }
 }
 
-extension UploadTaskOperationController: UploadTaskOperationControllerProtocol {}
+extension NetworkDownloadTaskOperationController: DownloadTaskOperationControllerProtocol {}

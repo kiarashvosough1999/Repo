@@ -7,7 +7,7 @@
 
 import Foundation
 
-final public class WebSocketTaskOperationController: OperationController<URLSessionWebSocketTask,WebSocketTaskConfig> {
+final public class NetworkWebSocketTaskOperationController: NetworkOperationController<URLSessionWebSocketTask,WebSocketTaskConfig> {
     
     @discardableResult
     public override func applyTaskConfiguration() -> Self {
@@ -17,7 +17,7 @@ final public class WebSocketTaskOperationController: OperationController<URLSess
     }
 }
 
-extension WebSocketTaskOperationController: WebSocketTaskOperationControllerProtocol {
+extension NetworkWebSocketTaskOperationController: WebSocketTaskOperationControllerProtocol {
     
     public private(set) var maximumMessageSize: Int? {
         get {

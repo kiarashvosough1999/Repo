@@ -1,13 +1,13 @@
 //
-//  NetworkOperationController++NetworkOperation.swift
+//  NetworkTaskOperationControllable++Protocol.swift
 //  Repo
 //
-//  Created by Kiarash Vosough on 5/7/1400 AP.
+//  Created by Kiarash Vosough on 5/24/1400 AP.
 //
 
 import Foundation
 
-public protocol TaskOperationControllerProtocol: TaskOperationControllerBaseProtocol {
+public protocol NetworkTaskOperationControllable: NetworkTaskOperationControllableBase {
     
     associatedtype SessionTask: URLSessionTask
     associatedtype TaskConfiguration: URLSessionAnyTaskConfigurationProtocol

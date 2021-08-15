@@ -1,13 +1,14 @@
 //
-//  NetworkOperationController++NetworkOperationBase.swift
+//  NetworkTaskOperationControllableBase++Protocol.swift
 //  Repo
 //
-//  Created by Kiarash Vosough on 5/7/1400 AP.
+//  Created by Kiarash Vosough on 5/24/1400 AP.
 //
 
 import Foundation
 
-public protocol TaskOperationControllerBaseProtocol: AsynchronousOperationProtocol {
+
+public protocol NetworkTaskOperationControllableBase: NetworkAsyncOperatable {
     
     var taskDescription: String? { get }
     

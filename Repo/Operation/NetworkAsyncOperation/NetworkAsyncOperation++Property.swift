@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension AsynchronousOperation {
+extension NetworkAsyncOperation {
     
     public var state: OperationState { operationState.state }
 }

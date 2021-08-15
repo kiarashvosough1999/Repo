@@ -14,14 +14,14 @@ extension SessionController {
     @available(iOS 13.0, *)
     @discardableResult
     public func streamTask(with route: EndPoint,
-                         options: OperationConfig = OperationConfig()) throws
+                           operationConfiguration: OperationConfiguration = OperationConfiguration()) throws
     -> some StreamTaskOperationControllerProtocol where EndPoint: EndPointStreamType {
-        try createTask({ session, _ -> StreamTaskOperationController in
+        try createTask({ session, _ -> NetworkStreamTaskOperationController in
             let task = session.streamTask(withHostName: route.tcpAddress.hostName,
-                                             port: route.tcpAddress.port)
-            return StreamTaskOperationController(operationQueue: tasksOperationQueue,
-                                                 sessionTask: task,
-                                                 operationConfig: options)
+                                          port: route.tcpAddress.port)
+            return NetworkStreamTaskOperationController(operationQueue: tasksOperationQueue,
+                                                        sessionTask: task,
+                                                        configuration: operationConfiguration)
         })
     }
 }
